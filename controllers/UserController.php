@@ -18,6 +18,8 @@ use yii\base\Exception;
  */
 class UserController extends MemberController
 {
+    const SESSION_IMPERSONATOR_ID = 'impersonator_admin_id';
+    const SESSION_IMPERSONATOR_RETURN_URL = 'impersonator_admin_return_url';
 
     public function init()
     {
@@ -328,5 +330,56 @@ class UserController extends MemberController
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionImpersonate($id)
+    {
+        $currentUser = Yii::$app->user->identity;
+        if (!$currentUser || !$currentUser->isAdmin()) {
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
+
+        $user = $this->findModel($id);
+        if ($user->isAdmin()) {
+            Yii::$app->session->setFlash(Alert::TYPE_WARNING, 'Tidak boleh login sebagai akaun admin lain.');
+            return $this->redirect(['index', 'select' => Yii::$app->request->get('select')]);
+        }
+
+        $session = Yii::$app->session;
+        $session[self::SESSION_IMPERSONATOR_ID] = $currentUser->id;
+        $session[self::SESSION_IMPERSONATOR_RETURN_URL] = ['user/index', 'select' => Yii::$app->request->get('select')];
+
+        Yii::$app->user->switchIdentity($user, 0);
+        Yii::$app->session->setFlash(Alert::TYPE_SUCCESS, 'Anda kini login sebagai ' . $user->username . '.');
+
+        return $this->redirect(['profile/index']);
+    }
+
+    public function actionReturnAdmin()
+    {
+        $session = Yii::$app->session;
+        $adminId = $session->get(self::SESSION_IMPERSONATOR_ID);
+
+        if (!$adminId) {
+            Yii::$app->session->setFlash(Alert::TYPE_WARNING, 'Tiada sesi admin untuk dikembalikan.');
+            return $this->redirect(['dashboard/index']);
+        }
+
+        $admin = User::findIdentity($adminId);
+        if (!$admin || !$admin->isAdmin()) {
+            $session->remove(self::SESSION_IMPERSONATOR_ID);
+            $session->remove(self::SESSION_IMPERSONATOR_RETURN_URL);
+            Yii::$app->session->setFlash(Alert::TYPE_WARNING, 'Akaun admin asal tidak dijumpai.');
+            return $this->redirect(['site/login']);
+        }
+
+        $returnUrl = $session->get(self::SESSION_IMPERSONATOR_RETURN_URL, ['dashboard/index']);
+        $session->remove(self::SESSION_IMPERSONATOR_ID);
+        $session->remove(self::SESSION_IMPERSONATOR_RETURN_URL);
+
+        Yii::$app->user->switchIdentity($admin, 0);
+        Yii::$app->session->setFlash(Alert::TYPE_SUCCESS, 'Anda telah kembali ke akaun admin.');
+
+        return $this->redirect($returnUrl);
     }
 }

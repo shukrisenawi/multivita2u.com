@@ -23,6 +23,7 @@ function getAvatar($id)
 }
 $session = Yii::$app->session;
 $select = Yii::$app->getRequest()->getQueryParam('select');
+$impersonatorAdminId = $session->get('impersonator_admin_id');
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
@@ -158,6 +159,15 @@ $select = Yii::$app->getRequest()->getQueryParam('select');
         <section id="main-content">
             <section class="wrapper site-min-height">
                 <?php if (!Yii::$app->params['breadcrumbClose']) { ?>
+
+                    <?php if ($impersonatorAdminId) { ?>
+                        <div class="alert alert-warning" style="margin-bottom:15px;">
+                            Anda sedang menggunakan akaun pengguna sebagai admin.
+                            <a href="<?= Url::to(['user/return-admin']) ?>" class="btn btn-dark btn-sm" style="margin-left:10px;">
+                                Kembali Ke Akaun Admin
+                            </a>
+                        </div>
+                    <?php } ?>
 
 
                     <div class="top-nav ">

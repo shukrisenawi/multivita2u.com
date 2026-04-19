@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'visible' => Yii::$app->user->identity->isAdmin(),
                                 // 'options' => ['style' => 'width:170px;word-wrap: normal'],
                                 'contentOptions' => ['style' => 'width:185px'],
-                                'template' => '{view} {update} {tree} {resetPass} {addWallet} {deductWallet} {transaction} {delete}', // the default buttons + your custom button
+                                'template' => '{view} {update} {loginAsUser} {tree} {resetPass} {addWallet} {deductWallet} {transaction} {delete}', // the default buttons + your custom button
                                 'buttons' => [
                                     'view' => function ($url, $model, $key) {
                                         $url = Url::to(['user/view', 'select' => $model->level_id, 'id' => $model->id]);
@@ -91,6 +91,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'update' => function ($url, $model, $key) {
                                         $url = Url::to(['user/view', 'id' => $model->id, 'select' => $model->level_id, 'edit' => 1, 'username' => $model->username]);
                                         return Html::a('<i class="fa fa-user-edit"></i>', $url, ['title' => 'Kemaskini']);
+                                    },
+                                    'loginAsUser' => function ($url, $model, $key) {
+                                        $url = Url::to(['user/impersonate', 'id' => $model->id, 'select' => $model->level_id]);
+                                        return Html::a('<i class="fa fa-sign-in-alt text-primary"></i>', $url, [
+                                            'title' => 'Login sebagai pengguna ini',
+                                            'hidden' => $model->isAdmin() || $model->id == Yii::$app->user->id,
+                                            'data-confirm' => 'Login sebagai akaun ' . $model->username . '?',
+                                        ]);
                                     },
                                     'tree' => function ($url, $model, $key) {
                                         $url = Url::to(['network/index', 'id' => $model->id]);
