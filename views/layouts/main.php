@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use dominus77\sweetalert2\Alert;
 use yii\widgets\Breadcrumbs;
 use app\components\Helper;
+use yii\web\YiiAsset;
 
 
 $linkAssets = 'themes/Flatlab Main Files/admin v-4.0/html';
@@ -29,6 +30,8 @@ $memberCssUrl = Url::to('@web/css/member.css?v=' . $memberCssVersion);
 
 $this->registerCsrfMetaTags();
 $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
+YiiAsset::register($this);
+
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
