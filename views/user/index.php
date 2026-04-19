@@ -109,7 +109,7 @@ $csrfToken = Yii::$app->request->csrfToken;
                                             'hidden' => !$model->isMember()
                                         ]);
                                     },
-                                    'resetPass' => function ($url, $model, $key) {
+                                    'resetPass' => function ($url, $model, $key) use ($csrfToken) {
                                         $url = Url::to(['reset-password', 'id' => $model->id]);
                                         return Html::a('<i class="fa fa-key"></i>', $url, [
                                             'title' => 'reset katakunci',
@@ -132,7 +132,7 @@ $csrfToken = Yii::$app->request->csrfToken;
                                                 return false;",
                                         ]);
                                     },
-                                    'addWallet' => function ($url, $model) {
+                                    'addWallet' => function ($url, $model) use ($csrfToken) {
                                         $url = Url::to(['user/add-wallet']);
                                         return Html::a('<i class="fa fa-plus-circle"></i>', '#', [
                                             'title' => Yii::t('yii', 'Tambah Pin Wallet'),
@@ -162,7 +162,7 @@ $csrfToken = Yii::$app->request->csrfToken;
                             ",
                                         ]);
                                     },
-                                    'deductWallet' => function ($url, $model) {
+                                    'deductWallet' => function ($url, $model) use ($csrfToken) {
                                         $url = Url::to(['user/deduct-wallet']);
                                         return Html::a('<i class="fa fa-minus-circle"></i>', '#', [
                                             'title' => Yii::t('yii', 'Potong Pin Wallet'),
@@ -194,7 +194,7 @@ $csrfToken = Yii::$app->request->csrfToken;
                                         $url = Url::to(['transaction/index', 'id' => $model->id]);
                                         return Html::a('<i class="fa fa-outdent"></i>', $url, ['title' => 'Senarai Tansaksi']);
                                     },
-                                    'delete' => function ($url, $model, $key) {
+                                    'delete' => function ($url, $model, $key) use ($csrfToken) {
                                         $url = Url::to(['delete']);
                                         return Html::a('<i class="fa fa-trash-alt"></i>', $url, [
                                             'title' => 'Padam',

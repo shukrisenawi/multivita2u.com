@@ -300,12 +300,12 @@ class UserController extends MemberController
 
     public function actionAddWallet()
     {
-        if (Yii::$app->request->get()) {
+        if (Yii::$app->request->post()) {
             $conn = Yii::$app->db;
             $trans = $conn->beginTransaction();
             try {
                 $model = new Fun_addWallet;
-                if ($model->load(Yii::$app->request->get()) && $model->addWallet()) {
+                if ($model->load(Yii::$app->request->post()) && $model->addWallet()) {
                     $trans->commit();
                     echo 1;
                 } else {
@@ -319,12 +319,12 @@ class UserController extends MemberController
     }
     public function actionDeductWallet()
     {
-        if (Yii::$app->request->get()) {
+        if (Yii::$app->request->post()) {
             $conn = Yii::$app->db;
             $trans = $conn->beginTransaction();
             try {
                 $model = new Fun_deductWallet;
-                if ($model->load(Yii::$app->request->get()) && $model->deductWallet()) {
+                if ($model->load(Yii::$app->request->post()) && $model->deductWallet()) {
                     $trans->commit();
                     echo 1;
                 } else {
