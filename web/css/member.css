@@ -1,18 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
 
 :root {
-    --app-bg: #f4fbf1;
-    --app-surface: rgba(255, 255, 255, 0.92);
+    --app-bg: #eef4ed;
+    --app-surface: rgba(255, 255, 255, 0.95);
     --app-surface-strong: #ffffff;
-    --app-line: rgba(105, 156, 74, 0.18);
-    --app-line-strong: rgba(76, 127, 48, 0.3);
-    --app-text: #2e4321;
-    --app-text-soft: #6e7e61;
-    --app-title: #1f3015;
-    --app-accent: #7bb64b;
-    --app-accent-strong: #5f8f33;
-    --app-accent-soft: #eef8e4;
-    --app-gold: #d7df7a;
+    --app-line: rgba(49, 84, 43, 0.14);
+    --app-line-strong: rgba(41, 69, 35, 0.24);
+    --app-text: #263022;
+    --app-text-soft: #66725f;
+    --app-title: #182014;
+    --app-accent: #4f7a3d;
+    --app-accent-strong: #355728;
+    --app-accent-soft: #e6efdf;
+    --app-gold: #bccd7b;
     --app-danger: #ea6f67;
     --app-info: #5a9bc7;
     --app-shadow: none;
@@ -26,9 +26,9 @@
 html,
 body {
     background:
-        radial-gradient(circle at top left, rgba(143, 194, 95, 0.2), transparent 34%),
-        radial-gradient(circle at top right, rgba(214, 225, 119, 0.22), transparent 26%),
-        linear-gradient(180deg, #fcfef9 0%, #f2f8eb 100%);
+        radial-gradient(circle at top left, rgba(85, 126, 68, 0.18), transparent 34%),
+        radial-gradient(circle at top right, rgba(188, 205, 123, 0.18), transparent 26%),
+        linear-gradient(180deg, #f8fbf6 0%, #edf3ea 100%);
     color: var(--app-text);
     font-family: "Manrope", "Segoe UI", sans-serif;
     min-height: 100%;
@@ -55,7 +55,7 @@ a:focus {
 
 .header.white-bg {
     align-items: center;
-    background: rgba(250, 253, 244, 0.96) !important;
+    background: rgba(245, 249, 241, 0.97) !important;
     backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--app-line);
     box-shadow: none;
@@ -197,8 +197,8 @@ a:focus {
 
 #sidebar {
     background:
-        linear-gradient(180deg, #a5d26b 0%, #7fb146 52%, #688f34 100%) !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.3);
+        linear-gradient(180deg, #506f41 0%, #355728 52%, #243b1c 100%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.14);
     box-shadow: none;
     padding-top: 96px;
 }
@@ -215,7 +215,7 @@ ul.sidebar-menu li {
 ul.sidebar-menu li a {
     align-items: center;
     border-radius: 16px;
-    color: rgba(27, 45, 16, 0.9);
+    color: rgba(233, 241, 226, 0.88);
     display: flex;
     font-size: 14px;
     font-weight: 700;
@@ -227,7 +227,7 @@ ul.sidebar-menu li a {
 }
 
 ul.sidebar-menu li a i {
-    color: rgba(46, 77, 20, 0.9);
+    color: rgba(198, 216, 164, 0.92);
     font-size: 15px;
     min-width: 18px;
     text-align: center;
@@ -235,14 +235,14 @@ ul.sidebar-menu li a i {
 
 ul.sidebar-menu li a:hover,
 ul.sidebar-menu li a.active {
-    background: linear-gradient(135deg, rgba(249, 255, 238, 0.98), rgba(235, 246, 214, 0.98));
+    background: linear-gradient(135deg, rgba(92, 128, 69, 0.96), rgba(61, 97, 44, 0.98));
     box-shadow: none;
-    color: var(--app-title);
+    color: #ffffff;
 }
 
 ul.sidebar-menu li a:hover i,
 ul.sidebar-menu li a.active i {
-    color: var(--app-accent-strong);
+    color: #d9e6b6;
 }
 
 #main-content {
@@ -330,9 +330,9 @@ section.card .card-body {
 
 .dashboard-hero {
     background:
-        radial-gradient(circle at top left, rgba(148, 196, 83, 0.24), transparent 36%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(242, 248, 231, 0.96));
-    border: 1px solid rgba(95, 143, 51, 0.16);
+        radial-gradient(circle at top left, rgba(92, 128, 69, 0.18), transparent 36%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(236, 242, 231, 0.96));
+    border: 1px solid rgba(53, 87, 40, 0.14);
     border-radius: var(--app-radius-xl);
     box-shadow: var(--app-shadow);
     overflow: hidden;
@@ -341,7 +341,7 @@ section.card .card-body {
 }
 
 .dashboard-hero::after {
-    background: linear-gradient(135deg, rgba(213, 223, 122, 0.2), transparent 65%);
+    background: linear-gradient(135deg, rgba(188, 205, 123, 0.16), transparent 65%);
     content: "";
     inset: 0;
     pointer-events: none;
@@ -388,8 +388,8 @@ section.card .card-body {
 }
 
 .dashboard-badge {
-    background: rgba(251, 255, 245, 0.96);
-    border: 1px solid rgba(95, 143, 51, 0.14);
+    background: rgba(247, 250, 243, 0.96);
+    border: 1px solid rgba(53, 87, 40, 0.12);
     border-radius: 999px;
     color: var(--app-title);
     display: inline-flex;
@@ -421,7 +421,7 @@ section.card .card-body {
 }
 
 .dashboard-stat::before {
-    background: linear-gradient(135deg, rgba(145, 188, 80, 0.2), transparent 62%);
+    background: linear-gradient(135deg, rgba(79, 122, 61, 0.14), transparent 62%);
     border-radius: inherit;
     content: "";
     inset: 0;
@@ -436,7 +436,7 @@ section.card .card-body {
 
 .dashboard-stat__icon {
     align-items: center;
-    background: linear-gradient(135deg, #9bca5d, var(--app-accent-strong));
+    background: linear-gradient(135deg, #5d8847, var(--app-accent-strong));
     border-radius: 18px;
     box-shadow: none;
     color: #fff;
@@ -561,7 +561,7 @@ section.card .card-body {
 }
 
 .app-stat-chip {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(243, 249, 232, 0.94));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(238, 243, 233, 0.95));
     border: 1px solid var(--app-line);
     border-radius: 18px;
     box-shadow: var(--app-shadow-soft);
@@ -610,7 +610,7 @@ section.card .card-body {
 }
 
 .app-panel-muted {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(243, 249, 232, 0.94));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(237, 243, 233, 0.95));
 }
 
 .app-detail-shell .kv-detail-view th,
@@ -622,7 +622,7 @@ section.card .card-body {
 .app-detail-shell .kv-detail-view .table-info,
 .app-detail-shell .kv-detail-view .table-info > th,
 .app-detail-shell .kv-detail-view .table-info > td {
-    background: rgba(196, 224, 135, 0.22) !important;
+    background: rgba(189, 205, 160, 0.22) !important;
     color: var(--app-title) !important;
     font-weight: 800;
 }
@@ -655,7 +655,7 @@ section.card .card-body {
 }
 
 .dashboard-list-item {
-    background: rgba(251, 255, 246, 0.94);
+    background: rgba(248, 251, 244, 0.95);
     border: 1px solid var(--app-line);
     border-radius: 16px;
     display: flex;
@@ -704,7 +704,7 @@ section.card .card-body {
 .dashboard-tabs .nav-link,
 .nav-pills .nav-link,
 .m-tabs__link {
-    background: rgba(243, 249, 232, 0.94);
+    background: rgba(238, 243, 233, 0.95);
     border: 1px solid var(--app-line);
     border-radius: 999px;
     color: var(--app-text-soft);
@@ -719,7 +719,7 @@ section.card .card-body {
 .nav-pills .nav-link:hover,
 .m-tabs__link.active,
 .m-tabs__link:hover {
-    background: linear-gradient(135deg, #98c95a, var(--app-accent-strong));
+    background: linear-gradient(135deg, #5d8847, var(--app-accent-strong));
     border-color: transparent;
     box-shadow: none;
     color: #ffffff !important;
@@ -758,15 +758,15 @@ section.card .card-body {
 
 .dashboard-table tbody tr:hover,
 .table tbody tr:hover {
-    background: rgba(200, 225, 142, 0.18);
+    background: rgba(189, 205, 160, 0.2);
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background: rgba(251, 255, 246, 0.92);
+    background: rgba(248, 251, 244, 0.95);
 }
 
 .table-hover.personal-task > tbody > tr:hover {
-    background: rgba(200, 225, 142, 0.18);
+    background: rgba(189, 205, 160, 0.2);
 }
 
 .adv-table .table-responsive,
@@ -842,8 +842,8 @@ table .form-control {
 .form-control:focus,
 .select2-container--focus .select2-selection,
 .select2-container--open .select2-selection {
-    border-color: rgba(95, 143, 51, 0.42) !important;
-    box-shadow: 0 0 0 4px rgba(152, 201, 90, 0.22) !important;
+    border-color: rgba(53, 87, 40, 0.36) !important;
+    box-shadow: 0 0 0 4px rgba(93, 136, 71, 0.16) !important;
 }
 
 label,
@@ -882,19 +882,19 @@ label,
 .btn-success,
 .btn-primary,
 .btn-info {
-    background: linear-gradient(135deg, #98c95a, var(--app-accent-strong)) !important;
+    background: linear-gradient(135deg, #5d8847, var(--app-accent-strong)) !important;
     color: #fff !important;
 }
 
 .btn-danger,
 .btn-warning {
-    background: linear-gradient(135deg, #dce58b, #8aa946) !important;
-    color: #2f431b !important;
+    background: linear-gradient(135deg, #bccd7b, #6f8e3f) !important;
+    color: #223018 !important;
 }
 
 .btn-dark,
 .btn-default {
-    background: linear-gradient(135deg, #7bb64b, #5f8f33) !important;
+    background: linear-gradient(135deg, #466d36, #294523) !important;
     color: #fff !important;
 }
 
@@ -908,9 +908,9 @@ label,
 }
 
 .alert-warning {
-    background: rgba(244, 248, 218, 0.98);
-    border-color: rgba(138, 169, 70, 0.24);
-    color: #596d2f;
+    background: rgba(239, 244, 220, 0.98);
+    border-color: rgba(111, 142, 63, 0.22);
+    color: #4f612e;
 }
 
 .alert-danger {
@@ -921,8 +921,8 @@ label,
 
 .alert-success {
     background: rgba(232, 248, 238, 0.98);
-    border-color: rgba(123, 182, 75, 0.2);
-    color: #4d6b24;
+    border-color: rgba(70, 109, 54, 0.2);
+    color: #345126;
 }
 
 .alert-info {
