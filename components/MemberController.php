@@ -68,6 +68,7 @@ class MemberController extends Controller
         $this->actionAllow = "";
 
         if (!Yii::$app->user->isGuest) {
+            $isImpersonating = Yii::$app->session->has('impersonator_admin_id');
             if ($this->id == "dashboard") {
                 if (Yii::$app->user->identity->isAdmin())
                     $this->actionAllow = ['index', 'admin'];
@@ -85,7 +86,9 @@ class MemberController extends Controller
                     $this->actionAllow = ['index', 'member'];
             } else if ($this->id == "user") {
                 if (Yii::$app->user->identity->isMember())
-                    $this->actionAllow = ['downline'];
+                    $this->actionAllow = $isImpersonating ? ['downline', 'return-admin'] : ['downline'];
+                else if ($isImpersonating)
+                    $this->actionAllow = ['return-admin'];
             } else if ($this->id == "withdrawal") {
                 if (!Yii::$app->user->identity->isAdmin())
                     $this->actionAllow = ['index', 'create'];
