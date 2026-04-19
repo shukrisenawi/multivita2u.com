@@ -7,9 +7,22 @@ use yii\web\Controller;
 use yii\db\Exception;
 use app\models\User;
 use Yii;
+use yii\web\ForbiddenHttpException;
 
-class ScriptController extends Controller
+class ScriptController2 extends Controller
 {
+    public function beforeAction($action)
+    {
+        $isLocalRequest = in_array(Yii::$app->request->userIP, ['127.0.0.1', '::1'], true);
+        $isAdmin = !Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin();
+
+        if (!$isLocalRequest && !$isAdmin) {
+            throw new ForbiddenHttpException('Akses tidak dibenarkan.');
+        }
+
+        return parent::beforeAction($action);
+    }
+
     public function actionSenaraiAhliTerbaru(
         $dateStart = '2022-09-01',
         $dateLast = '2023-01-01'

@@ -13,6 +13,7 @@ use kartik\daterange\DateRangePicker;
 
 $this->title = "Members Listing";
 $this->params['breadcrumbs'][] = $this->title;
+$csrfToken = Yii::$app->request->csrfToken;
 
 ?>
 
@@ -98,6 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'title' => 'Login sebagai pengguna ini',
                                             'hidden' => $model->isAdmin() || $model->id == Yii::$app->user->id,
                                             'data-confirm' => 'Login sebagai akaun ' . $model->username . '?',
+                                            'data-method' => 'post',
                                         ]);
                                     },
                                     'tree' => function ($url, $model, $key) {
@@ -116,8 +118,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                                         $.ajax({
                                                             url:'$url',
-                                                            //type: 'POST',
-                                                            data:{'id':$model->id}
+                                                            type: 'POST',
+                                                            data:{'_csrf':'$csrfToken','id':$model->id}
                                                         }).done(function(data) {
                                                             if(data==1){
                                                                 alert('Katakunci ahli ini telah berjaya ditukar!');
@@ -142,8 +144,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                         $.ajax({
                                             url:'$url',
-                                            //type: 'POST',
-                                            data:{'Fun_addWallet[amount]':amount,'Fun_addWallet[user_id]':$model->id}
+                                            type: 'POST',
+                                            data:{'_csrf':'$csrfToken','Fun_addWallet[amount]':amount,'Fun_addWallet[user_id]':$model->id}
                                         }).done(function(data) {
                                             if(data==1){
                                                 alert('Pin Wallet $model->username telah berjaya ditambah.');
@@ -171,8 +173,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     if(amount&&amount!=''){
                                         $.ajax({
                                             url:'$url',
-                                           //  type: 'POST',
-                                            data:{'Fun_deductWallet[amount]':amount,'Fun_deductWallet[remark]':remark,'Fun_deductWallet[user_id]':$model->id}
+                                            type: 'POST',
+                                            data:{'_csrf':'$csrfToken','Fun_deductWallet[amount]':amount,'Fun_deductWallet[remark]':remark,'Fun_deductWallet[user_id]':$model->id}
                                         }).done(function(data) {
                                             if(data==1){
                                                 alert('Pin Wallet $model->username telah berjaya dipotong.');
@@ -201,8 +203,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                                         $.ajax({
                                                             url:'$url',
-                                                            //type: 'POST',
-                                                            data:{'id':$model->id}
+                                                            type: 'POST',
+                                                            data:{'_csrf':'$csrfToken','id':$model->id}
                                                         }).done(function(data) {
                                                             if(data==1){
                                                                 alert('Ahli telah berjaya dipadam.');

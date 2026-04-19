@@ -9,9 +9,22 @@ use app\models\User;
 use app\models\Settings;
 use app\models\Transaction;
 use yii\db\Exception;
+use yii\web\ForbiddenHttpException;
 
 class CronController extends Controller
 {
+    public function beforeAction($action)
+    {
+        $isLocalRequest = in_array(Yii::$app->request->userIP, ['127.0.0.1', '::1'], true);
+        $isAdmin = !Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin();
+
+        if (!$isLocalRequest && !$isAdmin) {
+            throw new ForbiddenHttpException('Akses tidak dibenarkan.');
+        }
+
+        return parent::beforeAction($action);
+    }
+
     public function actionTestOk()
     {
 

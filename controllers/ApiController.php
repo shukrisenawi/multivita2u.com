@@ -6,75 +6,82 @@ use app\models\User;
 use app\models\LoginForm;
 use Yii;
 use yii\web\Controller;
+use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 
 class ApiController extends Controller
 {
+    private const PUBLIC_ACTIONS = ['login', 'register'];
+
     public function beforeAction($action)
     {
         $this->enableCsrfValidation = false;
+        if (!in_array($action->id, self::PUBLIC_ACTIONS, true)) {
+            $this->checkAccess($action->id);
+        }
         return parent::beforeAction($action);
     }
 
     public function checkAccess($action, $model = null, $params = [])
     {
+        if (in_array($action, self::PUBLIC_ACTIONS, true)) {
+            return true;
+        }
+
         if (Yii::$app->request->isPost) {
             $body = Yii::$app->request->post();
-            Yii::debug(var_export($body, true)); // empty sometimes, the data some others.
-            if ($action !== 'login' || $action !== 'index') {
-                if (!isset($body['auth_key'])) {
-                    throw new ForbiddenHttpException(
-                        Yii::t(
-                            'yii',
-                            'You are not allowed to perform this action.'
-                        )
-                    );
-                } elseif (
-                    ($model = User::findIdentityByAccessToken(
-                        $body['auth_key']
-                    )) === null
-                ) {
-                    throw new ForbiddenHttpException(
-                        Yii::t(
-                            'yii',
-                            'You are not allowed to perform this action.'
-                        )
-                    );
-                }
+            Yii::debug(var_export($body, true));
+            if (!isset($body['auth_key'])) {
+                throw new ForbiddenHttpException(
+                    Yii::t(
+                        'yii',
+                        'You are not allowed to perform this action.'
+                    )
+                );
+            } elseif (
+                ($model = User::findIdentityByAccessToken(
+                    $body['auth_key']
+                )) === null
+            ) {
+                throw new ForbiddenHttpException(
+                    Yii::t(
+                        'yii',
+                        'You are not allowed to perform this action.'
+                    )
+                );
             }
         } else {
-            if ($action !== 'login' || $action !== 'index') {
-                $body = Yii::$app->request->get();
-                if (!Yii::$app->request->get('auth_key')) {
-                    throw new ForbiddenHttpException(
-                        Yii::t(
-                            'yii',
-                            'You are not allowed to perform this action.'
-                        )
-                    );
-                } elseif (
-                    ($model = User::findIdentityByAccessToken(
-                        Yii::$app->request->get('auth_key')
-                    )) === null
-                ) {
-                    throw new ForbiddenHttpException(
-                        Yii::t(
-                            'yii',
-                            'You are not allowed to perform this action.'
-                        )
-                    );
-                }
+            if (!Yii::$app->request->get('auth_key')) {
+                throw new ForbiddenHttpException(
+                    Yii::t(
+                        'yii',
+                        'You are not allowed to perform this action.'
+                    )
+                );
+            } elseif (
+                ($model = User::findIdentityByAccessToken(
+                    Yii::$app->request->get('auth_key')
+                )) === null
+            ) {
+                throw new ForbiddenHttpException(
+                    Yii::t(
+                        'yii',
+                        'You are not allowed to perform this action.'
+                    )
+                );
             }
         }
+
+        return true;
     }
 
     public function actionRegister()
     {
         $name = Yii::$app->request->post('name');
         $username = Yii::$app->request->post('username');
-        $pass = md5(Yii::$app->request->post('authKey'));
+        $pass = Yii::$app->request->post('authKey');
 
-        if (isset($name) && isset($username) && isset($pass)) {
+        if ($name !== null && $username !== null && $pass !== null) {
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false]);
@@ -213,7 +220,6 @@ class ApiController extends Controller
 
             $user_access = $data['user_access'];
             $id = $data['id'];
-            $filename = $data['filename'];
             $user = User::find()
                 ->where(['id' => $id, 'username' => $user_access])
                 ->one();
@@ -223,8 +229,26 @@ class ApiController extends Controller
                     'error' => 'Data ahli tidak wujud!!',
                 ]);
             } else {
-                $imageFile = base64_decode($data['picture']);
-                file_put_contents('../web/avatar/' . $filename, $imageFile);
+                $rawFilename = basename((string) $data['filename']);
+                $extension = strtolower(pathinfo($rawFilename, PATHINFO_EXTENSION));
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                if (!in_array($extension, $allowedExtensions, true)) {
+                    throw new BadRequestHttpException('Format fail tidak dibenarkan.');
+                }
+
+                $imageFile = base64_decode((string) $data['picture'], true);
+                if ($imageFile === false) {
+                    throw new BadRequestHttpException('Data gambar tidak sah.');
+                }
+
+                $filename = $user->id . '_' . time() . '.' . $extension;
+                $avatarPath = Yii::getAlias('@webroot/avatar/' . $filename);
+
+                if (file_put_contents($avatarPath, $imageFile) === false) {
+                    throw new BadRequestHttpException('Gagal menyimpan gambar.');
+                }
+
+                $dataReturn['filename'] = $filename;
                 $result = json_encode([
                     'success' => true,
                     'data' => $dataReturn,

@@ -116,7 +116,7 @@ $memberCssUrl = Url::to('@web/css/member.css?v=' . $memberCssVersion);
                 <ul class="nav pull-right top-menu">
                     <?php if ($impersonatorAdminId) { ?>
                         <li>
-                            <a href="<?= Url::to(['user/return-admin']) ?>" class="btn btn-warning btn-sm" style="margin-top:10px; margin-right:10px; color:#000;">
+                            <a href="<?= Url::to(['user/return-admin']) ?>" class="btn btn-warning btn-sm" style="margin-top:10px; margin-right:10px; color:#000;" data-method="post">
                                 <i class="fa fa-user-shield"></i> Kembali Ke Akaun Admin
                             </a>
                         </li>

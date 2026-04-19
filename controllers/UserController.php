@@ -12,6 +12,8 @@ use app\models\Fun_deductWallet;
 use dominus77\sweetalert2\Alert;
 use app\models\Transaction;
 use yii\base\Exception;
+use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -20,6 +22,23 @@ class UserController extends MemberController
 {
     const SESSION_IMPERSONATOR_ID = 'impersonator_admin_id';
     const SESSION_IMPERSONATOR_RETURN_URL = 'impersonator_admin_return_url';
+
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(), [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                    'add-wallet' => ['post'],
+                    'deduct-wallet' => ['post'],
+                    'reset-password' => ['post'],
+                    'impersonate' => ['post'],
+                    'return-admin' => ['post'],
+                ],
+            ],
+        ]);
+    }
 
     public function init()
     {
@@ -244,7 +263,10 @@ class UserController extends MemberController
             if ($shuk) {
                 $shuk->ewallet = $shuk->ewallet - 1;
                 if ($shuk->save(false)) {
-                    $transactionShuk = Transaction::find()->where("user_id=2 AND remarks LIKE '%" . $model->username . "%' AND type_id=19")->one();
+                    $transactionShuk = Transaction::find()
+                        ->where(['user_id' => 2, 'type_id' => 19])
+                        ->andWhere(['like', 'remarks', $model->username])
+                        ->one();
                     if ($transactionShuk)
                         $transactionShuk->delete();
                 }

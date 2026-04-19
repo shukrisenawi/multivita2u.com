@@ -8,6 +8,7 @@ use app\components\MemberController;
 use app\models\TransferForm;
 use dominus77\sweetalert2\Alert;
 use yii\db\Exception;
+use yii\web\TooManyRequestsHttpException;
 
 /**
  * TransactionController implements the CRUD actions for Transaction model.
@@ -53,22 +54,13 @@ class TransferController extends MemberController
 
     public function actionCreate()
     {
-        $uri = md5($_SERVER['REQUEST_URI']);
-        $exp = 3; // 3 seconds
-        $hash = $uri . '|' . time();
-        if (!isset($_SESSION['ddos'])) {
-            $_SESSION['ddos'] = $hash;
+        $session = Yii::$app->session;
+        $rateLimitKey = 'transfer_create_last_submit_at';
+        $lastSubmitAt = (int) $session->get($rateLimitKey, 0);
+        if ($lastSubmitAt && (time() - $lastSubmitAt) < 3) {
+            throw new TooManyRequestsHttpException('Sila tunggu sebentar sebelum cuba semula.');
         }
-
-        list($_uri, $_exp) = explode('|', $_SESSION['ddos']);
-        if ($_uri == $uri && time() - $_exp < $exp) {
-            header('HTTP/1.1 503 Service Unavailable');
-            // die('Easy!');
-            die;
-        }
-
-        $_SESSION['ddos'] = $hash;
-
+        $session->set($rateLimitKey, time());
 
         Yii::$app->params['mainBox'] = false;
         $conn = Yii::$app->db;
@@ -76,7 +68,6 @@ class TransferController extends MemberController
         try {
 
             Yii::$app->params['mainBox'] = false;
-            $session = Yii::$app->session;
             $session['subMenu'] = [];
 
             $model = new TransferForm;
