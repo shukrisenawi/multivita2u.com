@@ -50,17 +50,17 @@ $impersonatorAdminId = $session->get('impersonator_admin_id');
     <link href="css/member.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="app-authenticated">
     <?php $this->beginBody() ?>
 
-    <section id="container" class="">
+    <section id="container" class="app-shell">
         <!--header start-->
         <header class="header white-bg">
             <div class="sidebar-toggle-box">
                 <i class="fa fa-bars"></i>
             </div>
             <!--logo start-->
-            <a href="<?= Url::to(['site/index']) ?>" class="logo">Multi<span style="color:green">Vita2u</span></a>
+            <a href="<?= Url::to(['site/index']) ?>" class="logo">Multi<span>Vita2u</span></a>
             <?php if (isset(Yii::$app->user->identity) && !Yii::$app->user->identity->isAdmin()) { ?>
                 <div class="nav notify-row" id="top_menu">
                     <ul class="nav top-menu">
@@ -164,9 +164,9 @@ $impersonatorAdminId = $session->get('impersonator_admin_id');
         <!--sidebar end-->
         <!--main content start-->
         <section id="main-content">
-            <section class="wrapper site-min-height">
+            <section class="wrapper site-min-height app-main">
                 <?php if (!Yii::$app->params['breadcrumbClose']) { ?>
-                    <div class="top-nav ">
+                    <div class="top-nav app-breadcrumbs">
                         <?= Breadcrumbs::widget([
                             'options' => ['class' => 'breadcrumb'],
                             'homeLink' => [
@@ -182,8 +182,8 @@ $impersonatorAdminId = $session->get('impersonator_admin_id');
                 <!-- page start-->
                 <?= Alert::widget(['useSessionFlash' => true]) ?>
                 <?php if (Yii::$app->params['mainBox']) { ?>
-                    <section class="card">
-                        <section class="card-header bg-success text-light">
+                    <section class="card app-content-shell">
+                        <section class="card-header">
                             <?php
                             if (isset($session['subBtn'])  && count($session['subBtn']) > 0) { ?>
                                 <div class="row">
@@ -208,7 +208,7 @@ $impersonatorAdminId = $session->get('impersonator_admin_id');
                         <?php } ?>
                         <?php if (isset($session['subMenu']) && count($session['subMenu'])) { ?>
 
-                            <section class="card">
+                            <section class="card app-submenu-shell">
                                 <section class="card-body">
                                     <ul class="nav nav-pills nav-pills--brand m-nav-pills--btn-pill m-nav-pills--btn-sm">
                                         <?php
@@ -232,7 +232,7 @@ $impersonatorAdminId = $session->get('impersonator_admin_id');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <!--user info table start-->
-                                    <section class="card">
+                                    <section class="card app-page-shell">
                                         <div class="card-body">
                                             <?= $content ?>
                                         </div>

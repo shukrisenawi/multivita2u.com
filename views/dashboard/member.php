@@ -3,161 +3,117 @@
 use app\components\Helper;
 
 $user = Yii::$app->user->identity;
+$newsItems = $news ?: [];
+$transactions = isset($transaction) ? $transaction : [];
+$pointActiveDate = $user->maintain_point && $user->maintain_point != '0000-00-00 00:00:00' ? date("d-m-Y H:iA", strtotime($user->maintain_point)) : null;
+$pointStatus = $user->checkMaintainPoint() ? 'Aktif' : 'Tidak Aktif';
+$stats = [
+    ['label' => 'E-Point', 'value' => Helper::convertMoney($user->point), 'icon' => 'fa fa-coins', 'note' => 'Baki point semasa'],
+    ['label' => 'E-Wallet', 'value' => Helper::convertMoney($user->ewallet), 'icon' => 'fa fa-wallet', 'note' => 'Dana tersedia untuk transaksi'],
+    ['label' => 'Bonus Repeat Sale', 'value' => isset($repeat_bonus->total) ? Helper::convertMoney($repeat_bonus->total) : '0', 'icon' => 'fa fa-sync-alt', 'note' => 'Ganjaran repeat sale terkumpul'],
+];
 ?>
 
-<div class="row">
-    <?php if (!Yii::$app->user->identity->maintain && date("Y-m") != date("Y-m", strtotime(Yii::$app->user->identity->created_at))) { ?>
-        <div class="col-sm-12">
-            <div class="alert alert-danger text-center"><strong>You must buy at least 1 multivita for get repurchase
-                    bonus</strong> </div>
+<div class="dashboard-shell">
+    <section class="dashboard-hero">
+        <div class="dashboard-hero__eyebrow">Portal Ahli</div>
+        <h1 class="dashboard-hero__title">Akses maklumat akaun, point, bonus, dan transaksi anda dalam satu paparan yang lebih tersusun.</h1>
+        <p class="dashboard-hero__copy">
+            Semua perkara penting selepas login dipersembahkan dengan lebih jelas supaya anda boleh terus faham status akaun dan tindakan seterusnya.
+        </p>
+        <div class="dashboard-hero__meta">
+            <span class="dashboard-badge"><i class="fa fa-user"></i> Akaun <?= $user->username ?></span>
+            <span class="dashboard-badge"><i class="fa fa-bolt"></i> Status E-Point: <?= $pointStatus ?></span>
+            <?php if ($pointActiveDate) { ?>
+                <span class="dashboard-badge"><i class="fa fa-clock"></i> Tamat: <?= $pointActiveDate ?></span>
+            <?php } ?>
+        </div>
+    </section>
+
+    <?php if (!$user->maintain && date("Y-m") != date("Y-m", strtotime($user->created_at))) { ?>
+        <div class="alert alert-danger text-center">
+            Anda perlu membeli sekurang-kurangnya 1 Multivita untuk terus layak menerima bonus repurchase.
         </div>
     <?php } ?>
-    <div class="col-lg-12">
-        <div class="row">
-            <?php
-            // Define card data with error handling and formatting
-            $cards = [
-                [
-                    'icon' => 'fa fa-usd',
-                    'color' => 'blue',
-                    'value' => isset($user->point) ? Helper::convertMoney($user->point) : '0',
-                    'label' => 'E-Point',
-                    'heading_class' => 'h4'
-                ],
-                [
-                    'icon' => 'fa fa-hand-holding-usd',
-                    'color' => 'yellow',
-                    'value' => isset($user->ewallet) ? Helper::convertMoney($user->ewallet) : '0',
-                    'label' => 'E-Wallet',
-                    'heading_class' => 'h4'
-                ],
-                [
-                    'icon' => 'fas fa-comments-dollar',
-                    'color' => 'bg-success',
-                    'value' => isset($repeat_bonus->total) ? Helper::convertMoney($repeat_bonus->total) : '0',
-                    'label' => 'Bonus Repeat Sale',
-                    'heading_class' => 'h4'
-                ]
-            ];
 
-            foreach ($cards as $card): ?>
-                <div class="state-overview col-lg-4 col-md-6">
-                    <section class="card">
-                        <div class="symbol <?= $card['color'] ?>">
-                            <i class="<?= $card['icon'] ?>"></i>
-                        </div>
-                        <div class="value">
-                            <<?= $card['heading_class'] ?> class="count4">
-                                <?= $card['value'] ?>
-                            </<?= $card['heading_class'] ?>>
-                            <a href="#"><?= $card['label'] ?></a>
-                        </div>
-                    </section>
+    <section class="dashboard-grid">
+        <?php foreach ($stats as $stat) { ?>
+            <article class="dashboard-stat" style="grid-column: span 4;">
+                <div class="dashboard-stat__icon">
+                    <i class="<?= $stat['icon'] ?>"></i>
                 </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <!--user info table start-->
-        <div class="alert alert-info">
-            <?php
-            $pointActiveDate = Yii::$app->user->identity->maintain_point && Yii::$app->user->identity->maintain_point != '0000-00-00 00:00:00' ? date("d-m-Y H:iA", strtotime(Yii::$app->user->identity->maintain_point)) : null;
-            if (Yii::$app->user->identity->checkMaintainPoint()) { ?>
-                <a href="#">
-                    <span class="">Status E-Point : <strong>Active (Exp: <?= $pointActiveDate ?>)</strong></span>
-                </a>
-            <?php } else { ?>
-                <a href="#">
-                    <span class="">Status E-Point : <span style="background-color:#60bed2;padding-left:5px;padding-right:5px; color:white;"><strong>inactive <?= $pointActiveDate ? "(Exp: " . $pointActiveDate . ")" : "" ?></strong></span></span>
-                </a>
-            <?php } ?>
-        </div>
-        <section class="card">
-            <div class="card-body bg-danger">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="task-progress text-light">
-                            <h1><a href="#" class="text-white">News</a></h1>
+                <div class="dashboard-stat__label"><?= $stat['label'] ?></div>
+                <h2 class="dashboard-stat__value"><?= $stat['value'] ?></h2>
+                <div class="dashboard-stat__note"><?= $stat['note'] ?></div>
+            </article>
+        <?php } ?>
+    </section>
 
-                        </div>
-                    </div>
+    <section class="dashboard-grid">
+        <article class="dashboard-panel" style="grid-column: span 4;">
+            <div class="dashboard-panel__header">
+                <div>
+                    <div class="dashboard-panel__eyebrow">Info</div>
+                    <h2 class="dashboard-panel__title">Berita Terkini</h2>
+                    <p class="dashboard-panel__subtitle">Pengumuman terbaru berkaitan ahli dan sistem.</p>
                 </div>
             </div>
-            <table class="table table-hover personal-task">
-                <tbody>
-                    <?php
-                    if ($news) {
-                    ?>
-                        <?php
-                        foreach ($news as $value) { ?>
-
-                            <tr>
-                                <td width="5px">
-                                    <i class=" fa fa-angle-double-right"></i>
-                                </td>
-                                <td style="text-align:left"><?= $value->title  ?></td>
-                                <td><?= Helper::viewDate($value->created_at) ?></td>
-                            </tr>
-                            <?php if ($value->news) { ?>
-                                <tr>
-                                    <td></td>
-                                    <td style="text-align:left" colspan="2">
-                                        <?= $value->news ?>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+            <div class="dashboard-panel__body">
+                <div class="dashboard-news-list">
+                    <?php if ($newsItems) { ?>
+                        <?php foreach ($newsItems as $item) { ?>
+                            <div class="dashboard-list-item">
+                                <div class="dashboard-list-item__marker"><i class="fa fa-bullhorn"></i></div>
+                                <div>
+                                    <h3 class="dashboard-list-item__title"><?= $item->title ?></h3>
+                                    <p class="dashboard-list-item__meta"><?= Helper::viewDate($item->created_at) ?></p>
+                                    <?php if ($item->news) { ?>
+                                        <p class="dashboard-list-item__desc"><?= $item->news ?></p>
+                                    <?php } ?>
+                                </div>
+                            </div>
                         <?php } ?>
                     <?php } else { ?>
-                        <tr>
-                            <td>
-                                <i class=" fa fa-times"></i>
-                            </td>
-                            <td style="text-align:left">Empty</td>
-                        </tr>
+                        <div class="dashboard-empty">Tiada berita untuk dipaparkan.</div>
                     <?php } ?>
-                </tbody>
-            </table>
-        </section>
-        <!--user info table end-->
-    </div>
-    <div class="col-lg-8">
-        <!--work progress start-->
-        <section class="card">
-            <div class="card-body bg-success">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="task-progress">
-                            <h1><a href="#" class="text-white">Transactions</a></h1>
-                            <p class="text-white">10 latest transactions</p>
-
-                        </div>
-                    </div>
                 </div>
             </div>
-            <?php if (isset($transaction) && $transaction) { ?>
-                <table class="table table-striped">
-                    <thead>
-                        <?php
-                        foreach ($transaction as $valueTransaction) {
-                        ?>
-                            <tr>
-                                <td><?= $valueTransaction['remarks'] ?></td>
-                                <td><?= Helper::convertMoney($valueTransaction['value']) ?></td>
-                                <td style="text-align:right">
-                                    <?= Helper::viewDate($valueTransaction['date'], 'd-m-Y, h:iA') ?>
-                                </td>
-                            </tr>
+        </article>
 
-                        <?php
-                        } ?>
-                    </thead>
-                </table>
-            <?php } else { ?>
-                <div class="m-list-timeline__item text-center" style="padding:20px">
-                    <span class="m-list-timeline__text">Empty</span>
+        <article class="dashboard-panel" style="grid-column: span 8;">
+            <div class="dashboard-panel__header">
+                <div>
+                    <div class="dashboard-panel__eyebrow">Aktiviti</div>
+                    <h2 class="dashboard-panel__title">10 Transaksi Terkini</h2>
+                    <p class="dashboard-panel__subtitle">Sejarah aktiviti terkini pada akaun anda.</p>
                 </div>
-            <?php } ?>
-        </section>
-        <!--work progress end-->
-    </div>
+            </div>
+            <div class="dashboard-panel__body">
+                <?php if ($transactions) { ?>
+                    <div class="table-responsive">
+                        <table class="table dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Butiran</th>
+                                    <th>Nilai</th>
+                                    <th>Tarikh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($transactions as $item) { ?>
+                                    <tr>
+                                        <td><?= $item['remarks'] ?></td>
+                                        <td><?= Helper::convertMoney($item['value']) ?></td>
+                                        <td><?= Helper::viewDate($item['date'], 'd-m-Y, h:iA') ?></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php } else { ?>
+                    <div class="dashboard-empty">Tiada transaksi untuk dipaparkan.</div>
+                <?php } ?>
+            </div>
+        </article>
+    </section>
 </div>
