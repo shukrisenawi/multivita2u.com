@@ -1,0 +1,76 @@
+i {
+    margin-right: 7px;
+}
+
+.required .control-label {
+    font-weight: bold;
+}
+
+.required .control-label::after {
+
+    content: " *";
+}
+
+.bank {
+    background-color: #ccf4ff;
+    color: #358da6;
+    padding: 10px;
+    margin: 10px;
+    font-size: 14px;
+    border: dashed #90cee0 1px;
+}
+
+.help-block-error {
+    color: red !important;
+    font-size: 13px !important;
+    margin-top: -10px;
+}
+
+.link-forgot-password a {
+    display: block;
+    float: right;
+    width: 120px;
+    margin-left: 20px;
+    text-align: right;
+}
+
+.field-loginform-rememberme {
+    padding-left: 20px;
+    display: block;
+    float: left;
+}
+
+#btn-login {
+    margin-top: -40px;
+}
+
+input,
+button,
+select {
+    font-size: 14px !important;
+}
+
+/* .pagination {
+    display: inline;
+}
+
+.pagination li {
+    display: block;
+    margin-left: 5px;
+    padding: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    float: left;
+}
+
+.pagination li a {
+    display: block;
+}
+
+.pagination li.active {
+    background-color: #358da6;
+}
+
+.pagination li.active a {
+    color: white;
+} */

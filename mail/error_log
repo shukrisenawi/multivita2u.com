@@ -1,0 +1,1 @@
+[15-Nov-2019 02:55:48 UTC] PHP Fatal error:  Class 'Yii' not found in /home/multivit/public_html/mail/passwordResetToken-html.php on line 7

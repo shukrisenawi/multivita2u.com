@@ -1,0 +1,5 @@
+[20-Sep-2019 03:29:12 UTC] PHP Fatal error:  Class 'yii\db\ActiveRecord' not found in /home/multivit/public_html/models/Buy.php on line 8
+[15-Nov-2019 02:35:55 UTC] PHP Fatal error:  Class 'yii\base\BaseObject' not found in /home/multivit/public_html/models/User_backup.php on line 5
+[06-Apr-2020 07:20:18 UTC] PHP Fatal error:  Class 'yii\db\ActiveRecord' not found in /home/multivit/public_html/models/Buy.php on line 8
+[14-May-2020 14:52:39 UTC] PHP Fatal error:  Class 'yii\db\ActiveRecord' not found in /home/multivit/public_html/models/User.php on line 12
+[16-Aug-2020 03:45:24 UTC] PHP Fatal error:  Class 'yii\base\BaseObject' not found in /home/multivit/public_html/models/User_backup.php on line 5
