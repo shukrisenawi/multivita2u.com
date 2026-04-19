@@ -15,17 +15,6 @@ $stats = [
 ?>
 
 <div class="dashboard-shell">
-    <section class="dashboard-hero">
-        <div class="dashboard-hero__eyebrow">Portal Ahli</div>
-        <div class="dashboard-hero__meta">
-            <span class="dashboard-badge"><i class="fa fa-user"></i> Akaun <?= $user->username ?></span>
-            <span class="dashboard-badge"><i class="fa fa-bolt"></i> Status E-Point: <?= $pointStatus ?></span>
-            <?php if ($pointActiveDate) { ?>
-                <span class="dashboard-badge"><i class="fa fa-clock"></i> Tamat: <?= $pointActiveDate ?></span>
-            <?php } ?>
-        </div>
-    </section>
-
     <?php if (!$user->maintain && date("Y-m") != date("Y-m", strtotime($user->created_at))) { ?>
         <div class="alert alert-danger text-center">
             Anda perlu membeli sekurang-kurangnya 1 Multivita untuk terus layak menerima bonus repurchase.
