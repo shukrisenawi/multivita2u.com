@@ -36,7 +36,7 @@ $tabs = [
         foreach ($stats as $index => $stat) { 
             $colorClass = isset($colors[$index]) ? 'dashboard-stat--' . $colors[$index] : 'dashboard-stat--primary';
         ?>
-            <article class="dashboard-stat <?= $colorClass ?> col-span-4" style="grid-column: span 4;">
+            <article class="dashboard-stat <?= $colorClass ?>">
                 <div class="dashboard-stat__icon">
                     <i class="<?= $stat['icon'] ?>"></i>
                 </div>
@@ -48,7 +48,7 @@ $tabs = [
     </section>
 
     <section class="dashboard-grid">
-        <article class="dashboard-panel" style="grid-column: span 4;">
+        <article class="dashboard-panel">
             <div class="dashboard-panel__header">
                 <div>
                     <div class="dashboard-panel__eyebrow">Kemaskini</div>
@@ -79,7 +79,7 @@ $tabs = [
             </div>
         </article>
 
-        <article class="dashboard-panel" style="grid-column: span 8;">
+        <article class="dashboard-panel dashboard-panel--wide">
             <div class="dashboard-panel__header">
                 <div>
                     <div class="dashboard-panel__eyebrow">Monitor</div>

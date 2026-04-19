@@ -22,7 +22,7 @@ $stats = [
     <?php } ?>
 
     <section class="dashboard-grid">
-        <article class="dashboard-stat dashboard-stat--primary" style="grid-column: span 4;">
+        <article class="dashboard-stat dashboard-stat--primary">
             <div class="dashboard-stat__icon">
                 <i class="fa fa-coins"></i>
             </div>
@@ -31,7 +31,7 @@ $stats = [
             <div class="dashboard-stat__note">Baki point semasa</div>
         </article>
         
-        <article class="dashboard-stat dashboard-stat--secondary" style="grid-column: span 4;">
+        <article class="dashboard-stat dashboard-stat--secondary">
             <div class="dashboard-stat__icon">
                 <i class="fa fa-wallet"></i>
             </div>
@@ -40,7 +40,7 @@ $stats = [
             <div class="dashboard-stat__note">Dana tersedia untuk transaksi</div>
         </article>
 
-        <article class="dashboard-stat dashboard-stat--success" style="grid-column: span 4;">
+        <article class="dashboard-stat dashboard-stat--success">
             <div class="dashboard-stat__icon">
                 <i class="fa fa-sync-alt"></i>
             </div>
@@ -51,7 +51,7 @@ $stats = [
     </section>
 
     <section class="dashboard-grid">
-        <article class="dashboard-panel" style="grid-column: span 4;">
+        <article class="dashboard-panel">
             <div class="dashboard-panel__header">
                 <div>
                     <div class="dashboard-panel__eyebrow">Info</div>
@@ -81,7 +81,7 @@ $stats = [
             </div>
         </article>
 
-        <article class="dashboard-panel" style="grid-column: span 8;">
+        <article class="dashboard-panel dashboard-panel--wide">
             <div class="dashboard-panel__header">
                 <div>
                     <div class="dashboard-panel__eyebrow">Aktiviti</div>
