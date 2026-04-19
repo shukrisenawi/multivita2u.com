@@ -112,6 +112,13 @@ $impersonatorAdminId = $session->get('impersonator_admin_id');
             <div class="top-nav ">
                 <!--search & user info start-->
                 <ul class="nav pull-right top-menu">
+                    <?php if ($impersonatorAdminId) { ?>
+                        <li>
+                            <a href="<?= Url::to(['user/return-admin']) ?>" class="btn btn-warning btn-sm" style="margin-top:10px; margin-right:10px; color:#000;">
+                                <i class="fa fa-user-shield"></i> Kembali Ke Akaun Admin
+                            </a>
+                        </li>
+                    <?php } ?>
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -159,17 +166,6 @@ $impersonatorAdminId = $session->get('impersonator_admin_id');
         <section id="main-content">
             <section class="wrapper site-min-height">
                 <?php if (!Yii::$app->params['breadcrumbClose']) { ?>
-
-                    <?php if ($impersonatorAdminId) { ?>
-                        <div class="alert alert-warning" style="margin-bottom:15px;">
-                            Anda sedang menggunakan akaun pengguna sebagai admin.
-                            <a href="<?= Url::to(['user/return-admin']) ?>" class="btn btn-dark btn-sm" style="margin-left:10px;">
-                                Kembali Ke Akaun Admin
-                            </a>
-                        </div>
-                    <?php } ?>
-
-
                     <div class="top-nav ">
                         <?= Breadcrumbs::widget([
                             'options' => ['class' => 'breadcrumb'],
