@@ -17,10 +17,6 @@ $stats = [
 <div class="dashboard-shell">
     <section class="dashboard-hero">
         <div class="dashboard-hero__eyebrow">Portal Ahli</div>
-        <h1 class="dashboard-hero__title">Akses maklumat akaun, point, bonus, dan transaksi anda dalam satu paparan yang lebih tersusun.</h1>
-        <p class="dashboard-hero__copy">
-            Semua perkara penting selepas login dipersembahkan dengan lebih jelas supaya anda boleh terus faham status akaun dan tindakan seterusnya.
-        </p>
         <div class="dashboard-hero__meta">
             <span class="dashboard-badge"><i class="fa fa-user"></i> Akaun <?= $user->username ?></span>
             <span class="dashboard-badge"><i class="fa fa-bolt"></i> Status E-Point: <?= $pointStatus ?></span>
