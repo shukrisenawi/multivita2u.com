@@ -519,6 +519,135 @@ section.card .card-body {
     padding: 22px 24px 24px;
 }
 
+.app-page-intro {
+    align-items: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.app-page-intro__eyebrow {
+    color: var(--app-accent-strong);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.app-page-intro__title {
+    color: var(--app-title);
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin: 0;
+}
+
+.app-page-intro__copy {
+    color: var(--app-text-soft);
+    font-size: 14px;
+    font-weight: 600;
+    margin: 6px 0 0;
+    max-width: 760px;
+}
+
+.app-stat-strip {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    margin-bottom: 18px;
+}
+
+.app-stat-chip {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(243, 248, 244, 0.92));
+    border: 1px solid var(--app-line);
+    border-radius: 18px;
+    box-shadow: var(--app-shadow-soft);
+    padding: 18px 20px;
+}
+
+.app-stat-chip__label {
+    color: var(--app-text-soft);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.app-stat-chip__value {
+    color: var(--app-title);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin: 0;
+}
+
+.app-section-stack {
+    display: grid;
+    gap: 18px;
+}
+
+.app-form-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.app-form-grid > [class*="col-"] {
+    float: none;
+    width: 100%;
+}
+
+.app-form-grid__col-6 {
+    grid-column: span 6;
+}
+
+.app-form-grid__col-12 {
+    grid-column: span 12;
+}
+
+.app-panel-muted {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 249, 246, 0.92));
+}
+
+.app-detail-shell .kv-detail-view th,
+.app-detail-shell .kv-detail-view td {
+    border-color: var(--app-line) !important;
+    padding: 14px 16px !important;
+}
+
+.app-detail-shell .kv-detail-view .table-info,
+.app-detail-shell .kv-detail-view .table-info > th,
+.app-detail-shell .kv-detail-view .table-info > td {
+    background: rgba(47, 143, 99, 0.08) !important;
+    color: var(--app-title) !important;
+    font-weight: 800;
+}
+
+.app-detail-shell .panel,
+.app-detail-shell .panel-info {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.app-detail-shell .panel-heading {
+    background: transparent !important;
+    border-bottom: 1px solid var(--app-line) !important;
+    color: var(--app-title) !important;
+    font-size: 20px;
+    font-weight: 800;
+    padding: 22px 24px 14px !important;
+}
+
+.app-detail-shell .kv-edit-icon,
+.app-detail-shell .kv-view-icon,
+.app-detail-shell .kv-delete-icon {
+    border-radius: 12px;
+}
+
 .dashboard-news-list,
 .dashboard-feed-list {
     display: grid;
@@ -915,6 +1044,15 @@ label,
     .card-body {
         padding-left: 18px;
         padding-right: 18px;
+    }
+
+    .app-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .app-form-grid__col-6,
+    .app-form-grid__col-12 {
+        grid-column: span 1;
     }
 
     .dashboard-hero__title {
