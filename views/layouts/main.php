@@ -24,6 +24,8 @@ function getAvatar($id)
 $session = Yii::$app->session;
 $select = Yii::$app->getRequest()->getQueryParam('select');
 $impersonatorAdminId = $session->get('impersonator_admin_id');
+$memberCssVersion = @filemtime(Yii::getAlias('@webroot/css/member.css')) ?: time();
+$memberCssUrl = Url::to('@web/css/member.css?v=' . $memberCssVersion);
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
@@ -47,7 +49,7 @@ $impersonatorAdminId = $session->get('impersonator_admin_id');
     <!-- Custom styles for this template -->
     <link href="<?= $linkAssets ?>/css/style.css" rel="stylesheet">
     <link href="<?= $linkAssets ?>/css/style-responsive.css" rel="stylesheet" />
-    <link href="css/member.css" rel="stylesheet">
+    <link href="<?= $memberCssUrl ?>" rel="stylesheet">
 </head>
 
 <body class="app-authenticated">
