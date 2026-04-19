@@ -30,19 +30,6 @@ $tabs = [
 ?>
 
 <div class="dashboard-shell">
-    <section class="dashboard-hero">
-        <div class="dashboard-hero__eyebrow">Pusat Kawalan</div>
-        <h1 class="dashboard-hero__title">Dashboard pentadbiran yang lebih bersih, cepat dibaca, dan fokus pada operasi harian.</h1>
-        <p class="dashboard-hero__copy">
-            Pantau prestasi rangkaian, perkembangan ahli, nilai jualan, dan aliran transaksi terkini dari satu permukaan kerja yang lebih kemas.
-        </p>
-        <div class="dashboard-hero__meta">
-            <span class="dashboard-badge"><i class="fa fa-layer-group"></i> Ringkasan menyeluruh</span>
-            <span class="dashboard-badge"><i class="fa fa-chart-line"></i> Fokus kepada pertumbuhan dan transaksi</span>
-            <span class="dashboard-badge"><i class="fa fa-shield-alt"></i> Direka untuk operasi admin</span>
-        </div>
-    </section>
-
     <section class="dashboard-grid">
         <?php foreach ($stats as $stat) { ?>
             <article class="dashboard-stat col-span-4" style="grid-column: span 4;">
