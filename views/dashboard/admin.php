@@ -31,8 +31,12 @@ $tabs = [
 
 <div class="dashboard-shell">
     <section class="dashboard-grid">
-        <?php foreach ($stats as $stat) { ?>
-            <article class="dashboard-stat col-span-4" style="grid-column: span 4;">
+        <?php 
+        $colors = ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'primary', 'secondary', 'success'];
+        foreach ($stats as $index => $stat) { 
+            $colorClass = isset($colors[$index]) ? 'dashboard-stat--' . $colors[$index] : 'dashboard-stat--primary';
+        ?>
+            <article class="dashboard-stat <?= $colorClass ?> col-span-4" style="grid-column: span 4;">
                 <div class="dashboard-stat__icon">
                     <i class="<?= $stat['icon'] ?>"></i>
                 </div>

@@ -22,16 +22,32 @@ $stats = [
     <?php } ?>
 
     <section class="dashboard-grid">
-        <?php foreach ($stats as $stat) { ?>
-            <article class="dashboard-stat" style="grid-column: span 4;">
-                <div class="dashboard-stat__icon">
-                    <i class="<?= $stat['icon'] ?>"></i>
-                </div>
-                <div class="dashboard-stat__label"><?= $stat['label'] ?></div>
-                <h2 class="dashboard-stat__value"><?= $stat['value'] ?></h2>
-                <div class="dashboard-stat__note"><?= $stat['note'] ?></div>
-            </article>
-        <?php } ?>
+        <article class="dashboard-stat dashboard-stat--primary" style="grid-column: span 4;">
+            <div class="dashboard-stat__icon">
+                <i class="fa fa-coins"></i>
+            </div>
+            <div class="dashboard-stat__label">E-Point</div>
+            <h2 class="dashboard-stat__value"><?= Helper::convertMoney($user->point) ?></h2>
+            <div class="dashboard-stat__note">Baki point semasa</div>
+        </article>
+        
+        <article class="dashboard-stat dashboard-stat--secondary" style="grid-column: span 4;">
+            <div class="dashboard-stat__icon">
+                <i class="fa fa-wallet"></i>
+            </div>
+            <div class="dashboard-stat__label">E-Wallet</div>
+            <h2 class="dashboard-stat__value"><?= Helper::convertMoney($user->ewallet) ?></h2>
+            <div class="dashboard-stat__note">Dana tersedia untuk transaksi</div>
+        </article>
+
+        <article class="dashboard-stat dashboard-stat--success" style="grid-column: span 4;">
+            <div class="dashboard-stat__icon">
+                <i class="fa fa-sync-alt"></i>
+            </div>
+            <div class="dashboard-stat__label">Bonus Repeat Sale</div>
+            <h2 class="dashboard-stat__value"><?= isset($repeat_bonus->total) ? Helper::convertMoney($repeat_bonus->total) : '0' ?></h2>
+            <div class="dashboard-stat__note">Ganjaran repeat sale terkumpul</div>
+        </article>
     </section>
 
     <section class="dashboard-grid">
