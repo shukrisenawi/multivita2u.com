@@ -26,6 +26,9 @@ $select = Yii::$app->getRequest()->getQueryParam('select');
 $impersonatorAdminId = $session->get('impersonator_admin_id');
 $memberCssVersion = @filemtime(Yii::getAlias('@webroot/css/member.css')) ?: time();
 $memberCssUrl = Url::to('@web/css/member.css?v=' . $memberCssVersion);
+
+$this->registerCsrfMetaTags();
+$this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
