@@ -64,10 +64,10 @@ a:focus {
 
 .header.white-bg {
     align-items: center;
-    background: rgba(245, 249, 241, 0.97) !important;
-    backdrop-filter: blur(18px);
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--app-line);
-    box-shadow: none;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     display: flex;
     height: 78px;
     left: 0;
@@ -205,9 +205,8 @@ a:focus {
 }
 
 #sidebar {
-    background:
-        linear-gradient(180deg, #506f41 0%, #355728 52%, #243b1c 100%) !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.14);
+    background: #0f172a !important; /* Deep Dark Blue */
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: none;
     padding-top: 96px;
 }
@@ -236,7 +235,7 @@ ul.sidebar-menu li a {
 }
 
 ul.sidebar-menu li a i {
-    color: rgba(198, 216, 164, 0.92);
+    color: #64748b;
     font-size: 15px;
     min-width: 18px;
     text-align: center;
@@ -338,15 +337,14 @@ section.card .card-body {
 }
 
 .dashboard-hero {
-    background:
-        radial-gradient(circle at top left, rgba(92, 128, 69, 0.18), transparent 36%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(236, 242, 231, 0.96));
-    border: 1px solid rgba(53, 87, 40, 0.14);
+    background: linear-gradient(135deg, var(--app-primary), var(--app-secondary));
+    border: none;
     border-radius: var(--app-radius-xl);
     box-shadow: var(--app-shadow);
     overflow: hidden;
     padding: 30px;
     position: relative;
+    color: white;
 }
 
 .dashboard-hero::after {
@@ -372,7 +370,7 @@ section.card .card-body {
 }
 
 .dashboard-hero__title {
-    color: var(--app-title);
+    color: white;
     font-size: 34px;
     font-weight: 800;
     letter-spacing: -0.05em;
@@ -381,7 +379,7 @@ section.card .card-body {
 }
 
 .dashboard-hero__copy {
-    color: var(--app-text-soft);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 14px;
     font-weight: 600;
     line-height: 1.7;
@@ -753,7 +751,7 @@ section.card .card-body {
 .nav-pills .nav-link:hover,
 .m-tabs__link.active,
 .m-tabs__link:hover {
-    background: linear-gradient(135deg, #5d8847, var(--app-accent-strong));
+    background: var(--app-primary);
     border-color: transparent;
     box-shadow: none;
     color: #ffffff !important;
@@ -916,14 +914,18 @@ label,
 .btn-success,
 .btn-primary,
 .btn-info {
-    background: linear-gradient(135deg, #5d8847, var(--app-accent-strong)) !important;
+    background: var(--app-primary) !important;
     color: #fff !important;
 }
 
-.btn-danger,
+.btn-danger {
+    background: var(--app-danger) !important;
+    color: #fff !important;
+}
+
 .btn-warning {
-    background: linear-gradient(135deg, #bccd7b, #6f8e3f) !important;
-    color: #223018 !important;
+    background: var(--app-warning) !important;
+    color: #fff !important;
 }
 
 .btn-dark,
