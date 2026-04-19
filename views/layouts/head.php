@@ -15,5 +15,4 @@ $setting = Settings::value();
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="images/icon_home.png" />
-<link rel="stylesheet" type="text/css" href="<?= $linkAssets ?>revolution/css/settings.css" media="screen" />
 <?php $this->head() ?>
