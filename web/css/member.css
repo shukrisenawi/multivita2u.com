@@ -15,8 +15,8 @@
     --app-gold: #d5b46b;
     --app-danger: #d65c5c;
     --app-info: #4d7ea8;
-    --app-shadow: 0 20px 60px rgba(21, 46, 34, 0.08);
-    --app-shadow-soft: 0 14px 32px rgba(21, 46, 34, 0.06);
+    --app-shadow: none;
+    --app-shadow-soft: none;
     --app-radius-xl: 28px;
     --app-radius-lg: 22px;
     --app-radius-md: 16px;
@@ -58,7 +58,7 @@ a:focus {
     background: rgba(250, 252, 249, 0.9) !important;
     backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--app-line);
-    box-shadow: 0 8px 30px rgba(22, 45, 35, 0.05);
+    box-shadow: none;
     display: flex;
     height: 78px;
     left: 0;
@@ -175,7 +175,7 @@ a:focus {
     background: rgba(255, 255, 255, 0.97);
     border: 1px solid var(--app-line);
     border-radius: 18px;
-    box-shadow: 0 24px 80px rgba(16, 36, 29, 0.14);
+    box-shadow: none;
     margin-top: 12px;
     min-width: 230px;
     padding: 10px;
@@ -199,7 +199,7 @@ a:focus {
     background:
         linear-gradient(180deg, rgba(15, 33, 27, 0.97) 0%, rgba(20, 43, 34, 0.98) 100%) !important;
     border-right: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 18px 0 60px rgba(14, 30, 25, 0.12);
+    box-shadow: none;
     padding-top: 96px;
 }
 
@@ -236,7 +236,7 @@ ul.sidebar-menu li a i {
 ul.sidebar-menu li a:hover,
 ul.sidebar-menu li a.active {
     background: linear-gradient(135deg, rgba(53, 141, 97, 0.95), rgba(29, 104, 70, 0.96));
-    box-shadow: 0 16px 30px rgba(34, 94, 67, 0.32);
+    box-shadow: none;
     color: #ffffff;
 }
 
@@ -438,7 +438,7 @@ section.card .card-body {
     align-items: center;
     background: linear-gradient(135deg, var(--app-accent), #4fa879);
     border-radius: 18px;
-    box-shadow: 0 14px 34px rgba(47, 143, 99, 0.22);
+    box-shadow: none;
     color: #fff;
     display: inline-flex;
     font-size: 18px;
@@ -721,7 +721,7 @@ section.card .card-body {
 .m-tabs__link:hover {
     background: linear-gradient(135deg, var(--app-accent), var(--app-accent-strong));
     border-color: transparent;
-    box-shadow: 0 14px 28px rgba(47, 143, 99, 0.22);
+    box-shadow: none;
     color: #ffffff !important;
 }
 
@@ -870,12 +870,12 @@ label,
     font-weight: 800;
     letter-spacing: 0.01em;
     padding: 11px 16px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .btn:hover,
 .btn:focus {
-    box-shadow: 0 16px 34px rgba(22, 45, 35, 0.12);
+    box-shadow: none;
     transform: translateY(-1px);
 }
 
