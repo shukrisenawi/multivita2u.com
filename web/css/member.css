@@ -849,6 +849,22 @@ label,
     border-radius: var(--vz-radius-md);
     border: 1px solid var(--vz-border);
     overflow: hidden;
+    box-shadow: none !important;
+}
+
+.grid-view,
+.grid-view .table,
+.grid-view .table-responsive,
+.kv-grid-table,
+.kv-grid-container,
+.kv-detail-view,
+.kv-detail-view .panel,
+.kv-detail-view .panel-heading,
+.kv-detail-view .panel-body,
+.member-profile-panel,
+.member-profile-panel .panel,
+.member-profile-panel .kv-detail-view {
+    box-shadow: none !important;
 }
 
 .grid-view .summary {
