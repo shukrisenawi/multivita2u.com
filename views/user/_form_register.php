@@ -51,11 +51,16 @@ $errors = $model->getErrors();
                                         'model' => $model,
                                         'attribute' => 'upline_id',
                                         'initValueText' => $uplineText,
-                                        'options' => ['placeholder' => 'Pilih Penaja', 'class' => $classInput],
+                                        'options' => ['placeholder' => 'Cari username atau nama penaja', 'class' => $classInput],
                                         'theme' => Select2::THEME_CLASSIC,
                                         'pluginOptions' => [
                                             'allowClear' => true,
                                             'minimumInputLength' => 2,
+                                            'language' => [
+                                                'inputTooShort' => new JsExpression('function () { return "Taip sekurang-kurangnya 2 huruf untuk cari username atau nama."; }'),
+                                                'noResults' => new JsExpression('function () { return "Tiada padanan untuk username atau nama."; }'),
+                                                'searching' => new JsExpression('function () { return "Sedang mencari..."; }'),
+                                            ],
                                             'ajax' => [
                                                 'url' => Url::to(['user/upline-list']),
                                                 'dataType' => 'json',
