@@ -157,7 +157,7 @@ class Menu extends \yii\bootstrap\Widget
             if (!isset($value['hidden']) || !$value['hidden']) {
                 $urlExplode = explode('/', $value['url'][0]);
                 $select = (strtoupper($this->idPage) == strtoupper($urlExplode[1])) ? true : false;
-                $str .= '<li><a class="' . ($select ? 'active' : '') . '" href="' . Url::to($value['url']) . '"><i class="' . $value['icon'] . '"></i>' . $value['label'] . '</a>';
+                $str .= '<li><a class="' . ($select ? 'active' : '') . '" href="' . Url::to($value['url']) . '"><span class="sidebar-menu__icon"><i class="' . $value['icon'] . '"></i></span><span class="sidebar-menu__label">' . $value['label'] . '</span></a>';
                 $str .= '</li>';
             }
         }

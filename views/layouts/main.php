@@ -72,10 +72,6 @@ YiiAsset::register($this);
             <div class="sidebar-toggle-box app-header__toggle">
                 <i class="fa fa-bars"></i>
             </div>
-            <!--logo start-->
-            <div class="header-logo-section">
-                <a href="<?= Url::to(['site/index']) ?>" class="logo">Multi<span>Vita2u</span></a>
-            </div>
             <div class="app-header__context">
                 <div class="app-header__eyebrow">Workspace</div>
                 <h1 class="app-header__title"><?= $pageTitle ?></h1>
