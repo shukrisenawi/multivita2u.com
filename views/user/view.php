@@ -4,6 +4,7 @@ use yii\helpers\Html;
 //use yii\widgets\DetailView;
 use kartik\detail\DetailView;
 use app\models\User;
+use app\components\Helper;
 
 /* @var $this yii\web\View */
 /* @var $model app\Models\User */
@@ -14,35 +15,65 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="user-view app-section-stack">
-    <section class="app-page-intro">
-        <div class="app-page-intro__eyebrow">Maklumat Ahli</div>
-        <h1 class="app-page-intro__title"><?= Html::encode($this->title) ?></h1>
-        <p class="app-page-intro__desc">Paparan profil ahli ini menghimpunkan butiran akaun, kewangan, bank, dan alamat dalam susun atur yang lebih bersih.</p>
+    <section class="member-profile-hero">
+        <div class="member-profile-hero__body">
+            <div class="member-profile-hero__eyebrow">Profil Ahli</div>
+            <h1 class="member-profile-hero__title"><?= Html::encode($model->name) ?></h1>
+            <div class="member-profile-hero__meta">
+                <span>@<?= Html::encode($model->username) ?></span>
+                <span><?= Html::encode($model->email ?: 'Tiada emel') ?></span>
+                <span><?= Html::encode($model->hp ?: 'Tiada nombor telefon') ?></span>
+            </div>
+            <p class="member-profile-hero__desc">Paparan profil ini menghimpunkan status akaun, butiran kewangan, bank, dan alamat dalam susun atur yang lebih eksklusif dan mudah dibaca.</p>
+        </div>
+
+        <aside class="member-profile-hero__aside">
+            <div class="member-profile-badge">
+                <div class="member-profile-badge__label">Status Akaun</div>
+                <div class="member-profile-badge__value"><?= $model->activated ? 'Aktif' : 'Belum Aktif' ?></div>
+            </div>
+            <div class="member-profile-actions">
+                <?= Html::a('<i class="fa fa-pencil"></i> Kemaskini Ahli', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Senarai', ['index'], ['class' => 'btn btn-light']) ?>
+            </div>
+        </aside>
     </section>
 
-    <div class="app-stat-strip">
-        <article class="app-stat-chip">
-            <div class="app-stat-chip__label">Status Akaun</div>
-            <div class="app-stat-chip__value"><?= $model->activated ? 'Aktif' : 'Belum Aktif' ?></div>
+    <div class="member-profile-grid">
+        <article class="member-profile-card">
+            <div class="member-profile-card__label">Upline</div>
+            <div class="member-profile-card__value"><?= Html::encode(isset($model->upline->username) ? $model->upline->username : '-') ?></div>
         </article>
-        <article class="app-stat-chip">
+        <article class="member-profile-card">
+            <div class="member-profile-card__label">Agent</div>
+            <div class="member-profile-card__value"><?= Html::encode(isset($model->agent->username) ? $model->agent->username : '-') ?></div>
+        </article>
+        <article class="member-profile-card">
             <div class="app-stat-chip__label">Downline</div>
-            <div class="app-stat-chip__value"><?= (int) $model->downline ?></div>
+            <div class="member-profile-card__value"><?= (int) $model->downline ?></div>
         </article>
-        <article class="app-stat-chip">
-            <div class="app-stat-chip__label">E-Wallet</div>
-            <div class="app-stat-chip__value"><?= \app\components\Helper::convertMoney($model->ewallet) ?></div>
+        <article class="member-profile-card">
+            <div class="member-profile-card__label">E-Wallet</div>
+            <div class="member-profile-card__value"><?= Helper::convertMoney($model->ewallet) ?></div>
+        </article>
+        <article class="member-profile-card">
+            <div class="member-profile-card__label">Pin Wallet</div>
+            <div class="member-profile-card__value"><?= Helper::convertMoney($model->pinwallet) ?></div>
+        </article>
+        <article class="member-profile-card">
+            <div class="member-profile-card__label">Tarikh Daftar</div>
+            <div class="member-profile-card__value"><?= Html::encode($model->created_at) ?></div>
         </article>
     </div>
 
-    <section class="dashboard-panel app-detail-shell">
+    <section class="dashboard-panel app-detail-shell member-profile-panel">
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
                 [
                     'group' => true,
-                    'label' => 'Account Details',
-                    'rowOptions' => ['class' => 'table-info']
+                    'label' => 'Butiran Akaun',
+                    'rowOptions' => ['class' => 'member-profile-group']
                 ],
                 [
                     'columns' => [
@@ -131,8 +162,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'group' => true,
-                    'label' => 'Bank Details',
-                    'rowOptions' => ['class' => 'table-info']
+                    'label' => 'Butiran Bank',
+                    'rowOptions' => ['class' => 'member-profile-group']
                 ],
                 [
                     'columns' => [
@@ -155,8 +186,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'group' => true,
-                    'label' => 'Profile Details',
-                    'rowOptions' => ['class' => 'table-info']
+                    'label' => 'Butiran Profil',
+                    'rowOptions' => ['class' => 'member-profile-group']
                 ],
                 [
                     'columns' => [
@@ -197,13 +228,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
             'mode' => $edit ? DetailView::MODE_EDIT : DetailView::MODE_VIEW,
-            'striped' => true,
+            'striped' => false,
             'panel' => [
-                'heading' => strtoupper($model->name . ' (' . $model->username . ')'),
-                'type' => DetailView::TYPE_INFO,
+                'heading' => '<div class="member-profile-panel__heading"><span class="member-profile-panel__eyebrow">Ringkasan Ahli</span><strong>' . Html::encode($model->name . ' (' . $model->username . ')') . '</strong></div>',
+                'type' => DetailView::TYPE_DEFAULT,
             ],
-            'hover' => true,
+            'hover' => false,
             'buttons1' => '{update}',
+            'container' => ['class' => 'kv-view-mode member-profile-detail'],
         ]); ?>
     </section>
 </div>
