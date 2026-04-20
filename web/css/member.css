@@ -27,15 +27,15 @@
     --vz-sidebar-text: #b8c7f0;
     --vz-sidebar-text-hover: #ffffff;
     --vz-sidebar-active-bg: rgba(255, 255, 255, 0.12);
-    --vz-shadow: 0 1px 2px rgba(56, 65, 74, 0.15);
-    --vz-shadow-sm: 0 1px 2px rgba(56, 65, 74, 0.08);
-    --vz-radius-xs: 6px;
-    --vz-radius-sm: 8px;
-    --vz-radius-md: 12px;
-    --vz-radius-lg: 16px;
-    --vz-radius-xl: 20px;
+    --vz-shadow: 0 1px 2px rgba(56, 65, 74, 0.08);
+    --vz-shadow-sm: 0 1px 2px rgba(56, 65, 74, 0.06);
+    --vz-radius-xs: 4px;
+    --vz-radius-sm: 6px;
+    --vz-radius-md: 8px;
+    --vz-radius-lg: 10px;
+    --vz-radius-xl: 12px;
     --vz-sidebar-width: 260px;
-    --vz-header-height: 78px;
+    --vz-header-height: 70px;
 }
 
 html,
@@ -47,6 +47,8 @@ body {
 }
 
 body {
+    font-size: 13px;
+    line-height: 1.5;
     letter-spacing: -0.01em;
 }
 
@@ -77,9 +79,9 @@ a:focus {
     z-index: 1002;
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
     height: var(--vz-header-height);
-    padding: 0 24px;
+    padding: 0 20px;
     border-bottom: 1px solid var(--vz-border);
     background: rgba(255, 255, 255, 0.96) !important;
     backdrop-filter: blur(10px);
@@ -88,9 +90,9 @@ a:focus {
 
 .app-header__toggle,
 .sidebar-toggle-box {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--vz-radius-sm);
     border: 1px solid var(--vz-border);
     background: var(--vz-surface);
     color: var(--vz-heading);
@@ -104,8 +106,8 @@ a:focus {
     width: var(--vz-sidebar-width);
     min-width: var(--vz-sidebar-width);
     height: var(--vz-header-height);
-    margin-left: -24px;
-    padding: 0 24px;
+    margin-left: -20px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -116,12 +118,12 @@ a:focus {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 1px;
     width: auto;
     margin: 0;
     background: transparent;
     color: #fff !important;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.04em;
@@ -137,9 +139,9 @@ a:focus {
 }
 
 .app-header__eyebrow {
-    margin-bottom: 3px;
+    margin-bottom: 2px;
     color: var(--vz-text-muted);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -148,7 +150,7 @@ a:focus {
 .app-header__title {
     margin: 0;
     color: var(--vz-heading);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     line-height: 1.1;
 }
@@ -167,7 +169,7 @@ a:focus {
 .top-nav .top-menu {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     margin: 0;
 }
 
@@ -181,11 +183,11 @@ a:focus {
 .top-nav .top-menu > li > a.dropdown-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    min-height: 46px;
-    padding: 10px 14px;
+    gap: 10px;
+    min-height: 40px;
+    padding: 8px 12px;
     border: 1px solid var(--vz-border);
-    border-radius: 12px;
+    border-radius: var(--vz-radius-md);
     background: var(--vz-surface);
     color: var(--vz-heading);
     box-shadow: none;
@@ -195,7 +197,7 @@ a:focus {
 .notify-row .top-menu > li > a i,
 .top-nav .top-menu > li > a i {
     color: var(--vz-primary);
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .app-metric-chip__content {
@@ -206,7 +208,7 @@ a:focus {
 
 .app-metric-chip__content small {
     color: var(--vz-text-muted);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -214,16 +216,16 @@ a:focus {
 
 .app-metric-chip__content strong {
     color: var(--vz-heading);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
 }
 
 .app-status-dot {
     display: inline-flex;
     align-items: center;
-    padding: 5px 8px;
+    padding: 4px 7px;
     border-radius: 999px;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     white-space: nowrap;
 }
@@ -257,8 +259,8 @@ a:focus {
 }
 
 .app-user-toggle__avatar {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid rgba(64, 81, 137, 0.14);
@@ -273,24 +275,24 @@ a:focus {
 
 .top-nav .username {
     color: var(--vz-heading);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
 }
 
 .app-user-toggle__role {
     color: var(--vz-text-muted);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
 }
 
 .top-nav .dropdown-menu.extended.logout {
     min-width: 220px;
-    margin-top: 14px;
-    padding: 10px;
+    margin-top: 12px;
+    padding: 8px;
     border: 1px solid var(--vz-border);
-    border-radius: 14px;
+    border-radius: var(--vz-radius-md);
     background: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
 .app-user-menu__header {
@@ -302,7 +304,7 @@ a:focus {
 .app-user-menu__header h6 {
     margin: 0;
     color: var(--vz-text-muted);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -312,11 +314,11 @@ a:focus {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 12px;
+    padding: 9px 10px;
     margin-bottom: 3px;
-    border-radius: 10px;
+    border-radius: var(--vz-radius-sm);
     color: var(--vz-text);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -350,21 +352,21 @@ aside,
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: 4px;
-    height: 74px;
-    padding: 16px 24px;
+    gap: 3px;
+    height: 68px;
+    padding: 14px 20px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sidebar-logo .logo {
     justify-content: flex-start;
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .sidebar-logo__caption {
     color: rgba(255, 255, 255, 0.7);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -372,22 +374,22 @@ aside,
 
 ul.sidebar-menu {
     margin-top: 0;
-    padding: 20px 16px 28px;
+    padding: 16px 14px 24px;
 }
 
 ul.sidebar-menu li {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 ul.sidebar-menu li a {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 11px 14px;
+    gap: 10px;
+    padding: 10px 12px;
     margin: 0;
-    border-radius: 10px;
+    border-radius: var(--vz-radius-sm);
     color: var(--vz-sidebar-text);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     line-height: 1.2;
 }
@@ -396,7 +398,7 @@ ul.sidebar-menu li a i {
     width: 18px;
     min-width: 18px;
     text-align: center;
-    font-size: 15px;
+    font-size: 14px;
     color: inherit;
     opacity: 0.9;
 }
@@ -412,7 +414,7 @@ ul.sidebar-menu li a.active {
 }
 
 .wrapper {
-    padding: calc(var(--vz-header-height) + 26px) 24px 32px;
+    padding: calc(var(--vz-header-height) + 22px) 20px 28px;
 }
 
 .site-min-height {
@@ -424,7 +426,7 @@ ul.sidebar-menu li a.active {
 }
 
 .app-breadcrumbs {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .breadcrumb {
@@ -437,7 +439,7 @@ ul.sidebar-menu li a.active {
 .breadcrumb > li,
 .breadcrumb a {
     color: var(--vz-text-muted);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
 }
 
@@ -460,18 +462,18 @@ section.card .card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    padding: 18px 20px;
+    gap: 12px;
+    padding: 15px 18px;
     background: transparent !important;
     border-bottom: 1px solid var(--vz-border);
     color: var(--vz-heading);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
 }
 
 .card-body,
 section.card .card-body {
-    padding: 20px;
+    padding: 18px;
 }
 
 .app-content-shell {
@@ -480,7 +482,7 @@ section.card .card-body {
 
 .app-submenu-shell,
 .app-page-shell {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .app-card-toolbar__actions {
@@ -491,7 +493,7 @@ section.card .card-body {
 
 .nav-pills,
 .dashboard-tabs {
-    gap: 8px;
+    gap: 6px;
 }
 
 .nav-pills .nav-link,
@@ -500,9 +502,9 @@ section.card .card-body {
     border-radius: 999px;
     background: var(--vz-surface-muted);
     color: var(--vz-text-muted);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    padding: 8px 14px;
+    padding: 7px 12px;
 }
 
 .nav-pills .nav-link.active,
@@ -514,14 +516,17 @@ section.card .card-body {
 }
 
 .btn {
-    border-radius: 10px;
+    border-radius: var(--vz-radius-sm);
+    padding: 0.5rem 0.9rem;
+    font-size: 12px;
+    line-height: 1.4;
     font-weight: 700;
     box-shadow: none !important;
 }
 
 .btn-sm {
-    padding: 8px 13px;
-    font-size: 12px;
+    padding: 0.36rem 0.75rem;
+    font-size: 11px;
 }
 
 .btn-dark {
@@ -557,8 +562,8 @@ section.card .card-body {
 
 .alert {
     border: 1px solid transparent;
-    border-radius: 12px;
-    font-size: 13px;
+    border-radius: var(--vz-radius-md);
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -590,11 +595,12 @@ section.card .card-body {
 input.form-control,
 select.form-control,
 textarea.form-control {
-    min-height: 40px;
+    min-height: 38px;
     border: 1px solid var(--vz-border-strong);
-    border-radius: 10px;
+    border-radius: var(--vz-radius-sm);
     background: #fff;
     color: var(--vz-heading);
+    font-size: 13px;
     box-shadow: none;
 }
 
@@ -609,7 +615,7 @@ textarea.form-control:focus {
 label,
 .control-label {
     color: var(--vz-heading);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -624,17 +630,23 @@ label,
 .table {
     margin-bottom: 0;
     color: var(--vz-text);
+    background: var(--vz-surface);
 }
 
 .table > thead > tr > th,
 .dashboard-table thead th {
     border-bottom: 1px solid var(--vz-border) !important;
     color: var(--vz-text-muted);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     background: var(--vz-surface-muted);
+    padding: 12px 14px;
+}
+
+.table > thead > tr > th > a {
+    color: inherit;
 }
 
 .table > tbody > tr > td,
@@ -642,7 +654,8 @@ label,
 .dashboard-table tbody td {
     vertical-align: middle;
     border-top: 1px solid var(--vz-border);
-    font-size: 13px;
+    padding: 12px 14px;
+    font-size: 12px;
     font-weight: 500;
 }
 
@@ -651,23 +664,62 @@ label,
     background: rgba(64, 81, 137, 0.03);
 }
 
+.table .btn,
+.table a.btn {
+    margin-right: 4px;
+}
+
 .table-responsive {
-    border-radius: 12px;
+    border-radius: var(--vz-radius-md);
+    border: 1px solid var(--vz-border);
+    overflow: hidden;
+}
+
+.grid-view .summary {
+    margin-bottom: 12px;
+    color: var(--vz-text-muted);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.grid-view .filters input,
+.grid-view .filters select {
+    min-height: 34px;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: var(--vz-radius-sm);
+}
+
+.table .filters > td,
+.table .filters > th {
+    background: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.badge,
+.label {
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .pagination {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
 }
 
 .pagination > li > a,
 .pagination > li > span {
-    padding: 8px 12px;
+    padding: 7px 11px;
     border: 1px solid var(--vz-border);
-    border-radius: 10px;
+    border-radius: var(--vz-radius-sm);
     color: var(--vz-text);
     background: var(--vz-surface);
+    font-size: 12px;
 }
 
 .pagination > .active > a,
@@ -677,21 +729,27 @@ label,
     color: #fff;
 }
 
+.dropdown-menu {
+    border: 1px solid var(--vz-border);
+    border-radius: var(--vz-radius-md);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
 .dashboard-shell {
     display: grid;
-    gap: 20px;
+    gap: 16px;
 }
 
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 20px;
+    gap: 16px;
 }
 
 .dashboard-stat {
     grid-column: span 4;
     position: relative;
-    padding: 20px;
+    padding: 18px;
     border: 1px solid var(--vz-border);
     border-radius: var(--vz-radius-md);
     background: var(--vz-surface);
@@ -711,19 +769,19 @@ label,
 }
 
 .dashboard-stat__icon {
-    width: 46px;
-    height: 46px;
+    width: 42px;
+    height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 14px;
-    border-radius: 12px;
-    font-size: 18px;
+    margin-bottom: 12px;
+    border-radius: var(--vz-radius-sm);
+    font-size: 16px;
 }
 
 .dashboard-stat__label {
     color: var(--vz-text-muted);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -732,7 +790,7 @@ label,
 .dashboard-stat__value {
     margin: 8px 0 6px;
     color: var(--vz-heading);
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.03em;
@@ -740,7 +798,7 @@ label,
 
 .dashboard-stat__note {
     color: var(--vz-text-muted);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
 }
 
@@ -774,8 +832,8 @@ label,
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
-    padding: 20px;
+    gap: 12px;
+    padding: 18px;
     border-bottom: 1px solid var(--vz-border);
 }
 
