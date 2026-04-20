@@ -390,7 +390,7 @@ ul.sidebar-menu li a {
     align-items: center;
     justify-content: flex-start;
     gap: 12px;
-    padding: 10px 14px;
+    padding: 0 14px;
     margin: 0;
     border-radius: var(--vz-radius-md);
     color: var(--vz-sidebar-text);
@@ -398,7 +398,7 @@ ul.sidebar-menu li a {
     font-weight: 600;
     line-height: 1;
     position: relative;
-    min-height: 48px;
+    height: 44px;
 }
 
 ul.sidebar-menu li a.active,
@@ -409,9 +409,9 @@ ul.sidebar-menu li a:focus {
 }
 
 .sidebar-menu__icon {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
     border-radius: var(--vz-radius-sm);
     display: inline-flex;
     align-items: center;
@@ -420,7 +420,7 @@ ul.sidebar-menu li a:focus {
     color: inherit;
     line-height: 1;
     transition: 0.2s ease;
-    flex: 0 0 32px;
+    flex: 0 0 30px;
 }
 
 ul.sidebar-menu li a i {
@@ -445,9 +445,10 @@ ul.sidebar-menu li a:focus i {
 .sidebar-menu__label {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
+    min-height: 30px;
     line-height: 1;
     flex: 1 1 auto;
+    margin-top: 1px;
 }
 
 ul.sidebar-menu li a:hover,
