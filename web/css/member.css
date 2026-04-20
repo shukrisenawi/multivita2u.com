@@ -895,6 +895,8 @@ label,
 .grid-view .table td:last-child,
 .grid-view .table .action-column {
     white-space: nowrap;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 .user-index-actions-cell {
