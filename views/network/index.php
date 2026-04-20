@@ -117,8 +117,15 @@ if ($firstUnit) {
                                             var ownMatch = term === '' || ownText.indexOf(term) !== -1;
                                             var childMatch = clip ? filterNodes(clip, term) : false;
                                             var isMatch = ownMatch || childMatch;
+                                            var isBranch = !!clip;
 
-                                            node.style.display = isMatch ? '' : 'none';
+                                            if (term === '') {
+                                                node.style.display = '';
+                                            } else if (isMatch || isBranch) {
+                                                node.style.display = '';
+                                            } else {
+                                                node.style.display = 'none';
+                                            }
 
                                             if (link) {
                                                 link.classList.toggle('network-tree-match', term !== '' && ownMatch);
