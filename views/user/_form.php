@@ -9,7 +9,7 @@ $classInput = Yii::$app->params['inputClass'];
 <div class="user-form">
     <?php
     $form = ActiveForm::begin([
-        'options' => ['class' => 'm-login__form m-form'],
+        'options' => ['class' => 'm-login__form m-form', 'enctype' => 'multipart/form-data'],
         'fieldConfig' => [
             'template' => Yii::$app->params['templateInput'],
         ],
@@ -17,6 +17,29 @@ $classInput = Yii::$app->params['inputClass'];
     ?>
     <div class="app-section-stack">
         <div class="app-form-grid">
+            <?php if (!$model->isNewRecord) { ?>
+            <div class="app-form-grid__col-12">
+                <section class="dashboard-panel app-avatar-panel">
+                    <div class="dashboard-panel__header">
+                        <div>
+                            <div class="dashboard-panel__eyebrow">Avatar</div>
+                            <h2 class="dashboard-panel__title">Gambar Profil</h2>
+                        </div>
+                    </div>
+                    <div class="dashboard-panel__body">
+                        <div class="app-avatar-upload">
+                            <div class="app-avatar-upload__preview">
+                                <img src="<?= Yii::getAlias('@web/' . $model->getAvatar()) ?>" alt="Avatar <?= Html::encode($model->username) ?>">
+                            </div>
+                            <div class="app-avatar-upload__content">
+                                <p class="app-avatar-upload__hint">Muat naik avatar baharu untuk dipaparkan pada header dan menu profil. Format yang disokong: JPG, PNG, GIF, WEBP. Saiz maksimum 5MB.</p>
+                                <?= $form->field($model, 'avatarFile')->fileInput(['accept' => '.jpg,.jpeg,.png,.gif,.webp']) ?>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <?php } ?>
             <div class="app-form-grid__col-6">
                 <section class="dashboard-panel">
                     <div class="dashboard-panel__header">

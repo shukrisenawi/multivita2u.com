@@ -6,6 +6,7 @@ use Yii;
 use yii\web\IdentityInterface;
 use yii\db\ActiveRecord;
 use yii\base\NotSupportedException;
+use yii\web\UploadedFile;
 use app\models\Level;
 use app\models\Settings;
 
@@ -28,6 +29,7 @@ class User extends ActiveRecord implements IdentityInterface
     public $price;
     public $pass;
     public $total;
+    public $avatarFile;
 
     public static function tableName()
     {
@@ -116,6 +118,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['username'], 'unique'],
             ['email', 'email'],
             [['email'], 'unique'],
+            [['avatarFile'], 'file', 'skipOnEmpty' => true, 'extensions' => ['jpg', 'jpeg', 'png', 'gif', 'webp'], 'maxSize' => 5 * 1024 * 1024, 'on' => 'updateProfile'],
             [['email', 'upline_id'], 'default', 'value' => null],
             [['password_reset_token'], 'unique'],
             [
@@ -253,6 +256,7 @@ class User extends ActiveRecord implements IdentityInterface
             'pinwallet' => Yii::t('app', 'Pin Wallet'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'avatarFile' => 'Avatar',
         ];
     }
 
@@ -495,11 +499,54 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getAvatar()
     {
-        $file = 'avatar/' . $this->id . '.jpg';
-        if ($file && file_exists($file)) {
-            return $file;
-        } else {
-            return 'avatar/0.png';
+        $filename = $this->getAvatarFilename();
+        return $filename ? 'avatar/' . $filename : 'avatar/0.png';
+    }
+
+    public function getAvatarFilename()
+    {
+        $avatarDir = Yii::getAlias('@webroot/avatar');
+        if (!is_dir($avatarDir)) {
+            return null;
         }
+
+        $patterns = [
+            $this->id . '.jpg',
+            $this->id . '.jpeg',
+            $this->id . '.png',
+            $this->id . '.gif',
+            $this->id . '.webp',
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (is_file($avatarDir . DIRECTORY_SEPARATOR . $pattern)) {
+                return $pattern;
+            }
+        }
+
+        $matches = glob($avatarDir . DIRECTORY_SEPARATOR . $this->id . '_*.*') ?: [];
+        if ($matches) {
+            return basename($matches[0]);
+        }
+
+        return null;
+    }
+
+    public function saveAvatarUpload(UploadedFile $file)
+    {
+        $avatarDir = Yii::getAlias('@webroot/avatar');
+        if (!is_dir($avatarDir)) {
+            mkdir($avatarDir, 0775, true);
+        }
+
+        foreach (glob($avatarDir . DIRECTORY_SEPARATOR . $this->id . '*.*') ?: [] as $oldFile) {
+            @unlink($oldFile);
+        }
+
+        $extension = strtolower($file->extension ?: $file->getExtension());
+        $filename = $this->id . '.' . $extension;
+        $targetPath = $avatarDir . DIRECTORY_SEPARATOR . $filename;
+
+        return $file->saveAs($targetPath, false);
     }
 }

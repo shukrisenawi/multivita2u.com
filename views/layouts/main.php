@@ -16,12 +16,22 @@ $user = Yii::$app->user->identity;
 
 function getAvatar($id)
 {
-    $file = 'avatar/' . $id . '.jpg';
-    if ($file && file_exists($file)) {
-        return $file;
-    } else {
-        return 'avatar/0.png';
+    $avatarDir = Yii::getAlias('@webroot/avatar');
+    if (is_dir($avatarDir)) {
+        foreach (['jpg', 'jpeg', 'png', 'gif', 'webp'] as $extension) {
+            $filename = $id . '.' . $extension;
+            if (is_file($avatarDir . DIRECTORY_SEPARATOR . $filename)) {
+                return 'avatar/' . $filename;
+            }
+        }
+
+        $matches = glob($avatarDir . DIRECTORY_SEPARATOR . $id . '_*.*') ?: [];
+        if ($matches) {
+            return 'avatar/' . basename($matches[0]);
+        }
     }
+
+    return 'avatar/0.png';
 }
 $session = Yii::$app->session;
 $select = Yii::$app->getRequest()->getQueryParam('select');

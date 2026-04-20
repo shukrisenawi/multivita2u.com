@@ -1456,6 +1456,46 @@ label,
     font-weight: 700;
 }
 
+.app-avatar-panel .dashboard-panel__body {
+    padding-top: 16px;
+}
+
+.app-avatar-upload {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 18px;
+    align-items: center;
+}
+
+.app-avatar-upload__preview {
+    width: 112px;
+    height: 112px;
+    border-radius: 24px;
+    border: 1px solid var(--vz-border);
+    background: linear-gradient(180deg, #f8f9ff, #eef2f9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.app-avatar-upload__preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.app-avatar-upload__content {
+    min-width: 0;
+}
+
+.app-avatar-upload__hint {
+    margin: 0 0 12px;
+    color: var(--vz-text-muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
 .member-profile-hero {
     display: grid;
     grid-template-columns: minmax(0, 1.8fr) minmax(260px, 0.9fr);

@@ -6,6 +6,7 @@ use Yii;
 use app\components\MemberController;
 use app\models\ChangePasswordForm;
 use dominus77\sweetalert2\Alert;
+use yii\web\UploadedFile;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -29,10 +30,15 @@ class ProfileController extends MemberController
         $model->scenario = "updateProfile";
 
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
+            $model->avatarFile = UploadedFile::getInstance($model, 'avatarFile');
+            if ($model->validate()) {
+                $model->save(false);
+                if ($model->avatarFile) {
+                    $model->saveAvatarUpload($model->avatarFile);
+                }
                 Yii::$app->session->setFlash(Alert::TYPE_SUCCESS, 'Your account has been updated!');
                 return $this->refresh();
-            } else if (!$model->validate()) {
+            } else {
                 $this->errorSummary($model);
             }
         }
