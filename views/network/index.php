@@ -156,13 +156,22 @@ if ($firstUnit) {
                                         input.addEventListener('input', function () {
                                             var term = this.value.trim().toLowerCase();
                                             if (term !== '') {
-                                                d.openAll();
+                                                d.closeAll();
                                             }
-                                            filterNodes(tree, term);
+                                            var hasMatch = filterNodes(tree, term);
                                             if (term === '') {
                                                 clips.forEach(function (clip) {
                                                     clip.style.display = clip.dataset.originalDisplay || 'block';
                                                 });
+                                            } else if (!hasMatch) {
+                                                var rootNode = tree.querySelector('.dTreeNode');
+                                                if (rootNode) {
+                                                    rootNode.style.display = '';
+                                                    var rootClip = getChildClip(rootNode);
+                                                    if (rootClip) {
+                                                        rootClip.style.display = 'none';
+                                                    }
+                                                }
                                             }
                                         });
                                     }
