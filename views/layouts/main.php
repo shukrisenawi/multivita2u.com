@@ -40,6 +40,8 @@ $memberCssVersion = @filemtime(Yii::getAlias('@webroot/css/member.css')) ?: time
 $memberCssUrl = Url::to('@web/css/member.css?v=' . $memberCssVersion);
 $userLevel = $user && $user->level ? $user->level->level : 'Pengguna';
 $pageTitle = $this->title ?: 'Dashboard';
+$displayName = trim((string) ($user->name ?? '')) !== '' ? $user->name : $user->username;
+$userBalance = Helper::convertMoney((float) ($user->ewallet ?? 0));
 
 Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
     'js' => [],
@@ -169,30 +171,74 @@ YiiAsset::register($this);
 
                         <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
-                            <li class="app-user-menu__profile">
+                            <li class="app-user-menu__hero">
+                                <div class="app-user-menu__cover"></div>
                                 <div class="app-user-menu__profile-card">
                                     <img alt="" src="<?= getAvatar($user->id) ?>" class="app-user-menu__avatar">
                                     <div class="app-user-menu__identity">
-                                        <strong><?= Html::encode($user->username) ?></strong>
+                                        <strong><?= Html::encode($displayName) ?></strong>
                                         <span><?= Html::encode($userLevel) ?></span>
                                     </div>
                                 </div>
+                                <div class="app-user-menu__welcome">
+                                    <strong>Welcome <?= Html::encode($user->username) ?>!</strong>
+                                    <span>Urus profil, keselamatan, dan akses pantas akaun anda di sini.</span>
+                                </div>
                             </li>
-                            <li class="app-user-menu__welcome">Welcome <?= Html::encode($user->username) ?>!</li>
-                            <li><a href="<?= Url::to(['profile/index']) ?>"><i class="fa fa-user-circle"></i> Profile</a></li>
+                            <li>
+                                <a class="app-user-menu__link" href="<?= Url::to(['profile/index']) ?>">
+                                    <span class="app-user-menu__icon"><i class="fa fa-user-circle"></i></span>
+                                    <span class="app-user-menu__link-text">Profile</span>
+                                </a>
+                            </li>
                             <?php if (Yii::$app->user->identity->isMember()) { ?>
-                                <li><a href="<?= Url::to(['network/index']) ?>"><i class="fa fa-network-wired"></i> Network</a></li>
+                                <li>
+                                    <a class="app-user-menu__link" href="<?= Url::to(['network/index']) ?>">
+                                        <span class="app-user-menu__icon"><i class="fa fa-network-wired"></i></span>
+                                        <span class="app-user-menu__link-text">Network</span>
+                                    </a>
+                                </li>
                             <?php } ?>
                             <?php if (!Yii::$app->user->identity->isMember() && !Yii::$app->user->identity->isAdmin()) { ?>
-                                <li><a href="<?= Url::to(['register/create']) ?>"><i class="fa fa-user"></i> Register</a></li>
+                                <li>
+                                    <a class="app-user-menu__link" href="<?= Url::to(['register/create']) ?>">
+                                        <span class="app-user-menu__icon"><i class="fa fa-user"></i></span>
+                                        <span class="app-user-menu__link-text">Register</span>
+                                    </a>
+                                </li>
                             <?php } ?>
-                            <li><a href="<?= Url::to(['profile/change-pass']) ?>"><i class="fa fa-key"></i> Password</a></li>
+                            <li>
+                                <a class="app-user-menu__link" href="<?= Url::to(['profile/change-pass']) ?>">
+                                    <span class="app-user-menu__icon"><i class="fa fa-key"></i></span>
+                                    <span class="app-user-menu__link-text">Password</span>
+                                </a>
+                            </li>
 
-                            <?php if (Yii::$app->user->identity->isAdmin()) { ?>
-                                <li class="app-user-menu__footer-link"><a href="<?= Url::to(['settings/index']) ?>"><i class="fa fa-cog"></i> Settings <span class="app-user-menu__badge">New</span></a></li>
-                            <?php } ?>
                             <li class="app-user-menu__divider"></li>
-                            <li><a href="<?= Url::to(['site/logout']) ?>"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li class="app-user-menu__metric">
+                                <div class="app-user-menu__metric-card">
+                                    <span class="app-user-menu__icon app-user-menu__icon--soft"><i class="fas fa-wallet"></i></span>
+                                    <div class="app-user-menu__metric-content">
+                                        <span class="app-user-menu__metric-label">Baki E-Wallet</span>
+                                        <strong><?= $userBalance ?></strong>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php if (Yii::$app->user->identity->isAdmin()) { ?>
+                                <li class="app-user-menu__footer-link">
+                                    <a class="app-user-menu__link" href="<?= Url::to(['settings/index']) ?>">
+                                        <span class="app-user-menu__icon"><i class="fa fa-cog"></i></span>
+                                        <span class="app-user-menu__link-text">Settings</span>
+                                        <span class="app-user-menu__badge">New</span>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                            <li>
+                                <a class="app-user-menu__link app-user-menu__link--logout" href="<?= Url::to(['site/logout']) ?>" data-method="post">
+                                    <span class="app-user-menu__icon"><i class="fa fa-power-off"></i></span>
+                                    <span class="app-user-menu__link-text">Logout</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

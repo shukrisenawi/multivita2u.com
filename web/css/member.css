@@ -244,16 +244,19 @@ a:focus {
     background: transparent !important;
     border: 0 !important;
     box-shadow: none !important;
-    padding: 0 !important;
-    gap: 10px !important;
+    padding: 4px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
 }
 
 .app-user-toggle__avatar {
-    width: 34px;
-    height: 34px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(64, 81, 137, 0.14);
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 1px rgba(64, 81, 137, 0.14);
 }
 
 .app-user-toggle__text {
@@ -276,14 +279,14 @@ a:focus {
 }
 
 .top-nav .dropdown-menu.extended.logout {
-    min-width: 286px !important;
-    width: 286px !important;
-    margin-top: 14px !important;
+    min-width: 324px !important;
+    width: 324px !important;
+    margin-top: 16px !important;
     padding: 0 !important;
-    border: 1px solid var(--vz-border) !important;
-    border-radius: 12px !important;
+    border: 1px solid rgba(226, 232, 240, 0.96) !important;
+    border-radius: 20px !important;
     background: #ffffff !important;
-    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 24px 52px rgba(15, 23, 42, 0.16) !important;
     overflow: hidden !important;
     list-style: none !important;
 }
@@ -297,38 +300,49 @@ a:focus {
     clear: both !important;
 }
 
-.app-user-menu__profile {
+.app-user-menu__hero {
     padding: 0 !important;
     margin: 0 !important;
-    border-bottom: 1px solid var(--vz-border);
+    background: #fff;
+}
+
+.app-user-menu__cover {
+    height: 58px;
+    background: linear-gradient(135deg, #edf3ff 0%, #eef2ff 58%, #f8fafc 100%);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.78);
 }
 
 .app-user-menu__profile-card {
     display: grid;
-    grid-template-columns: 52px minmax(0, 1fr);
+    grid-template-columns: 64px minmax(0, 1fr);
     gap: 14px;
     align-items: center;
-    padding: 14px 16px;
-    background: linear-gradient(180deg, #f8f9ff, #f3f5fb);
+    padding: 0 20px;
+    margin-top: -21px;
     width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .app-user-menu__avatar {
-    width: 52px;
-    height: 52px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid rgba(255, 255, 255, 0.92);
+    border: 4px solid rgba(255, 255, 255, 0.98);
+    background: #fff;
+    box-shadow: 0 14px 24px rgba(15, 23, 42, 0.12);
 }
 
 .app-user-menu__identity {
     display: grid;
-    gap: 2px;
+    gap: 4px;
+    padding-top: 16px;
 }
 
 .app-user-menu__identity strong {
     color: var(--vz-heading);
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.03em;
@@ -341,20 +355,30 @@ a:focus {
 }
 
 .app-user-menu__welcome {
-    display: block !important;
-    padding: 12px 18px 8px !important;
+    display: grid !important;
+    gap: 4px;
+    padding: 14px 20px 18px !important;
+    background: #fff;
+    line-height: 1.45;
+}
+
+.app-user-menu__welcome strong {
+    color: var(--vz-heading);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.app-user-menu__welcome span {
     color: var(--vz-text-muted);
     font-size: 12px;
     font-weight: 600;
-    background: #fff;
-    line-height: 1.4;
 }
 
-.top-nav .dropdown-menu.extended.logout > li > a {
+.top-nav .dropdown-menu.extended.logout > li > a.app-user-menu__link {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 18px !important;
+    gap: 14px;
+    padding: 10px 20px !important;
     margin-bottom: 0 !important;
     border-radius: 0 !important;
     background: transparent !important;
@@ -366,32 +390,81 @@ a:focus {
     line-height: 1.25 !important;
 }
 
-.top-nav .dropdown-menu.extended.logout > li > a:hover {
-    background: #f7f9fc;
+.top-nav .dropdown-menu.extended.logout > li > a.app-user-menu__link:hover {
+    background: #f8fafc !important;
+    color: var(--vz-heading) !important;
+}
+
+.app-user-menu__icon {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f6fb;
+    color: #7e8598;
+    transition: 0.2s ease;
+}
+
+.app-user-menu__icon--soft {
+    background: rgba(64, 81, 137, 0.08);
     color: var(--vz-primary);
 }
 
-.top-nav .dropdown-menu.extended.logout > li:last-child > a {
-    border-top: 1px solid rgba(233, 235, 236, 0.8);
-    background: #fff !important;
-    color: var(--vz-danger) !important;
-    border-radius: 0 0 14px 14px;
-}
-
-.top-nav .dropdown-menu.extended.logout > li:last-child > a:hover {
-    background: var(--vz-danger-soft) !important;
-}
-
-.top-nav .dropdown-menu.extended.logout > li > a i {
-    width: 18px;
-    min-width: 18px;
+.app-user-menu__icon i {
+    width: auto;
+    min-width: 0;
     text-align: center;
-    color: #8a90a2;
+    color: inherit !important;
     font-size: 15px;
+    line-height: 1;
 }
 
-.top-nav .dropdown-menu.extended.logout > li > a:hover i {
+.app-user-menu__link:hover .app-user-menu__icon {
+    background: #e9eefc;
+    color: var(--vz-primary);
+}
+
+.app-user-menu__link-text {
+    flex: 1 1 auto;
     color: inherit;
+}
+
+.app-user-menu__metric {
+    padding: 0 20px 14px !important;
+}
+
+.app-user-menu__metric-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border: 1px solid rgba(226, 232, 240, 0.94);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, #eef4ff 100%);
+}
+
+.app-user-menu__metric-content {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+}
+
+.app-user-menu__metric-label {
+    color: var(--vz-text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.app-user-menu__metric-content strong {
+    color: var(--vz-heading);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.1;
 }
 
 .app-user-menu__badge {
@@ -408,14 +481,31 @@ a:focus {
 
 .app-user-menu__divider {
     height: 1px;
-    margin: 6px 0 0;
+    margin: 8px 20px 12px;
     background: var(--vz-border);
     border: 0;
 }
 
 .app-user-menu__footer-link a {
-    border-top: 1px solid rgba(233, 235, 236, 0.8) !important;
-    margin-top: 6px;
+    margin-bottom: 4px !important;
+}
+
+.top-nav .dropdown-menu.extended.logout > li > a.app-user-menu__link--logout {
+    margin: 6px 12px 12px !important;
+    padding: 12px 16px !important;
+    border-radius: 14px !important;
+    background: #fff5f3 !important;
+    color: #e15a4e !important;
+}
+
+.top-nav .dropdown-menu.extended.logout > li > a.app-user-menu__link--logout .app-user-menu__icon {
+    background: #ffffff;
+    color: #e15a4e;
+    box-shadow: inset 0 0 0 1px rgba(225, 90, 78, 0.14);
+}
+
+.top-nav .dropdown-menu.extended.logout > li > a.app-user-menu__link--logout:hover {
+    background: #ffede8 !important;
 }
 
 .top-nav .dropdown-menu.extended.logout .log-arrow-up {
