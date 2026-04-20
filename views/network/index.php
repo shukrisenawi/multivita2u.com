@@ -101,7 +101,39 @@ if ($firstUnit) {
                                         return null;
                                     }
 
-                                    function filterNodes(container, term) {
+                                    function showEntireSubtree(container) {
+                                        if (!container) {
+                                            return false;
+                                        }
+
+                                        var children = Array.prototype.slice.call(container.children);
+                                        var hasVisible = false;
+
+                                        for (var i = 0; i < children.length; i++) {
+                                            var node = children[i];
+                                            if (!node.classList.contains('dTreeNode')) {
+                                                continue;
+                                            }
+
+                                            node.style.display = '';
+                                            var link = node.querySelector('a.node, a.nodeSel');
+                                            if (link) {
+                                                link.classList.remove('network-tree-match');
+                                            }
+
+                                            var clip = getChildClip(node);
+                                            if (clip) {
+                                                clip.style.display = 'block';
+                                                showEntireSubtree(clip);
+                                            }
+
+                                            hasVisible = true;
+                                        }
+
+                                        return hasVisible;
+                                    }
+
+                                    function filterNodes(container, term, revealSubtree) {
                                         var children = Array.prototype.slice.call(container.children);
                                         var matchedAny = false;
 
@@ -115,7 +147,14 @@ if ($firstUnit) {
                                             var link = node.querySelector('a.node, a.nodeSel');
                                             var ownText = (node.textContent || '').toLowerCase();
                                             var ownMatch = term === '' || ownText.indexOf(term) !== -1;
-                                            var childMatch = clip ? filterNodes(clip, term) : false;
+                                            var shouldRevealChildren = revealSubtree || (term !== '' && ownMatch);
+                                            var childMatch = false;
+
+                                            if (clip) {
+                                                childMatch = shouldRevealChildren
+                                                    ? showEntireSubtree(clip)
+                                                    : filterNodes(clip, term, false);
+                                            }
                                             var isMatch = ownMatch || childMatch;
                                             var isBranch = !!clip;
 
