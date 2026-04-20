@@ -163,12 +163,13 @@ YiiAsset::register($this);
                                 <div class="app-user-menu__profile-card">
                                     <img alt="" src="<?= getAvatar($user->id) ?>" class="app-user-menu__avatar">
                                     <div class="app-user-menu__identity">
-                                        <small>Selamat datang!</small>
+                                        <small>Welcome <?= Html::encode($user->username) ?>!</small>
                                         <strong><?= Html::encode($user->username) ?></strong>
                                         <span><?= Html::encode($userLevel) ?></span>
                                     </div>
                                 </div>
                             </li>
+                            <li class="app-user-menu__welcome">Welcome <?= Html::encode($user->username) ?>!</li>
                             <li><a href="<?= Url::to(['profile/index']) ?>"><i class="fa fa-user-circle"></i> Profile</a></li>
                             <?php if (Yii::$app->user->identity->isMember()) { ?>
                                 <li><a href="<?= Url::to(['network/index']) ?>"><i class="fa fa-network-wired"></i> Network</a></li>
@@ -179,7 +180,7 @@ YiiAsset::register($this);
                             <li><a href="<?= Url::to(['profile/change-pass']) ?>"><i class="fa fa-key"></i> Password</a></li>
 
                             <?php if (Yii::$app->user->identity->isAdmin()) { ?>
-                                <li><a href="<?= Url::to(['settings/index']) ?>"><i class="fa fa-cog"></i> Settings <span class="app-user-menu__badge">New</span></a></li>
+                                <li class="app-user-menu__footer-link"><a href="<?= Url::to(['settings/index']) ?>"><i class="fa fa-cog"></i> Settings <span class="app-user-menu__badge">New</span></a></li>
                             <?php } ?>
                             <li class="app-user-menu__divider"></li>
                             <li><a href="<?= Url::to(['site/logout']) ?>"><i class="fa fa-power-off"></i> Logout</a></li>
