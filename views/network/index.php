@@ -156,6 +156,53 @@ if ($firstUnit) {
                                         return null;
                                     }
 
+                                    function getTreeNodeIndex(node) {
+                                        if (!node) {
+                                            return null;
+                                        }
+
+                                        var joinImage = node.querySelector('img[id^="jd"]');
+                                        if (!joinImage) {
+                                            return null;
+                                        }
+
+                                        var match = joinImage.id.match(/^jd(\d+)$/);
+                                        return match ? parseInt(match[1], 10) : null;
+                                    }
+
+                                    function setNodeOpenState(node, isOpen) {
+                                        var nodeIndex = getTreeNodeIndex(node);
+                                        if (nodeIndex === null || !d.aNodes[nodeIndex]) {
+                                            return;
+                                        }
+
+                                        d.aNodes[nodeIndex]._io = !!isOpen;
+                                        d.nodeStatus(!!isOpen, nodeIndex, d.aNodes[nodeIndex]._ls);
+                                    }
+
+                                    function syncTreeNodeStates(container) {
+                                        if (!container) {
+                                            return;
+                                        }
+
+                                        var children = Array.prototype.slice.call(container.children);
+                                        for (var i = 0; i < children.length; i++) {
+                                            var node = children[i];
+                                            if (!node.classList.contains('dTreeNode')) {
+                                                continue;
+                                            }
+
+                                            var clip = getChildClip(node);
+                                            if (!clip) {
+                                                continue;
+                                            }
+
+                                            var isOpen = node.style.display !== 'none' && clip.style.display !== 'none';
+                                            setNodeOpenState(node, isOpen);
+                                            syncTreeNodeStates(clip);
+                                        }
+                                    }
+
                                     function showEntireSubtree(container) {
                                         if (!container) {
                                             return false;
@@ -179,6 +226,7 @@ if ($firstUnit) {
                                             var clip = getChildClip(node);
                                             if (clip) {
                                                 clip.style.display = 'block';
+                                                setNodeOpenState(node, true);
                                                 showEntireSubtree(clip);
                                             }
 
@@ -236,6 +284,9 @@ if ($firstUnit) {
                                                 if (!clip.dataset.originalDisplay) {
                                                     clip.dataset.originalDisplay = clip.style.display || 'block';
                                                 }
+                                                if (!clip.dataset.originalOpen) {
+                                                    clip.dataset.originalOpen = (getTreeNodeIndex(node) !== null && d.aNodes[getTreeNodeIndex(node)] && d.aNodes[getTreeNodeIndex(node)]._io) ? '1' : '0';
+                                                }
                                                 clip.style.display = term === ''
                                                     ? clip.dataset.originalDisplay
                                                     : (childMatch ? 'block' : 'none');
@@ -271,6 +322,15 @@ if ($firstUnit) {
                                                 clips.forEach(function (clip) {
                                                     clip.style.display = clip.dataset.originalDisplay || 'block';
                                                 });
+                                                var treeNodes = tree.querySelectorAll('.dTreeNode');
+                                                treeNodes.forEach(function (node) {
+                                                    var clip = getChildClip(node);
+                                                    if (!clip) {
+                                                        return;
+                                                    }
+
+                                                    setNodeOpenState(node, clip.dataset.originalOpen === '1');
+                                                });
                                             } else if (!hasMatch) {
                                                 var rootNode = tree.querySelector('.dTreeNode');
                                                 if (rootNode) {
@@ -278,8 +338,13 @@ if ($firstUnit) {
                                                     var rootClip = getChildClip(rootNode);
                                                     if (rootClip) {
                                                         rootClip.style.display = 'none';
+                                                        setNodeOpenState(rootNode, false);
                                                     }
                                                 }
+                                            }
+
+                                            if (term !== '') {
+                                                syncTreeNodeStates(tree);
                                             }
                                         });
                                     }
