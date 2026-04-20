@@ -276,13 +276,15 @@ a:focus {
 }
 
 .top-nav .dropdown-menu.extended.logout {
-    min-width: 250px;
-    margin-top: 14px;
-    padding: 0;
-    border: 1px solid var(--vz-border);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+    min-width: 286px !important;
+    width: 286px !important;
+    margin-top: 14px !important;
+    padding: 0 !important;
+    border: 1px solid var(--vz-border) !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12) !important;
+    overflow: hidden !important;
 }
 
 .app-user-menu__profile {
@@ -293,36 +295,43 @@ a:focus {
 
 .app-user-menu__profile-card {
     display: grid;
-    grid-template-columns: 48px minmax(0, 1fr);
-    gap: 12px;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 14px;
     align-items: center;
-    padding: 14px 16px;
-    background: linear-gradient(180deg, rgba(64, 81, 137, 0.05), rgba(64, 81, 137, 0.01));
+    padding: 16px 18px;
+    background: linear-gradient(180deg, #f8f9ff, #f3f5fb);
 }
 
 .app-user-menu__avatar {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(64, 81, 137, 0.14);
+    border: 3px solid rgba(255, 255, 255, 0.92);
 }
 
 .app-user-menu__identity {
     display: grid;
-    gap: 3px;
+    gap: 2px;
+}
+
+.app-user-menu__identity small {
+    color: var(--vz-text-muted);
+    font-size: 11px;
+    font-weight: 700;
 }
 
 .app-user-menu__identity strong {
     color: var(--vz-heading);
-    font-size: 17px;
+    font-size: 22px;
     font-weight: 700;
     line-height: 1.1;
+    letter-spacing: -0.03em;
 }
 
 .app-user-menu__identity span {
     color: var(--vz-text-muted);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
 }
 
@@ -330,18 +339,18 @@ a:focus {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
-    margin-bottom: 0;
-    border-radius: 0;
-    background: transparent;
-    color: var(--vz-text);
-    font-size: 13px;
-    font-weight: 600;
-    border-bottom: 1px solid rgba(233, 235, 236, 0.8);
+    padding: 14px 18px !important;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--vz-text) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid rgba(233, 235, 236, 0.8) !important;
 }
 
 .top-nav .dropdown-menu.extended.logout li a:hover {
-    background: rgba(64, 81, 137, 0.05);
+    background: #f7f9fc;
     color: var(--vz-primary);
 }
 
@@ -357,10 +366,10 @@ a:focus {
 }
 
 .top-nav .dropdown-menu.extended.logout li a i {
-    width: 16px;
+    width: 18px;
     text-align: center;
     color: #8a90a2;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .top-nav .dropdown-menu.extended.logout li a:hover i {
@@ -369,18 +378,19 @@ a:focus {
 
 .app-user-menu__badge {
     margin-left: auto;
-    padding: 3px 8px;
-    border-radius: 999px;
-    background: rgba(10, 179, 156, 0.14);
+    padding: 4px 9px;
+    border-radius: 6px;
+    background: rgba(10, 179, 156, 0.12);
     color: #08a08a;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.04em;
+    line-height: 1;
 }
 
 .app-user-menu__divider {
-    height: 10px;
-    background: #f8f9fb;
+    height: 12px;
+    background: #f5f7fb;
     border-top: 1px solid var(--vz-border);
     border-bottom: 1px solid var(--vz-border);
 }

@@ -163,12 +163,13 @@ YiiAsset::register($this);
                                 <div class="app-user-menu__profile-card">
                                     <img alt="" src="<?= getAvatar($user->id) ?>" class="app-user-menu__avatar">
                                     <div class="app-user-menu__identity">
+                                        <small>Selamat datang!</small>
                                         <strong><?= Html::encode($user->username) ?></strong>
                                         <span><?= Html::encode($userLevel) ?></span>
                                     </div>
                                 </div>
                             </li>
-                            <li><a href="<?= Url::to(['profile/index']) ?>"><i class="fa fa-user-circle"></i> Profil</a></li>
+                            <li><a href="<?= Url::to(['profile/index']) ?>"><i class="fa fa-user-circle"></i> Profile</a></li>
                             <?php if (Yii::$app->user->identity->isMember()) { ?>
                                 <li><a href="<?= Url::to(['network/index']) ?>"><i class="fa fa-network-wired"></i> Network</a></li>
                             <?php } ?>
