@@ -388,6 +388,7 @@ ul.sidebar-menu li {
 ul.sidebar-menu li a {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     gap: 12px;
     padding: 10px 14px;
     margin: 0;
@@ -409,6 +410,7 @@ ul.sidebar-menu li a {
     justify-content: center;
     background: transparent;
     color: inherit;
+    line-height: 1;
     transition: 0.2s ease;
 }
 
@@ -419,11 +421,13 @@ ul.sidebar-menu li a i {
     font-size: 14px;
     color: inherit;
     opacity: 0.95;
+    line-height: 1;
 }
 
 .sidebar-menu__label {
     display: inline-flex;
     align-items: center;
+    min-height: 28px;
 }
 
 ul.sidebar-menu li a:hover,
@@ -453,7 +457,7 @@ ul.sidebar-menu li a.active::before {
 
 ul.sidebar-menu li a.active .sidebar-menu__icon {
     background: rgba(140, 228, 216, 0.16);
-    color: #8ce4d8;
+    color: #ffffff;
 }
 
 #main-content {
