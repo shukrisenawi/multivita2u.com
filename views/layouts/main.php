@@ -163,7 +163,6 @@ YiiAsset::register($this);
                                 <div class="app-user-menu__profile-card">
                                     <img alt="" src="<?= getAvatar($user->id) ?>" class="app-user-menu__avatar">
                                     <div class="app-user-menu__identity">
-                                        <small>Welcome <?= Html::encode($user->username) ?>!</small>
                                         <strong><?= Html::encode($user->username) ?></strong>
                                         <span><?= Html::encode($userLevel) ?></span>
                                     </div>

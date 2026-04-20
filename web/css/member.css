@@ -285,6 +285,16 @@ a:focus {
     background: #ffffff !important;
     box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12) !important;
     overflow: hidden !important;
+    list-style: none !important;
+}
+
+.top-nav .dropdown-menu.extended.logout > li {
+    display: block !important;
+    float: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    clear: both !important;
 }
 
 .app-user-menu__profile {
@@ -300,6 +310,7 @@ a:focus {
     align-items: center;
     padding: 14px 16px;
     background: linear-gradient(180deg, #f8f9ff, #f3f5fb);
+    width: 100%;
 }
 
 .app-user-menu__avatar {
@@ -315,17 +326,9 @@ a:focus {
     gap: 2px;
 }
 
-.app-user-menu__identity small {
-    color: var(--vz-text-muted);
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: none;
-    letter-spacing: 0;
-}
-
 .app-user-menu__identity strong {
     color: var(--vz-heading);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.03em;
@@ -338,14 +341,16 @@ a:focus {
 }
 
 .app-user-menu__welcome {
-    padding: 12px 18px 8px;
+    display: block !important;
+    padding: 12px 18px 8px !important;
     color: var(--vz-text-muted);
     font-size: 12px;
     font-weight: 600;
     background: #fff;
+    line-height: 1.4;
 }
 
-.top-nav .dropdown-menu.extended.logout li a {
+.top-nav .dropdown-menu.extended.logout > li > a {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -357,32 +362,35 @@ a:focus {
     font-size: 14px !important;
     font-weight: 600 !important;
     border-bottom: 0 !important;
+    width: 100% !important;
+    line-height: 1.25 !important;
 }
 
-.top-nav .dropdown-menu.extended.logout li a:hover {
+.top-nav .dropdown-menu.extended.logout > li > a:hover {
     background: #f7f9fc;
     color: var(--vz-primary);
 }
 
-.top-nav .dropdown-menu.extended.logout li:last-child a {
+.top-nav .dropdown-menu.extended.logout > li:last-child > a {
     border-top: 1px solid rgba(233, 235, 236, 0.8);
     background: #fff !important;
     color: var(--vz-danger) !important;
     border-radius: 0 0 14px 14px;
 }
 
-.top-nav .dropdown-menu.extended.logout li:last-child a:hover {
+.top-nav .dropdown-menu.extended.logout > li:last-child > a:hover {
     background: var(--vz-danger-soft) !important;
 }
 
-.top-nav .dropdown-menu.extended.logout li a i {
+.top-nav .dropdown-menu.extended.logout > li > a i {
     width: 18px;
+    min-width: 18px;
     text-align: center;
     color: #8a90a2;
     font-size: 15px;
 }
 
-.top-nav .dropdown-menu.extended.logout li a:hover i {
+.top-nav .dropdown-menu.extended.logout > li > a:hover i {
     color: inherit;
 }
 
