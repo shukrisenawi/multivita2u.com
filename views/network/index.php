@@ -1,73 +1,157 @@
 <?php
-$this->title = "Network";
-
-$this->params['breadcrumbs'][] = $this->title;
 
 use app\models\User;
+use yii\helpers\Html;
+
+$this->title = 'Network';
+$this->params['breadcrumbs'][] = $this->title;
 
 $firstUnit = User::find()->where(['id' => $id])->asArray()->one();
 if ($firstUnit) {
     $userId = $firstUnit['id'];
-
     $user = $firstUnit;
     $userSelect = $userId;
     ?>
-    <link rel="StyleSheet" href="js/dtree/dtree.css" type="text/css" />
+    <link rel="stylesheet" href="js/dtree/dtree.css" type="text/css" />
     <script type="text/javascript" src="js/dtree/dtree.js"></script>
-    <h2><?= $user['name'] . ' ( ' . $user['username'] . ' )' ?></h2>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td height="482" valign="top">
 
-                <?php if ($userSelect) { ?>
-                    <div class="dtree">
-                        <p><a href="javascript: d.openAll();">Show All</a> | <a href="javascript: d.closeAll();">Close All</a>
-                        </p>
-                        <script type="text/javascript">
-                            <!--
-                            <?php $uplineIds = [$userSelect ? $userSelect : 0]; ?>
-                            d = new dTree('d');
+    <div class="network-tree-shell">
+        <section class="network-tree-hero">
+            <div class="network-tree-hero__eyebrow">Rangkaian Ahli</div>
+            <h1 class="network-tree-hero__title"><?= Html::encode($user['name']) ?> <span>(<?= Html::encode($user['username']) ?>)</span></h1>
+            <p class="network-tree-hero__desc">Semak struktur downline dengan paparan lebih kemas, latar lebih bersih, dan carian pantas berdasarkan username atau nama.</p>
+        </section>
 
-                            d.add(<?= $userSelect ?>, -1,"&nbsp;&nbsp;<?= $user['name'] . " <em> (" . strtolower($user['username'] . ") </em>") ?>");
+        <?php if ($userSelect) { ?>
+            <section class="network-tree-panel card">
+                <div class="card-body">
+                    <div class="network-tree-toolbar">
+                        <div class="network-tree-toolbar__actions">
+                            <a href="javascript:void(0);" class="btn btn-light network-tree-btn" onclick="d.openAll(); return false;">Buka Semua</a>
+                            <a href="javascript:void(0);" class="btn btn-light network-tree-btn" onclick="d.closeAll(); return false;">Tutup Semua</a>
+                        </div>
+                        <div class="network-tree-search">
+                            <i class="fa fa-search"></i>
+                            <input type="text" id="network-tree-search" class="form-control" placeholder="Cari username atau nama">
+                        </div>
+                    </div>
 
-                            <?php
-                                    $limitUpline = $rows;
-                                    $i = 0;
-                                    $alldownline = array();
-                                    while (!empty($uplineIds) && $i < $limitUpline){
-                                        $i++;
-                                        $query_downline = User::find()
-                                            ->select(['id', 'upline_id', 'name', 'username'])
-                                            ->where(['upline_id' => $uplineIds, 'level_id' => 5])
-                                            ->asArray()
-                                            ->all();
-                                        $uplineIds = array();
-                                        foreach ($query_downline as $downline) {
-                                            $uplineIds[] = $downline['id'];
-                                            $alldownline[] = $downline;
+                    <div class="network-tree-frame">
+                        <div class="dtree" id="network-tree-view">
+                            <script type="text/javascript">
+                                <?php $uplineIds = [$userSelect ? $userSelect : 0]; ?>
+                                d = new dTree('d');
+
+                                d.add(<?= $userSelect ?>, -1, "&nbsp;&nbsp;<?= addslashes($user['name'] . " <em>(" . strtolower($user['username']) . ")</em>") ?>");
+
+                                <?php
+                                $limitUpline = $rows;
+                                $i = 0;
+                                $alldownline = [];
+                                while (!empty($uplineIds) && $i < $limitUpline) {
+                                    $i++;
+                                    $queryDownline = User::find()
+                                        ->select(['id', 'upline_id', 'name', 'username'])
+                                        ->where(['upline_id' => $uplineIds, 'level_id' => 5])
+                                        ->asArray()
+                                        ->all();
+                                    $uplineIds = [];
+                                    foreach ($queryDownline as $downline) {
+                                        $uplineIds[] = $downline['id'];
+                                        $alldownline[] = $downline;
+                                    }
+                                }
+
+                                foreach ($alldownline as $listUnit) {
+                                    echo "d.add(" . $listUnit['id'] .
+                                        "," . $listUnit['upline_id'] .
+                                        ",\"&nbsp;&nbsp;" . addslashes($listUnit['name'] ?? '') .
+                                        " <em>(" . addslashes(strtolower($listUnit['username'] ?? '')) .
+                                        ")</em>\");\n";
+                                }
+                                ?>
+                                document.write(d);
+
+                                (function () {
+                                    function getChildClip(node) {
+                                        if (!node) {
+                                            return null;
                                         }
+
+                                        var next = node.nextElementSibling;
+                                        if (next && next.classList.contains('clip')) {
+                                            return next;
+                                        }
+
+                                        return null;
                                     }
 
-                                    if (count($alldownline) > 0) {
-                                        foreach ($alldownline as $listUnit) {
-                                            echo "d.add(" . $listUnit['id'] .
-                                                "," . $listUnit['upline_id'] .
-                                                ",\"&nbsp;&nbsp;" . addslashes(isset($listUnit['name']) ? $listUnit['name'] : "") .
-                                                " <em>(" . addslashes(strtolower((isset($listUnit['username']) ? $listUnit['username'] : ""))) .
-                                                ")</em>\");\n";
-                                        }
-                                    } ?>
-                            document.write(d);
+                                    function filterNodes(container, term) {
+                                        var children = Array.prototype.slice.call(container.children);
+                                        var matchedAny = false;
 
-                            //
-                            -->
-                        </script>
+                                        for (var i = 0; i < children.length; i++) {
+                                            var node = children[i];
+                                            if (!node.classList.contains('dTreeNode')) {
+                                                continue;
+                                            }
+
+                                            var clip = getChildClip(node);
+                                            var ownText = (node.textContent || '').toLowerCase();
+                                            var ownMatch = term === '' || ownText.indexOf(term) !== -1;
+                                            var childMatch = clip ? filterNodes(clip, term) : false;
+                                            var isMatch = ownMatch || childMatch;
+
+                                            node.style.display = isMatch ? '' : 'none';
+
+                                            if (clip) {
+                                                if (!clip.dataset.originalDisplay) {
+                                                    clip.dataset.originalDisplay = clip.style.display || 'block';
+                                                }
+                                                clip.style.display = term === ''
+                                                    ? clip.dataset.originalDisplay
+                                                    : (childMatch ? 'block' : 'none');
+                                            }
+
+                                            matchedAny = matchedAny || isMatch;
+                                        }
+
+                                        return matchedAny;
+                                    }
+
+                                    function initTreeSearch() {
+                                        var input = document.getElementById('network-tree-search');
+                                        var tree = document.getElementById('network-tree-view');
+                                        if (!input || !tree) {
+                                            return;
+                                        }
+
+                                        var clips = tree.querySelectorAll('.clip');
+                                        clips.forEach(function (clip) {
+                                            clip.dataset.originalDisplay = clip.style.display || 'block';
+                                        });
+
+                                        input.addEventListener('input', function () {
+                                            var term = this.value.trim().toLowerCase();
+                                            filterNodes(tree, term);
+                                        });
+                                    }
+
+                                    if (document.readyState === 'loading') {
+                                        document.addEventListener('DOMContentLoaded', initTreeSearch);
+                                    } else {
+                                        initTreeSearch();
+                                    }
+                                })();
+                            </script>
+                        </div>
                     </div>
-                <?php } else { ?>
-                    <div>User not found.</div>
-                <?php } ?></td>
-        </tr>
-    </table>
+                </div>
+            </section>
+        <?php } else { ?>
+            <div class="network-tree-empty">User tidak dijumpai.</div>
+        <?php } ?>
+    </div>
 <?php } else { ?>
-    <div>Empty</div>
+    <div class="network-tree-empty">Tiada data rangkaian untuk dipaparkan.</div>
 <?php } ?>

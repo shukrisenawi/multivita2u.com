@@ -1373,6 +1373,176 @@ label,
     color: var(--vz-primary) !important;
 }
 
+.network-tree-shell {
+    display: grid;
+    gap: 18px;
+}
+
+.network-tree-hero {
+    padding: 22px 24px;
+    border: 1px solid var(--vz-border);
+    border-radius: 16px;
+    background:
+        radial-gradient(circle at top right, rgba(64, 81, 137, 0.10), transparent 28%),
+        linear-gradient(180deg, #ffffff, #f9fbff);
+}
+
+.network-tree-hero__eyebrow {
+    margin-bottom: 8px;
+    color: var(--vz-text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.network-tree-hero__title {
+    margin: 0 0 10px;
+    color: var(--vz-heading);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.network-tree-hero__title span {
+    color: var(--vz-primary);
+}
+
+.network-tree-hero__desc {
+    margin: 0;
+    max-width: 760px;
+    color: var(--vz-text-muted);
+    font-size: 13px;
+}
+
+.network-tree-panel {
+    border-radius: 16px;
+}
+
+.network-tree-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.network-tree-toolbar__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.network-tree-btn {
+    border: 1px solid var(--vz-border) !important;
+    background: #fff !important;
+    color: var(--vz-heading) !important;
+}
+
+.network-tree-btn:hover,
+.network-tree-btn:focus {
+    background: rgba(64, 81, 137, 0.06) !important;
+    border-color: rgba(64, 81, 137, 0.16) !important;
+    color: var(--vz-primary) !important;
+}
+
+.network-tree-search {
+    position: relative;
+    width: min(100%, 360px);
+}
+
+.network-tree-search i {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: var(--vz-text-muted);
+    font-size: 13px;
+}
+
+.network-tree-search input {
+    height: 42px;
+    padding-left: 40px;
+    border-radius: 999px;
+    background: #fff;
+}
+
+.network-tree-frame {
+    padding: 18px;
+    border: 1px solid var(--vz-border);
+    border-radius: 14px;
+    background:
+        linear-gradient(180deg, rgba(64, 81, 137, 0.03), rgba(64, 81, 137, 0.01)),
+        #fff;
+}
+
+.dtree {
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    white-space: normal !important;
+    font-family: "Inter", "Segoe UI", sans-serif !important;
+    font-size: 13px !important;
+    color: var(--vz-text) !important;
+}
+
+.dtree .dTreeNode {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    margin: 2px 0;
+}
+
+.dtree img {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    object-fit: contain;
+}
+
+.dtree a {
+    color: var(--vz-text) !important;
+}
+
+.dtree a.node,
+.dtree a.nodeSel {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 4px 10px !important;
+    border-radius: 999px;
+    transition: 0.2s ease;
+}
+
+.dtree a.node:hover,
+.dtree a.nodeSel:hover {
+    color: var(--vz-primary) !important;
+    text-decoration: none !important;
+    background: rgba(64, 81, 137, 0.08);
+}
+
+.dtree a.nodeSel {
+    background: rgba(64, 81, 137, 0.12) !important;
+    color: var(--vz-primary) !important;
+    margin-left: 6px !important;
+}
+
+.dtree em {
+    color: var(--vz-text-muted);
+    font-style: normal;
+}
+
+.network-tree-empty {
+    padding: 20px 22px;
+    border: 1px dashed var(--vz-border-strong);
+    border-radius: 14px;
+    background: #fff;
+    color: var(--vz-text-muted);
+    font-weight: 600;
+}
+
 .site-footer {
     margin-left: var(--vz-sidebar-width);
     padding: 0 24px 26px;
