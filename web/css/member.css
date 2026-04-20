@@ -1873,6 +1873,39 @@ label,
     font-weight: 600;
 }
 
+.stockist-filter-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 18px 18px 8px;
+    flex-wrap: nowrap;
+}
+
+.stockist-filter-row__item {
+    min-width: 0;
+}
+
+.stockist-filter-row__item--wide {
+    flex: 1 1 0;
+}
+
+.stockist-filter-row__item--limit {
+    flex: 0 0 220px;
+}
+
+.stockist-filter-row__item--action {
+    flex: 0 0 156px;
+}
+
+.stockist-filter-row__item .form-group {
+    margin-bottom: 0;
+}
+
+.stockist-filter-row__button {
+    width: 100%;
+    min-height: 38px;
+}
+
 .site-footer {
     margin-left: var(--vz-sidebar-width);
     padding: 0 24px 26px;
@@ -1978,5 +2011,16 @@ label,
     .dashboard-panel__header,
     .dashboard-panel__body {
         padding: 16px;
+    }
+
+    .stockist-filter-row {
+        flex-wrap: wrap;
+        padding: 16px 16px 6px;
+    }
+
+    .stockist-filter-row__item--wide,
+    .stockist-filter-row__item--limit,
+    .stockist-filter-row__item--action {
+        flex: 1 1 100%;
     }
 }

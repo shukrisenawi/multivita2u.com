@@ -16,14 +16,19 @@ use yii\widgets\ActiveForm;
             </div>
 
             <?php $form = ActiveForm::begin(); ?>
-            <div class="row">
-                <div class="col-lg-4"> <?= $form->field($model, 'from')->textInput(['type' => "date"]) ?></div>
-                <div class="col-lg-4"><?= $form->field($model, 'to')->textInput(['type' => "date"]) ?></div>
-                <div class="col-lg-2"><?= $form->field($model, 'limit')->textInput(['type' => "number"]) ?></div>
-                <div class="col-lg-2 d-flex align-items-end">
-                    <?= Html::submitButton(Yii::t('app', '<i class="fa fa-search"></i> Search'), ['class' => 'btn btn-primary w-100']) ?>
+            <div class="stockist-filter-row">
+                <div class="stockist-filter-row__item stockist-filter-row__item--wide">
+                    <?= $form->field($model, 'from')->textInput(['type' => "date"]) ?>
                 </div>
-
+                <div class="stockist-filter-row__item stockist-filter-row__item--wide">
+                    <?= $form->field($model, 'to')->textInput(['type' => "date"]) ?>
+                </div>
+                <div class="stockist-filter-row__item stockist-filter-row__item--limit">
+                    <?= $form->field($model, 'limit')->textInput(['type' => "number"]) ?>
+                </div>
+                <div class="stockist-filter-row__item stockist-filter-row__item--action">
+                    <?= Html::submitButton(Yii::t('app', '<i class="fa fa-search"></i> Search'), ['class' => 'btn btn-primary stockist-filter-row__button']) ?>
+                </div>
             </div>
             <?php ActiveForm::end(); ?>
 
