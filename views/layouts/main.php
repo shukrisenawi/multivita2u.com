@@ -3,6 +3,7 @@
 /* @var $content string */
 
 use app\widgets\Menu;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use dominus77\sweetalert2\Alert;
 use yii\widgets\Breadcrumbs;
@@ -158,29 +159,29 @@ YiiAsset::register($this);
 
                         <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
-                            <li class="app-user-menu__header">
-                                <h6>Selamat Datang!</h6>
+                            <li class="app-user-menu__profile">
+                                <div class="app-user-menu__profile-card">
+                                    <img alt="" src="<?= getAvatar($user->id) ?>" class="app-user-menu__avatar">
+                                    <div class="app-user-menu__identity">
+                                        <strong><?= Html::encode($user->username) ?></strong>
+                                        <span><?= Html::encode($userLevel) ?></span>
+                                    </div>
+                                </div>
                             </li>
-                            <li><a href="<?= Url::to(['profile/index']) ?>"><i class=" fa fa-user-circle"></i> Profil</a>
-                            </li>
+                            <li><a href="<?= Url::to(['profile/index']) ?>"><i class="fa fa-user-circle"></i> Profil</a></li>
                             <?php if (Yii::$app->user->identity->isMember()) { ?>
-                                <li><a href="<?= Url::to(['network/index']) ?>"><i class="fa fa-network-wired"></i>
-                                        Network</a></li>
+                                <li><a href="<?= Url::to(['network/index']) ?>"><i class="fa fa-network-wired"></i> Network</a></li>
                             <?php } ?>
                             <?php if (!Yii::$app->user->identity->isMember() && !Yii::$app->user->identity->isAdmin()) { ?>
-                                <li><a href="<?= Url::to(['register/create']) ?>"><i class="fa fa-user"></i>
-                                        Register</a></li>
+                                <li><a href="<?= Url::to(['register/create']) ?>"><i class="fa fa-user"></i> Register</a></li>
                             <?php } ?>
-                            <li><a href="<?= Url::to(['profile/change-pass']) ?>"><i class="fa fa-key"></i>
-                                    Password</a></li>
+                            <li><a href="<?= Url::to(['profile/change-pass']) ?>"><i class="fa fa-key"></i> Password</a></li>
 
                             <?php if (Yii::$app->user->identity->isAdmin()) { ?>
-                                <li><a href="<?= Url::to(['settings/index']) ?>"><i class="fa fa-cog"></i>
-                                        Settings</a></li>
+                                <li><a href="<?= Url::to(['settings/index']) ?>"><i class="fa fa-cog"></i> Settings <span class="app-user-menu__badge">New</span></a></li>
                             <?php } ?>
-                            <li><a href="<?= Url::to(['site/logout']) ?>"><i class="fa fa-power-off"></i>
-                                    Logout</a>
-                            </li>
+                            <li class="app-user-menu__divider"></li>
+                            <li><a href="<?= Url::to(['site/logout']) ?>"><i class="fa fa-power-off"></i> Logout</a></li>
                         </ul>
                     </li>
                 </ul>
