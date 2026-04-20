@@ -118,7 +118,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['username'], 'unique'],
             ['email', 'email'],
             [['email'], 'unique'],
-            [['avatarFile'], 'file', 'skipOnEmpty' => true, 'extensions' => ['jpg', 'jpeg', 'png', 'gif', 'webp'], 'maxSize' => 5 * 1024 * 1024, 'on' => 'updateProfile'],
+            [['avatarFile'], 'file', 'skipOnEmpty' => true, 'extensions' => ['jpg', 'jpeg', 'png', 'gif', 'webp'], 'maxSize' => 10 * 1024 * 1024, 'on' => 'updateProfile'],
             [['email', 'upline_id'], 'default', 'value' => null],
             [['password_reset_token'], 'unique'],
             [

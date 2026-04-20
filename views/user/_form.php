@@ -32,7 +32,7 @@ $classInput = Yii::$app->params['inputClass'];
                                 <img src="<?= Yii::getAlias('@web/' . $model->getAvatar()) ?>" alt="Avatar <?= Html::encode($model->username) ?>">
                             </div>
                             <div class="app-avatar-upload__content">
-                                <p class="app-avatar-upload__hint">Muat naik avatar baharu untuk dipaparkan pada header dan menu profil. Format yang disokong: JPG, PNG, GIF, WEBP. Saiz maksimum 5MB.</p>
+                                <p class="app-avatar-upload__hint">Muat naik avatar baharu untuk dipaparkan pada header dan menu profil. Format yang disokong: JPG, PNG, GIF, WEBP. Saiz maksimum 10MB.</p>
                                 <?= $form->field($model, 'avatarFile')->fileInput(['accept' => '.jpg,.jpeg,.png,.gif,.webp']) ?>
                             </div>
                         </div>
