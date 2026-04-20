@@ -71,7 +71,9 @@ YiiAsset::register($this);
                 <i class="fa fa-bars"></i>
             </div>
             <!--logo start-->
-            <a href="<?= Url::to(['site/index']) ?>" class="logo">Multi<span>Vita2u</span></a>
+            <div class="header-logo-section" style="width: 250px; display: flex; align-items: center; justify-content: center; background: var(--app-sidebar-bg); height: 78px; margin-left: -24px; margin-right: 24px;">
+                <a href="<?= Url::to(['site/index']) ?>" class="logo" style="margin: 0; background: transparent; width: auto; color: #fff !important;">Multi<span>Vita2u</span></a>
+            </div>
             <?php if (isset(Yii::$app->user->identity) && !Yii::$app->user->identity->isAdmin()) { ?>
                 <div class="nav notify-row" id="top_menu">
                     <ul class="nav top-menu">
@@ -132,15 +134,18 @@ YiiAsset::register($this);
                     <?php } ?>
                     <!-- user login dropdown start-->
                     <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" src="images/icon.png" width="20">
-                            <span class="username">&nbsp;<?= "<strong>" . $user->username . "</strong> (" . $user->level->level . ")" ?></span>
-                            <b class="caret"></b>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="background: transparent; border: none; box-shadow: none;">
+                            <img alt="" src="<?= getAvatar($user->id) ?>" width="32" height="32" style="border-radius: 50%; border: 2px solid var(--app-line);">
+                            <span class="username" style="display: block; font-size: 14px; font-weight: 600; color: var(--app-title);"><?= $user->username ?></span>
+                            <span style="display: block; font-size: 11px; color: var(--app-text-soft); text-align: right;"><?= $user->level->level ?></span>
                         </a>
 
                         <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
-                            <li><a href="<?= Url::to(['profile/index']) ?>"><i class=" fa fa-suitcase"></i>Akaun</a>
+                            <li style="padding: 10px 15px; border-bottom: 1px solid var(--app-line); margin-bottom: 5px;">
+                                <h6 style="margin: 0; font-size: 12px; color: var(--app-text-soft); text-transform: uppercase;">Selamat Datang!</h6>
+                            </li>
+                            <li><a href="<?= Url::to(['profile/index']) ?>"><i class=" fa fa-user-circle"></i> Profil</a>
                             </li>
                             <?php if (Yii::$app->user->identity->isMember()) { ?>
                                 <li><a href="<?= Url::to(['network/index']) ?>"><i class="fa fa-network-wired"></i>
@@ -169,6 +174,10 @@ YiiAsset::register($this);
         <!--sidebar start-->
         <aside>
             <div id="sidebar" class="nav-collapse ">
+                <!--sidebar-logo start-->
+                <div class="sidebar-logo" style="height: 70px; display: flex; align-items: center; justify-content: center; background: var(--app-sidebar-bg); position: fixed; top: 0; width: 250px; z-index: 1001;">
+                    <a href="<?= Url::to(['site/index']) ?>" class="logo" style="line-height: 1; margin: 0; background: transparent; width: auto; color: #fff !important;">Multi<span>Vita2u</span></a>
+                </div>
                 <?php echo Menu::widget(['idPage' => $this->context->id, 'select' => (null !== (Yii::$app->request->get('select')) ? Yii::$app->request->get('select') : '')]); ?>
             </div>
         </aside>
