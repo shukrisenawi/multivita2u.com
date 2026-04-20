@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Transaction;
 use app\models\TransactionSearch;
+use app\models\TransactionType;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -53,12 +54,15 @@ class TransactionController extends Controller
         }
         $searchModel->dateFilter = '1-' . date('m') . '-' . date('Y') . ' - ' . date('t') . '-' . date('m') . '-' . date('Y');
         $searchModel->notPoint = 1;
+        $searchModel->load(Yii::$app->request->queryParams);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $transactionTabs = $this->buildTransactionTabs($searchModel, $user);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'user' => $user
+            'user' => $user,
+            'transactionTabs' => $transactionTabs,
         ]);
     }
 
@@ -163,5 +167,82 @@ class TransactionController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    protected function buildTransactionTabs(TransactionSearch $searchModel, $user = null)
+    {
+        $query = Transaction::find()
+            ->alias('t')
+            ->innerJoin(['tt' => TransactionType::tableName()], 'tt.id = t.type_id')
+            ->select(['t.type_id', 'tt.type'])
+            ->distinct()
+            ->orderBy(['tt.type' => SORT_ASC]);
+
+        if (Yii::$app->user->identity->isAdmin() && !$searchModel->buy) {
+            $query->andWhere(['<>', 't.user_id', Yii::$app->params['idAdmin']]);
+        }
+
+        if (Yii::$app->user->identity->isAdmin()) {
+            if ($user) {
+                $query->andWhere(['t.user_id' => $user->id]);
+            } elseif ($searchModel->user_id) {
+                $query->andWhere(['t.user_id' => $searchModel->user_id]);
+            }
+        } else {
+            $query->andWhere(['t.user_id' => Yii::$app->user->id]);
+        }
+
+        if ($searchModel->notPoint == 1) {
+            $query->andWhere('(t.type_id<>25 AND t.type_id<>27 AND t.type_id<>28 AND t.type_id<>29)');
+        }
+
+        if ($searchModel->withdrawal == 1) {
+            $query->andWhere('t.type_id=7 AND t.date_success IS NULL');
+        } elseif ($searchModel->withdrawal == 2) {
+            $query->andWhere('(t.type_id=7 AND t.date_success IS NOT NULL)');
+        }
+
+        if ($searchModel->point == 1) {
+            $query->andWhere('t.type_id=27 AND t.date_success IS NULL');
+        } elseif ($searchModel->point == 2) {
+            $query->andWhere('(t.type_id=27 AND t.date_success IS NOT NULL)');
+        }
+
+        if ($searchModel->viewPoint == 1) {
+            $query->andWhere('(t.type_id=28 OR t.type_id=29)');
+        }
+
+        if ($searchModel->redeem == 1) {
+            $query->andWhere('t.type_id=23');
+        }
+
+        if ($searchModel->transfer) {
+            $query->andWhere('(t.type_id=5 OR t.type_id=6)');
+        }
+
+        if ($searchModel->dateFilter) {
+            $dateExplode = explode(' - ', $searchModel->dateFilter);
+            if (count($dateExplode) === 2) {
+                $date1 = \app\components\Helper::dateToOri(trim($dateExplode[0]), false);
+                $date2 = \app\components\Helper::dateToOri(trim($dateExplode[1]), false) . ' 23:59:59';
+                $query->andWhere(['between', 't.date', $date1, $date2]);
+            }
+        }
+
+        $tabs = [
+            [
+                'id' => '',
+                'label' => 'Semua',
+            ],
+        ];
+
+        foreach ($query->asArray()->all() as $type) {
+            $tabs[] = [
+                'id' => (string) $type['type_id'],
+                'label' => $type['type'],
+            ];
+        }
+
+        return $tabs;
     }
 }

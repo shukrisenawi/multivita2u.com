@@ -8,9 +8,13 @@ use app\models\Transaction;
 use app\components\Helper;
 use kartik\daterange\DateRangePicker;
 use kartik\select2\Select2;
+use yii\helpers\Url;
 
 $this->title = 'Transaksi';
 $this->params['breadcrumbs'][] = $this->title;
+
+$queryParams = Yii::$app->request->queryParams;
+$currentTypeId = isset($queryParams['TransactionSearch']['type_id']) ? (string) $queryParams['TransactionSearch']['type_id'] : '';
 ?>
 <div class="transaction-index app-section-stack">
     <section class="app-page-intro">
@@ -25,12 +29,45 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="app-stat-chip__value"><?= Yii::$app->user->identity->isAdmin() ? 'Admin' : 'Pengguna' ?></div>
         </article>
         <article class="app-stat-chip">
-            <div class="app-stat-chip__label">Rekod</div>
-            <div class="app-stat-chip__value">Transaksi Tunai</div>
+            <div class="app-stat-chip__label">Jenis Aktif</div>
+            <div class="app-stat-chip__value">
+                <?php
+                $activeTab = 'Semua';
+                foreach ($transactionTabs as $tab) {
+                    if ($tab['id'] === $currentTypeId) {
+                        $activeTab = $tab['label'];
+                        break;
+                    }
+                }
+                echo $activeTab;
+                ?>
+            </div>
         </article>
     </div>
 
     <section class="dashboard-panel">
+        <div class="dashboard-panel__body">
+            <ul class="nav nav-tabs transaction-tabs" role="tablist">
+                <?php foreach ($transactionTabs as $tab) {
+                    $tabQueryParams = $queryParams;
+                    if (!isset($tabQueryParams['TransactionSearch'])) {
+                        $tabQueryParams['TransactionSearch'] = [];
+                    }
+                    if ($tab['id'] === '') {
+                        unset($tabQueryParams['TransactionSearch']['type_id']);
+                    } else {
+                        $tabQueryParams['TransactionSearch']['type_id'] = $tab['id'];
+                    }
+                    $tabUrl = Url::to(array_merge(['transaction/index'], $tabQueryParams));
+                    ?>
+                    <li class="nav-item">
+                        <a class="nav-link<?= $currentTypeId === $tab['id'] ? ' active' : '' ?>" href="<?= $tabUrl ?>">
+                            <?= $tab['label'] ?>
+                        </a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
         <?php Pjax::begin(); ?>
         <div class="table-responsive">
             <?php if (Yii::$app->user->identity->isAdmin()) { ?>
