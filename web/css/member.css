@@ -1098,7 +1098,7 @@ label,
 }
 
 .dashboard-stat {
-    grid-column: span 4;
+    grid-column: span 3;
     position: relative;
     padding: 18px;
     border: 1px solid var(--vz-border);
