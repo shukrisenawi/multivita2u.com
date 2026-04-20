@@ -897,6 +897,11 @@ label,
     white-space: nowrap;
 }
 
+.user-index-actions-cell {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
 .grid-view .table td a[title]:hover,
 .grid-view .table td a[title]:focus {
     border-color: rgba(64, 81, 137, 0.2);

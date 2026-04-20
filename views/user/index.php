@@ -82,7 +82,7 @@ $csrfToken = Yii::$app->request->csrfToken;
                                 'class' => 'yii\grid\ActionColumn',
                                 'visible' => Yii::$app->user->identity->isAdmin(),
                                 // 'options' => ['style' => 'width:170px;word-wrap: normal'],
-                                'contentOptions' => ['style' => 'width:230px; white-space:nowrap;'],
+                                'contentOptions' => ['class' => 'user-index-actions-cell', 'style' => 'width:230px; white-space:nowrap;'],
                                 'headerOptions' => ['style' => 'width:230px; white-space:nowrap;'],
                                 'template' => '{view} {update} {loginAsUser} {tree} {resetPass} {addWallet} {deductWallet} {transaction} {delete}', // the default buttons + your custom button
                                 'buttons' => [
