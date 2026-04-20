@@ -73,6 +73,10 @@ if ($firstUnit) {
                                 document.write(d);
 
                                 (function () {
+                                    function getTreeRoot(wrapper) {
+                                        return wrapper.querySelector(':scope > .dtree') || wrapper;
+                                    }
+
                                     function getChildClip(node) {
                                         if (!node) {
                                             return null;
@@ -97,12 +101,17 @@ if ($firstUnit) {
                                             }
 
                                             var clip = getChildClip(node);
+                                            var link = node.querySelector('a.node, a.nodeSel');
                                             var ownText = (node.textContent || '').toLowerCase();
                                             var ownMatch = term === '' || ownText.indexOf(term) !== -1;
                                             var childMatch = clip ? filterNodes(clip, term) : false;
                                             var isMatch = ownMatch || childMatch;
 
                                             node.style.display = isMatch ? '' : 'none';
+
+                                            if (link) {
+                                                link.classList.toggle('network-tree-match', term !== '' && ownMatch);
+                                            }
 
                                             if (clip) {
                                                 if (!clip.dataset.originalDisplay) {
@@ -121,10 +130,12 @@ if ($firstUnit) {
 
                                     function initTreeSearch() {
                                         var input = document.getElementById('network-tree-search');
-                                        var tree = document.getElementById('network-tree-view');
-                                        if (!input || !tree) {
+                                        var wrapper = document.getElementById('network-tree-view');
+                                        if (!input || !wrapper) {
                                             return;
                                         }
+
+                                        var tree = getTreeRoot(wrapper);
 
                                         var clips = tree.querySelectorAll('.clip');
                                         clips.forEach(function (clip) {
@@ -133,7 +144,15 @@ if ($firstUnit) {
 
                                         input.addEventListener('input', function () {
                                             var term = this.value.trim().toLowerCase();
+                                            if (term !== '') {
+                                                d.openAll();
+                                            }
                                             filterNodes(tree, term);
+                                            if (term === '') {
+                                                clips.forEach(function (clip) {
+                                                    clip.style.display = clip.dataset.originalDisplay || 'block';
+                                                });
+                                            }
                                         });
                                     }
 
