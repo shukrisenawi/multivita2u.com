@@ -46,9 +46,10 @@ if ($firstUnit) {
                                 $formatTreeLabel = static function (array $node, int $level): string {
                                     $name = mb_strtoupper((string) ($node['name'] ?? ''), 'UTF-8');
                                     $username = strtolower($node['username'] ?? '');
+                                    $levelLabel = $level === 0 ? '' : ' - level ' . $level;
 
                                     return "&nbsp;&nbsp;" . addslashes($name) .
-                                        " <em>(" . addslashes($username) . ")</em> - level " . $level;
+                                        " <em>(" . addslashes($username) . ")</em>" . $levelLabel;
                                 };
                                 ?>
                                 d = new dTree('d');
