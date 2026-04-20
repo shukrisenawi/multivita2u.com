@@ -44,7 +44,7 @@ if ($firstUnit) {
                                 $nodeLevels = [$userSelect => 0];
 
                                 $formatTreeLabel = static function (array $node, int $level): string {
-                                    $name = $node['name'] ?? '';
+                                    $name = mb_strtoupper((string) ($node['name'] ?? ''), 'UTF-8');
                                     $username = strtolower($node['username'] ?? '');
 
                                     return "&nbsp;&nbsp;" . addslashes($name) .
