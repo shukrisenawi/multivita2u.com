@@ -878,6 +878,14 @@ label,
     font-weight: 500;
 }
 
+.grid-view,
+.grid-view .table-responsive,
+.grid-view .kv-grid-container,
+.grid-view .kv-grid-table {
+    border-top: 0 !important;
+    border-left: 0 !important;
+}
+
 .grid-view .filters input,
 .grid-view .filters select {
     min-height: 30px;
