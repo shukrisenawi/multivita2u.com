@@ -163,11 +163,10 @@ if ($firstUnit) {
                                                     : filterNodes(clip, term, false);
                                             }
                                             var isMatch = ownMatch || childMatch;
-                                            var isBranch = !!clip;
 
                                             if (term === '') {
                                                 node.style.display = '';
-                                            } else if (isMatch || isBranch) {
+                                            } else if (isMatch) {
                                                 node.style.display = '';
                                             } else {
                                                 node.style.display = 'none';
