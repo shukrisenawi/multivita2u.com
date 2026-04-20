@@ -2,14 +2,6 @@
 $this->title = 'Stockist';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<style>
-.nav-link.active {
-    color: white !important;
-    background-color: #28A745 !important;
-}
-
-</style>
-
 <article class="media mb-3">
     <a class="mr-3 p-thumb">
         <img class="" src="images/logo_2.png">
@@ -31,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card-header bg-light border-bottom-0" id="heading<?= $key ?>">
 
                 <h5 class="mb-0">
-                    <button class="btn btn-link" style="color:grey" type="button" data-toggle="collapse"
+                    <button class="btn btn-link" type="button" data-toggle="collapse"
                         data-target="#collapse<?= $key ?>" aria-expanded="true" aria-controls="collapse<?= $key ?>">
                         <?= strtoupper($value) ?>
                     </button>

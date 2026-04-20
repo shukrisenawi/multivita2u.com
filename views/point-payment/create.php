@@ -14,14 +14,14 @@ $this->params['breadcrumbs'][] = "Payment";
     <?php if (!Yii::$app->user->identity->isMember() && !Yii::$app->user->identity->isProgrammer()) { ?>
         <aside class="profile-nav col-lg-3">
             <section class="card">
-                <div class="user-heading round" style="background-color:#16a96f;">
+                <div class="user-heading round">
                     <a href="#">
                         <img src="images/money.jpg" alt="">
                     </a>
                 </div>
 
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active nav-item"><a class="nav-link" style="border-color: #16a96f;" href="#"> <i class="fa fa-usd"></i> E-Point (give to customer) <span class="badge badge-danger pull-right r-activity" style="background-color:#16a96f;"><?= str_replace("-", "", Yii::$app->user->identity->point) ?></span></a></li>
+                    <li class="active nav-item"><a class="nav-link" href="#"> <i class="fa fa-usd"></i> E-Point (give to customer) <span class="badge badge-danger pull-right r-activity"><?= str_replace("-", "", Yii::$app->user->identity->point) ?></span></a></li>
                 </ul>
 
             </section>

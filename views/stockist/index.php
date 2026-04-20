@@ -8,8 +8,8 @@ use yii\widgets\ActiveForm;
 <div class="row">
     <div class="col-md-12">
         <section class="card">
-            <div class="revenue-head" style="background-color:#400040">
-                <span style="background-color:#2b002b">
+            <div class="revenue-head">
+                <span>
                     <i class="fa fa-user-secret"></i>
                 </span>
                 <h3>Senarai Top Stokis</h3>
@@ -20,8 +20,8 @@ use yii\widgets\ActiveForm;
                 <div class="col-lg-4"> <?= $form->field($model, 'from')->textInput(['type' => "date"]) ?></div>
                 <div class="col-lg-4"><?= $form->field($model, 'to')->textInput(['type' => "date"]) ?></div>
                 <div class="col-lg-2"><?= $form->field($model, 'limit')->textInput(['type' => "number"]) ?></div>
-                <div class="col-lg-2">
-                    <?= Html::submitButton(Yii::t('app', '<i class="fa fa-search"></i> Search'), ['class' => 'btn btn-primary', 'style' => 'margin-top:25px']) ?>
+                <div class="col-lg-2 d-flex align-items-end">
+                    <?= Html::submitButton(Yii::t('app', '<i class="fa fa-search"></i> Search'), ['class' => 'btn btn-primary w-100']) ?>
                 </div>
 
             </div>
