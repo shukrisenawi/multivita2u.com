@@ -806,6 +806,38 @@ label,
     margin-right: 4px;
 }
 
+.grid-view .table td a[title] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 6px;
+    margin: 2px 4px 2px 0;
+    border: 1px solid var(--vz-border);
+    border-radius: var(--vz-radius-sm);
+    background: #fff;
+    color: var(--vz-secondary);
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.grid-view .table td a[title]:hover,
+.grid-view .table td a[title]:focus {
+    border-color: rgba(64, 81, 137, 0.2);
+    background: rgba(64, 81, 137, 0.06);
+    color: var(--vz-primary);
+    text-decoration: none;
+}
+
+.grid-view .table td a[title] i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    line-height: 1;
+}
+
 .table-responsive {
     border-radius: var(--vz-radius-md);
     border: 1px solid var(--vz-border);
