@@ -14,6 +14,7 @@ use app\models\Transaction;
 use yii\base\Exception;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\Response;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -217,6 +218,47 @@ class UserController extends MemberController
             'select' => $this->select,
             'model' => $model,
         ]);
+    }
+
+    public function actionUplineList($q = null)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $term = trim((string) $q);
+        if ($term === '' || mb_strlen($term) < 2) {
+            return ['results' => []];
+        }
+
+        $query = User::find()
+            ->select(['id', 'username', 'name'])
+            ->where([
+                'status' => User::STATUS_ACTIVE,
+                'level_id' => [1, 4, 5],
+            ])
+            ->andWhere([
+                'or',
+                ['like', 'username', $term],
+                ['like', 'name', $term],
+            ])
+            ->orderBy(['username' => SORT_ASC])
+            ->limit(30)
+            ->asArray()
+            ->all();
+
+        $results = [];
+        foreach ($query as $user) {
+            $text = $user['username'];
+            if (!empty($user['name'])) {
+                $text .= ' - ' . $user['name'];
+            }
+
+            $results[] = [
+                'id' => $user['id'],
+                'text' => $text,
+            ];
+        }
+
+        return ['results' => $results];
     }
 
     public function actionUpdate($id, $username)

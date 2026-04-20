@@ -4,15 +4,18 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\User;
 use kartik\select2\Select2;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use app\models\Level;
+use yii\web\JsExpression;
 
 $classInput = Yii::$app->params['inputClass'];
-$modelList = new app\models\User;
-
-$data = ArrayHelper::map(User::find()->select(['id', 'username'])->where("status=:status AND (level_id=5 OR level_id=1)", [':status' => User::STATUS_ACTIVE])->orderBy('username asc')->all(), 'id', 'username');
-
+$uplineText = '';
+if ($model->upline_id) {
+    $uplineUser = User::find()->select(['username', 'name'])->where(['id' => $model->upline_id])->asArray()->one();
+    if ($uplineUser) {
+        $uplineText = $uplineUser['username'] . (!empty($uplineUser['name']) ? ' - ' . $uplineUser['name'] : '');
+    }
+}
 
 $errors = $model->getErrors();
 ?>
@@ -45,13 +48,23 @@ $errors = $model->getErrors();
                                     <label class="control-label" for="user-password">Upline</label>
                                     <?=
                                     Select2::widget([
-                                        'model' => $modelList,
+                                        'model' => $model,
                                         'attribute' => 'upline_id',
-                                        'data' => $data,
+                                        'initValueText' => $uplineText,
                                         'options' => ['placeholder' => 'Pilih Penaja', 'class' => $classInput],
                                         'theme' => Select2::THEME_CLASSIC,
                                         'pluginOptions' => [
-                                            'allowClear' => true
+                                            'allowClear' => true,
+                                            'minimumInputLength' => 2,
+                                            'ajax' => [
+                                                'url' => Url::to(['user/upline-list']),
+                                                'dataType' => 'json',
+                                                'delay' => 250,
+                                                'data' => new JsExpression('function(params) { return { q: params.term }; }'),
+                                            ],
+                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                            'templateResult' => new JsExpression('function (item) { return item.text || item.id; }'),
+                                            'templateSelection' => new JsExpression('function (item) { return item.text || item.id; }'),
                                         ],
                                     ]);
                                     ?><br><?php
