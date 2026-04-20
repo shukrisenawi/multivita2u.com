@@ -91,6 +91,54 @@ if ($firstUnit) {
                                             .trim();
                                     }
 
+                                    function compactSearchText(text) {
+                                        return normalizeSearchText(text).replace(/[^a-z0-9]+/g, '');
+                                    }
+
+                                    function matchesLoosely(source, term) {
+                                        if (term === '') {
+                                            return true;
+                                        }
+
+                                        var sourceIndex = 0;
+                                        for (var termIndex = 0; termIndex < term.length; termIndex++) {
+                                            var character = term.charAt(termIndex);
+                                            sourceIndex = source.indexOf(character, sourceIndex);
+                                            if (sourceIndex === -1) {
+                                                return false;
+                                            }
+                                            sourceIndex++;
+                                        }
+
+                                        return true;
+                                    }
+
+                                    function shouldUseLooseMatch(term) {
+                                        return /\d/.test(term);
+                                    }
+
+                                    function extractSearchParts(text) {
+                                        var normalized = normalizeSearchText(text);
+                                        var compact = compactSearchText(text);
+                                        var username = '';
+                                        var name = normalized;
+                                        var match = normalized.match(/\(([^)]+)\)/);
+
+                                        if (match) {
+                                            username = compactSearchText(match[1]);
+                                            name = normalizeSearchText(normalized.replace(match[0], ' '));
+                                        }
+
+                                        return {
+                                            label: normalized,
+                                            compactLabel: compact,
+                                            username: username,
+                                            name: name,
+                                            compactName: compactSearchText(name),
+                                            nameWords: name.split(' ').filter(Boolean).map(compactSearchText)
+                                        };
+                                    }
+
                                     function getTreeRoot(wrapper) {
                                         return wrapper.querySelector(':scope > .dtree') || wrapper;
                                     }
@@ -152,9 +200,17 @@ if ($firstUnit) {
 
                                             var clip = getChildClip(node);
                                             var link = node.querySelector('a.node, a.nodeSel');
-                                            var ownText = normalizeSearchText(link ? link.textContent : node.textContent);
-                                            var ownMatch = term === '' || ownText.indexOf(term) !== -1;
-                                            var shouldRevealChildren = revealSubtree || (term !== '' && ownMatch);
+                                            var ownText = link ? link.textContent : node.textContent;
+                                            var searchParts = extractSearchParts(ownText);
+                                            var looseUsernameMatch = shouldUseLooseMatch(term) && matchesLoosely(searchParts.username, term);
+                                            var usernameMatch = searchParts.username.indexOf(term) === 0
+                                                || looseUsernameMatch;
+                                            var ownMatch = term === ''
+                                                || usernameMatch
+                                                || searchParts.compactName.indexOf(term) === 0
+                                                || searchParts.nameWords.some(function (word) { return word.indexOf(term) === 0; })
+                                                ;
+                                            var shouldRevealChildren = revealSubtree || (term !== '' && usernameMatch);
                                             var childMatch = false;
 
                                             if (clip) {
@@ -206,7 +262,7 @@ if ($firstUnit) {
                                         });
 
                                         input.addEventListener('input', function () {
-                                            var term = normalizeSearchText(this.value);
+                                            var term = compactSearchText(this.value);
                                             if (term !== '') {
                                                 d.closeAll();
                                             }
