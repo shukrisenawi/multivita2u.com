@@ -899,6 +899,11 @@ label,
     padding-bottom: 0 !important;
 }
 
+.grid-view .table td:has(a) {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
 .user-index-actions-cell {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
