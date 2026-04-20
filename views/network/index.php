@@ -39,10 +39,21 @@ if ($firstUnit) {
                     <div class="network-tree-frame">
                         <div class="dtree" id="network-tree-view">
                             <script type="text/javascript">
-                                <?php $uplineIds = [$userSelect ? $userSelect : 0]; ?>
+                                <?php
+                                $uplineIds = [$userSelect ? $userSelect : 0];
+                                $nodeLevels = [$userSelect => 0];
+
+                                $formatTreeLabel = static function (array $node, int $level): string {
+                                    $name = $node['name'] ?? '';
+                                    $username = strtolower($node['username'] ?? '');
+
+                                    return "&nbsp;&nbsp;" . addslashes($name) .
+                                        " <em>(" . addslashes($username) . ")</em> - level " . $level;
+                                };
+                                ?>
                                 d = new dTree('d');
 
-                                d.add(<?= $userSelect ?>, -1, "&nbsp;&nbsp;<?= addslashes($user['name'] . " <em>(" . strtolower($user['username']) . ")</em>") ?>");
+                                d.add(<?= $userSelect ?>, -1, "<?= $formatTreeLabel($user, 0) ?>");
 
                                 <?php
                                 $limitUpline = $rows;
@@ -58,6 +69,7 @@ if ($firstUnit) {
                                     $uplineIds = [];
                                     foreach ($queryDownline as $downline) {
                                         $uplineIds[] = $downline['id'];
+                                        $nodeLevels[$downline['id']] = ($nodeLevels[$downline['upline_id']] ?? 0) + 1;
                                         $alldownline[] = $downline;
                                     }
                                 }
@@ -65,9 +77,8 @@ if ($firstUnit) {
                                 foreach ($alldownline as $listUnit) {
                                     echo "d.add(" . $listUnit['id'] .
                                         "," . $listUnit['upline_id'] .
-                                        ",\"&nbsp;&nbsp;" . addslashes($listUnit['name'] ?? '') .
-                                        " <em>(" . addslashes(strtolower($listUnit['username'] ?? '')) .
-                                        ")</em>\");\n";
+                                        ",\"" . $formatTreeLabel($listUnit, $nodeLevels[$listUnit['id']] ?? 0) .
+                                        "\");\n";
                                 }
                                 ?>
                                 document.write(d);
