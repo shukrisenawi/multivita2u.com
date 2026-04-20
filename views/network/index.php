@@ -84,6 +84,13 @@ if ($firstUnit) {
                                 document.write(d);
 
                                 (function () {
+                                    function normalizeSearchText(text) {
+                                        return (text || '')
+                                            .toLowerCase()
+                                            .replace(/\s+/g, ' ')
+                                            .trim();
+                                    }
+
                                     function getTreeRoot(wrapper) {
                                         return wrapper.querySelector(':scope > .dtree') || wrapper;
                                     }
@@ -145,7 +152,7 @@ if ($firstUnit) {
 
                                             var clip = getChildClip(node);
                                             var link = node.querySelector('a.node, a.nodeSel');
-                                            var ownText = (node.textContent || '').toLowerCase();
+                                            var ownText = normalizeSearchText(link ? link.textContent : node.textContent);
                                             var ownMatch = term === '' || ownText.indexOf(term) !== -1;
                                             var shouldRevealChildren = revealSubtree || (term !== '' && ownMatch);
                                             var childMatch = false;
@@ -200,7 +207,7 @@ if ($firstUnit) {
                                         });
 
                                         input.addEventListener('input', function () {
-                                            var term = this.value.trim().toLowerCase();
+                                            var term = normalizeSearchText(this.value);
                                             if (term !== '') {
                                                 d.closeAll();
                                             }
