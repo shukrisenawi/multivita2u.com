@@ -1447,10 +1447,22 @@ label,
 
 .grid-view .filters input,
 .grid-view .filters select {
-    min-height: 30px;
-    padding: 5px 9px;
+    min-height: 34px;
+    padding: 6px 10px;
     font-size: 11px;
     border-radius: var(--vz-radius-sm);
+    border: 1px solid #dde3ec;
+    background: #ffffff;
+    color: #55627d;
+    box-shadow: none !important;
+}
+
+.grid-view .filters input:focus,
+.grid-view .filters select:focus {
+    border-color: #c9d3e4;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(64, 81, 137, 0.08) !important;
+    outline: none;
 }
 
 .grid-view .empty,
