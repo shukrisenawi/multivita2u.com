@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'visible' => Yii::$app->user->identity->isAdmin(),
                             'label' => 'Id Ahli',
                             'value' => function ($model, $key, $index, $widget) {
-                                return Html::a($model->user->username, \yii\helpers\Url::to(['transaction-pin-wallet/index', 'id' => $model->user_id]), ['title' => 'View transactions for this user']);
+                                return Html::a($model->user->username, \yii\helpers\Url::to(['user/view', 'id' => $model->user_id]), ['title' => 'Papar detail ahli']);
                             },
                             'filter' => Html::activeTextInput($searchModel, 'userFilter', ['class' => 'form-control', 'placeholder' => 'Cari username / id']),
                             'format' => 'raw'
