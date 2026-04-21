@@ -1,49 +1,48 @@
-# phpstorm project files
+# IDE dan editor
 .idea
-
-# netbeans project files
+.vscode
 nbproject
-
-# zend studio for eclipse project files
 .buildpath
 .project
 .settings
+*.swp
+*.swo
+*~
 
-# windows thumbnail cache
+# Fail sistem operasi
 Thumbs.db
-
-# composer vendor dir
-/vendor
-/bower/vendor
-
-# composer itself is not needed
-composer.phar
-
-# Mac DS_Store Files
+Desktop.ini
+ehthumbs.db
 .DS_Store
 
-# phpunit itself is not needed
+# Dependencies dan binary tempatan
+/vendor
+/bower/vendor
+composer.phar
 phpunit.phar
-# local phpunit config
+
+# Cache dan output ujian
+/.phpunit.result.cache
+/.php-cs-fixer.cache
 /phpunit.xml
+/tests/_output/*
+/tests/_support/_generated
 
-tests/_output/*
-tests/_support/_generated
-
-#vagrant folder
+# Persekitaran tempatan
 /.vagrant
-.vscode
+/.env
+/.env.*
+/config/db.php
+/auth.json
 
-# runtime and generated web assets
+# Runtime dan aset dijana
 /runtime/*
 !/runtime/.gitignore
 /web/assets/
 
-# nested Yii 3 app generated files
+# Nested Yii 3 app generated files
 /yii3-app/vendor/
 /yii3-app/runtime/
 /yii3-app/public/assets/
 /yii3-app/.env
-
-# konfigurasi DB tempatan
-/config/db.php
+/yii3-app/.env.*
