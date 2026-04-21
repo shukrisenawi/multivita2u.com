@@ -1241,6 +1241,31 @@ section.card .card-body {
     color: #fff;
 }
 
+.app-submit-button {
+    min-width: 180px;
+    padding: 12px 20px;
+    border: 0 !important;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #405189 0%, #3577f1 55%, #33b5e5 100%);
+    color: #fff !important;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    box-shadow: 0 14px 28px rgba(53, 119, 241, 0.22) !important;
+}
+
+.app-submit-button i {
+    margin-right: 8px;
+}
+
+.app-submit-button:hover,
+.app-submit-button:focus {
+    background: linear-gradient(135deg, #364574 0%, #2f68d2 55%, #279cc6 100%);
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 16px 30px rgba(53, 119, 241, 0.26) !important;
+}
+
 .alert {
     border: 1px solid transparent;
     border-radius: var(--vz-radius-md);

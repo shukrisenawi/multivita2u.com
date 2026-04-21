@@ -113,7 +113,7 @@ $classInput = Yii::$app->params['inputClass'];
             <div class="app-form-grid__col-12">
                 <section class="dashboard-panel app-panel-muted">
                     <div class="text-center">
-                        <?= Html::submitButton(Yii::t('app', '<i class="fa fa-save"></i>Update'), ['class' => 'btn btn-primary']) ?>
+                        <?= Html::submitButton(Yii::t('app', '<i class="fa fa-save"></i>Update'), ['class' => 'btn btn-primary app-submit-button']) ?>
                     </div>
                 </section>
             </div>
