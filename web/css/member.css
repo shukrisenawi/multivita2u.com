@@ -1082,6 +1082,13 @@ section.card .card-body {
     flex-wrap: wrap;
 }
 
+.app-card-toolbar > [class*="col-"]:last-child {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    text-align: right;
+}
+
 .nav-pills,
 .dashboard-tabs {
     gap: 6px;
