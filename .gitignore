@@ -44,3 +44,6 @@ tests/_support/_generated
 /yii3-app/runtime/
 /yii3-app/public/assets/
 /yii3-app/.env
+
+# konfigurasi DB tempatan
+/config/db.php
