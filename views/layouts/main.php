@@ -194,7 +194,6 @@ YiiAsset::register($this);
                             </a>
                             <?php if (Yii::$app->user->identity->isAdmin()) { ?>
                                 <a class="dropdown-item" href="<?= Url::to(['settings/index']) ?>">
-                                    <span class="badge bg-success float-end mt-1">New</span>
                                     <i class="fa fa-cog text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Settings</span>
                                 </a>
