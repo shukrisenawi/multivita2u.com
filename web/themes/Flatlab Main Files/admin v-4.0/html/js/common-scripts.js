@@ -42,7 +42,9 @@ var Script = function () {
         $(document.body).toggleClass('is-sidebar-nav-open');
 
         var owl = $("#owl-demo").data("owlCarousel");
-        owl.reinit();
+        if (owl && typeof owl.reinit === 'function') {
+            owl.reinit();
+        }
     });
 
 // custom scrollbar

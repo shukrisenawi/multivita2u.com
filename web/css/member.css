@@ -87,6 +87,7 @@ a:focus {
     border-bottom: 1px solid var(--vz-border);
     background: #ffffff !important;
     box-shadow: none;
+    transition: left 0.25s ease;
 }
 
 .navbar-header {
@@ -774,6 +775,7 @@ aside,
     background: linear-gradient(180deg, #405189 0, #364574 100%) !important;
     border-right: 0;
     box-shadow: none;
+    transition: transform 0.25s ease, margin-left 0.25s ease;
 }
 
 .sidebar-logo {
@@ -939,6 +941,7 @@ ul.sidebar-menu li a.active i.fab {
 
 #main-content {
     margin-left: var(--vz-sidebar-width);
+    transition: margin-left 0.25s ease;
 }
 
 .wrapper {
@@ -2507,6 +2510,20 @@ label,
     margin-left: var(--vz-sidebar-width);
     padding: 0 24px 26px;
     background: transparent;
+    transition: margin-left 0.25s ease;
+}
+
+body.is-sidebar-nav-open #sidebar {
+    margin-left: calc(-1 * var(--vz-sidebar-width));
+}
+
+body.is-sidebar-nav-open #main-content,
+body.is-sidebar-nav-open .site-footer {
+    margin-left: 0;
+}
+
+body.is-sidebar-nav-open .app-header.header.white-bg {
+    left: 0;
 }
 
 .site-footer .text-center {
@@ -2557,9 +2574,21 @@ label,
         display: none;
     }
 
+    .app-header.header.white-bg {
+        left: 0;
+    }
+
     #sidebar,
     aside {
         width: 240px;
+    }
+
+    #sidebar {
+        margin-left: -240px;
+    }
+
+    body.is-sidebar-nav-open #sidebar {
+        margin-left: 0;
     }
 
     #main-content,
