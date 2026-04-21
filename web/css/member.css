@@ -2102,6 +2102,39 @@ label,
     padding-top: 16px;
 }
 
+.app-profile-form-shell {
+    display: grid;
+    gap: 22px;
+}
+
+.app-profile-form-shell .dashboard-panel {
+    height: 100%;
+}
+
+.app-profile-form-shell .app-form-grid__col-6,
+.app-profile-form-shell .app-form-grid__col-12 {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.app-profile-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 16px;
+}
+
+.app-profile-form-grid--single {
+    grid-template-columns: 1fr;
+}
+
+.app-profile-form-grid .form-group {
+    margin-bottom: 0;
+}
+
+.app-profile-form-grid .form-group:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
 .app-avatar-upload {
     display: grid;
     grid-template-columns: 112px minmax(0, 1fr);
@@ -2334,6 +2367,14 @@ label,
 }
 
 @media (max-width: 991px) {
+    .app-profile-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .app-profile-form-grid .form-group:last-child:nth-child(odd) {
+        grid-column: auto;
+    }
+
     .member-profile-hero {
         grid-template-columns: 1fr;
     }

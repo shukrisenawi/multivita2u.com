@@ -16,7 +16,7 @@ $classInput = Yii::$app->params['inputClass'];
     ]);
     ?>
     <div class="app-section-stack">
-        <div class="app-form-grid">
+        <div class="app-form-grid app-profile-form-shell">
             <?php if (!$model->isNewRecord) { ?>
             <div class="app-form-grid__col-12">
                 <section class="dashboard-panel app-avatar-panel">
@@ -49,11 +49,13 @@ $classInput = Yii::$app->params['inputClass'];
                         </div>
                     </div>
                     <div class="dashboard-panel__body">
-                    <?= $form->field($model, 'username')->textInput(['maxlength' => true, 'class' => $classInput, 'readonly' => $model->isNewRecord ? "" : "readonly"]) ?>
-                    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'ic')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'hp')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+                        <div class="app-profile-form-grid">
+                            <?= $form->field($model, 'username')->textInput(['maxlength' => true, 'class' => $classInput, 'readonly' => $model->isNewRecord ? "" : "readonly"]) ?>
+                            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'ic')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'hp')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -66,9 +68,11 @@ $classInput = Yii::$app->params['inputClass'];
                         </div>
                     </div>
                     <div class="dashboard-panel__body">
-                    <?= $form->field($model, 'bank')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'bank_no')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'bank_name')->textInput(['maxlength' => true]) ?>
+                        <div class="app-profile-form-grid">
+                            <?= $form->field($model, 'bank')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'bank_no')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'bank_name')->textInput(['maxlength' => true]) ?>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -81,11 +85,13 @@ $classInput = Yii::$app->params['inputClass'];
                         </div>
                     </div>
                     <div class="dashboard-panel__body">
-                    <?= $form->field($model, 'address1')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'address2')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'zip_code')->textInput() ?>
-                    <?= $form->field($model, 'state')->dropDownList(['Perlis' => 'Perlis', 'Kedah' => 'Kedah', 'Pulau Pinang' => 'Pulau Pinang', 'Perak' => 'Perak', 'Pahang' => 'Pahang', 'Kelantan' => 'Kelantan', 'Terengganu' => 'Terengganu', 'Selangor' => 'Selangor', 'Kuala Lumpur' => 'Kuala Lumpur', 'Negeri Sembilan' => 'Negeri Sembilan', 'Melaka' => 'Melaka', 'Johor' => 'Johor', 'Sabah' => 'Sabah', 'Sarawak' => 'Sarawak',], ['prompt' => 'Pilih Negeri']) ?>
+                        <div class="app-profile-form-grid">
+                            <?= $form->field($model, 'address1')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'address2')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'zip_code')->textInput() ?>
+                            <?= $form->field($model, 'state')->dropDownList(['Perlis' => 'Perlis', 'Kedah' => 'Kedah', 'Pulau Pinang' => 'Pulau Pinang', 'Perak' => 'Perak', 'Pahang' => 'Pahang', 'Kelantan' => 'Kelantan', 'Terengganu' => 'Terengganu', 'Selangor' => 'Selangor', 'Kuala Lumpur' => 'Kuala Lumpur', 'Negeri Sembilan' => 'Negeri Sembilan', 'Melaka' => 'Melaka', 'Johor' => 'Johor', 'Sabah' => 'Sabah', 'Sarawak' => 'Sarawak',], ['prompt' => 'Pilih Negeri']) ?>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -98,8 +104,10 @@ $classInput = Yii::$app->params['inputClass'];
                         </div>
                     </div>
                     <div class="dashboard-panel__body">
-                    <?= $form->field($model, 'pass')->passwordInput() ?>
-            </div>
+                        <div class="app-profile-form-grid app-profile-form-grid--single">
+                            <?= $form->field($model, 'pass')->passwordInput() ?>
+                        </div>
+                    </div>
                 </section>
             </div>
             <div class="app-form-grid__col-12">
