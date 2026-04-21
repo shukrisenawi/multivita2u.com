@@ -2,12 +2,12 @@
 
 return [
   'class' => 'yii\db\Connection',
-  // 'dsn' => 'mysql:host=localhost;dbname=yii2_multivita2u',
+  'dsn' => 'mysql:host=localhost;dbname=multivita2utest',
+  'username' => 'multivita2utest',
+  'password' => 'mpm7u*Y3tF@y1Xdi',
+  // 'dsn' => 'mysql:host=localhost;dbname=yii_multivita',
   // 'username' => 'root',
   // 'password' => '',
-  'dsn' => 'mysql:host=localhost;dbname=yii_multivita',
-  'username' => 'root',
-  'password' => '',
   'charset' => 'utf8',
   // 'dsn' => 'mysql:host=localhost;dbname=multivita2u_',
   // 'username' => 'multivita2u',
