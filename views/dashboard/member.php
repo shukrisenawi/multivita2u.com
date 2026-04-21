@@ -1,6 +1,7 @@
 <?php
 
 use app\components\Helper;
+use yii\helpers\Url;
 
 $user = Yii::$app->user->identity;
 $newsItems = $news ?: [];
@@ -8,9 +9,34 @@ $transactions = isset($transaction) ? $transaction : [];
 $pointActiveDate = $user->maintain_point && $user->maintain_point != '0000-00-00 00:00:00' ? date("d-m-Y H:iA", strtotime($user->maintain_point)) : null;
 $pointStatus = $user->checkMaintainPoint() ? 'Aktif' : 'Tidak Aktif';
 $stats = [
-    ['label' => 'E-Point', 'value' => Helper::convertMoney($user->point), 'icon' => 'fa fa-coins', 'note' => 'Baki point semasa'],
-    ['label' => 'E-Wallet', 'value' => Helper::convertMoney($user->ewallet), 'icon' => 'fa fa-wallet', 'note' => 'Dana tersedia untuk transaksi'],
-    ['label' => 'Bonus Repeat Sale', 'value' => isset($repeat_bonus->total) ? Helper::convertMoney($repeat_bonus->total) : '0', 'icon' => 'fa fa-sync-alt', 'note' => 'Ganjaran repeat sale terkumpul'],
+    [
+        'class' => 'dashboard-stat--primary',
+        'label' => 'E-Point',
+        'value' => Helper::convertMoney($user->point),
+        'icon' => 'fa fa-coins',
+        'note' => 'Baki point semasa',
+    ],
+    [
+        'class' => 'dashboard-stat--secondary',
+        'label' => 'E-Wallet',
+        'value' => Helper::convertMoney($user->ewallet),
+        'icon' => 'fa fa-wallet',
+        'note' => 'Dana tersedia untuk transaksi',
+    ],
+    [
+        'class' => 'dashboard-stat--success',
+        'label' => 'Bonus Repeat Sale',
+        'value' => isset($repeat_bonus->total) ? Helper::convertMoney($repeat_bonus->total) : '0',
+        'icon' => 'fa fa-sync-alt',
+        'note' => 'Ganjaran repeat sale terkumpul',
+    ],
+    [
+        'class' => 'dashboard-stat--info',
+        'label' => 'Status Point',
+        'value' => $pointStatus,
+        'icon' => 'fa fa-bolt',
+        'note' => $pointActiveDate ? 'Kemaskini: ' . $pointActiveDate : 'Tiada rekod aktif',
+    ],
 ];
 ?>
 
@@ -22,42 +48,29 @@ $stats = [
     <?php } ?>
 
     <section class="dashboard-grid">
-        <article class="dashboard-stat dashboard-stat--primary">
-            <div class="dashboard-stat__icon">
-                <i class="fa fa-coins"></i>
-            </div>
-            <div class="dashboard-stat__label">E-Point</div>
-            <h2 class="dashboard-stat__value"><?= Helper::convertMoney($user->point) ?></h2>
-            <div class="dashboard-stat__note">Baki point semasa</div>
-        </article>
-        
-        <article class="dashboard-stat dashboard-stat--secondary">
-            <div class="dashboard-stat__icon">
-                <i class="fa fa-wallet"></i>
-            </div>
-            <div class="dashboard-stat__label">E-Wallet</div>
-            <h2 class="dashboard-stat__value"><?= Helper::convertMoney($user->ewallet) ?></h2>
-            <div class="dashboard-stat__note">Dana tersedia untuk transaksi</div>
-        </article>
-
-        <article class="dashboard-stat dashboard-stat--success">
-            <div class="dashboard-stat__icon">
-                <i class="fa fa-sync-alt"></i>
-            </div>
-            <div class="dashboard-stat__label">Bonus Repeat Sale</div>
-            <h2 class="dashboard-stat__value"><?= isset($repeat_bonus->total) ? Helper::convertMoney($repeat_bonus->total) : '0' ?></h2>
-            <div class="dashboard-stat__note">Ganjaran repeat sale terkumpul</div>
-        </article>
+        <?php foreach ($stats as $stat) { ?>
+            <article class="dashboard-stat <?= $stat['class'] ?>">
+                <div class="dashboard-stat__icon">
+                    <i class="<?= $stat['icon'] ?>"></i>
+                </div>
+                <div class="dashboard-stat__label"><?= $stat['label'] ?></div>
+                <h2 class="dashboard-stat__value"><?= $stat['value'] ?></h2>
+                <div class="dashboard-stat__note"><?= $stat['note'] ?></div>
+            </article>
+        <?php } ?>
     </section>
 
     <section class="dashboard-grid">
         <article class="dashboard-panel">
             <div class="dashboard-panel__header">
                 <div>
-                    <div class="dashboard-panel__eyebrow">Info</div>
+                    <div class="dashboard-panel__eyebrow">Kemaskini</div>
                     <h2 class="dashboard-panel__title">Berita Terkini</h2>
-                    <p class="dashboard-panel__subtitle">Pengumuman terbaru berkaitan ahli dan sistem.</p>
+                    <p class="dashboard-panel__subtitle">Makluman terbaru untuk ahli dan rangkaian semasa.</p>
                 </div>
+                <a class="dashboard-panel__action dashboard-panel__action--accent" href="<?= Url::to(['news/index']) ?>">
+                    <i class="fa fa-plus"></i> Lihat Semua
+                </a>
             </div>
             <div class="dashboard-panel__body">
                 <div class="dashboard-news-list">
@@ -84,14 +97,17 @@ $stats = [
         <article class="dashboard-panel dashboard-panel--wide">
             <div class="dashboard-panel__header">
                 <div>
-                    <div class="dashboard-panel__eyebrow">Aktiviti</div>
+                    <div class="dashboard-panel__eyebrow">Monitor</div>
                     <h2 class="dashboard-panel__title">10 Transaksi Terkini</h2>
-                    <p class="dashboard-panel__subtitle">Sejarah aktiviti terkini pada akaun anda.</p>
+                    <p class="dashboard-panel__subtitle">Jejak aktiviti terkini untuk akaun anda.</p>
                 </div>
+                <a class="dashboard-panel__action" href="<?= Url::to(['transaction/index']) ?>">
+                    <i class="fa fa-eye"></i> Lihat Semua
+                </a>
             </div>
             <div class="dashboard-panel__body">
                 <?php if ($transactions) { ?>
-                    <div class="table-responsive">
+                    <div class="table-responsive dashboard-table-wrap">
                         <table class="table dashboard-table">
                             <thead>
                                 <tr>
