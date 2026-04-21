@@ -1314,14 +1314,16 @@ label,
 }
 
 .table > thead > tr > th,
+.table thead th,
+.grid-view .table thead th,
 .dashboard-table thead th {
     border-bottom: 1px solid #dfe4ec !important;
-    color: #7d89a8;
+    color: #7d89a8 !important;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    background: #f7f8fc;
+    background: #f7f8fc !important;
     padding: 11px 14px;
     line-height: 1.25;
 }
