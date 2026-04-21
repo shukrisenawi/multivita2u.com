@@ -168,15 +168,6 @@ YiiAsset::register($this);
                             </span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end logout extended">
-                            <div class="app-user-menu__cover"></div>
-                            <div class="app-user-menu__profile-card">
-                                <img alt="" src="<?= getAvatar($user->id) ?>" class="app-user-menu__avatar">
-                                <div class="app-user-menu__identity">
-                                    <strong><?= Html::encode($displayName) ?></strong>
-                                    <span><?= Html::encode($userLevel) ?></span>
-                                </div>
-                            </div>
-                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="<?= Url::to(['profile/index']) ?>">
                                 <i class="fa fa-user-circle text-muted fs-16 align-middle me-1"></i>
                                 <span class="align-middle">Profile</span>

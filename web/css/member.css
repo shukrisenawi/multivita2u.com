@@ -300,53 +300,9 @@ a:focus {
 
 .topbar-user .dropdown-menu.dropdown-menu-end.extended,
 .topbar-user .dropdown-menu.extended {
-    margin-top: -8px !important;
+    margin-top: -2px !important;
     left: 5px !important;
     right: auto !important;
-}
-
-.app-user-menu__cover {
-    height: 56px;
-    background: linear-gradient(135deg, var(--vz-sidebar-bg) 0%, var(--vz-sidebar-bg-dark) 100%);
-}
-
-.app-user-menu__profile-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 16px 12px;
-    margin-top: -20px;
-}
-
-.app-user-menu__avatar {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    flex-shrink: 0;
-}
-
-.app-user-menu__identity {
-    padding-top: 16px;
-    min-width: 0;
-}
-
-.app-user-menu__identity strong {
-    display: block;
-    color: var(--vz-heading);
-    font-size: 14px;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.app-user-menu__identity span {
-    display: block;
-    color: var(--vz-text-muted);
-    font-size: 11px;
 }
 
 .dropdown-menu.extended .dropdown-item,
