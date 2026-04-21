@@ -1086,6 +1086,7 @@ section.card .card-body {
     background: #0ab39c;
     border-color: #0ab39c;
     color: #fff;
+    padding: 10px;
 }
 
 .app-card-toolbar__actions .btn:hover,
