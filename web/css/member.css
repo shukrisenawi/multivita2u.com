@@ -1082,6 +1082,19 @@ section.card .card-body {
     flex-wrap: wrap;
 }
 
+.app-card-toolbar__actions .btn {
+    background: #0ab39c;
+    border-color: #0ab39c;
+    color: #fff;
+}
+
+.app-card-toolbar__actions .btn:hover,
+.app-card-toolbar__actions .btn:focus {
+    background: #089b88;
+    border-color: #089b88;
+    color: #fff;
+}
+
 .app-card-toolbar {
     display: flex;
     align-items: center;
