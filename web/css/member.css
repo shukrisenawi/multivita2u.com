@@ -1241,9 +1241,15 @@ section.card .card-body {
     color: #fff;
 }
 
-.app-submit-button {
+.app-submit-button,
+.m-form button[type="submit"].btn-primary,
+.m-form button[type="submit"].btn-success,
+.m-form input[type="submit"].btn-primary,
+.m-form input[type="submit"].btn-success {
     min-width: 180px;
     padding: 12px 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border: 0 !important;
     border-radius: 14px;
     background: linear-gradient(135deg, #405189 0%, #3577f1 55%, #33b5e5 100%);
@@ -1254,12 +1260,22 @@ section.card .card-body {
     box-shadow: 0 14px 28px rgba(53, 119, 241, 0.22) !important;
 }
 
-.app-submit-button i {
+.app-submit-button i,
+.m-form button[type="submit"].btn-primary i,
+.m-form button[type="submit"].btn-success i {
     margin-right: 8px;
 }
 
 .app-submit-button:hover,
-.app-submit-button:focus {
+.app-submit-button:focus,
+.m-form button[type="submit"].btn-primary:hover,
+.m-form button[type="submit"].btn-primary:focus,
+.m-form button[type="submit"].btn-success:hover,
+.m-form button[type="submit"].btn-success:focus,
+.m-form input[type="submit"].btn-primary:hover,
+.m-form input[type="submit"].btn-primary:focus,
+.m-form input[type="submit"].btn-success:hover,
+.m-form input[type="submit"].btn-success:focus {
     background: linear-gradient(135deg, #364574 0%, #2f68d2 55%, #279cc6 100%);
     color: #fff !important;
     transform: translateY(-1px);
