@@ -301,8 +301,8 @@ a:focus {
 .topbar-user .dropdown-menu.dropdown-menu-end.extended,
 .topbar-user .dropdown-menu.extended {
     margin-top: -8px !important;
-    left: auto !important;
-    right: 15px !important;
+    left: 5px !important;
+    right: auto !important;
 }
 
 .app-user-menu__cover {
