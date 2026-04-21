@@ -1,5 +1,103 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
+/* Velzon Navbar Adjustments */
+.app-header.header.white-bg {
+    display: block !important;
+    padding: 0 !important;
+}
+
+.navbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 24px 0 0;
+    height: var(--vz-header-height);
+    width: 100%;
+}
+
+.topbar-user {
+    background-color: #f3f3f9;
+    padding: 0;
+    height: var(--vz-header-height);
+    display: flex;
+    align-items: center;
+    transition: all .12s ease;
+}
+
+.topbar-user:hover {
+    background-color: #e9ebec;
+}
+
+.topbar-user .btn {
+    border: none;
+    background: transparent;
+    padding: 0 16px !important;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.header-profile-user {
+    height: 32px;
+    width: 32px;
+    object-fit: cover;
+}
+
+.user-name-text {
+    color: var(--vz-heading);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.user-name-sub-text {
+    color: var(--vz-text-muted);
+    font-size: 11px;
+}
+
+.hamburger-icon {
+    width: 20px;
+    height: 14px;
+    position: relative;
+    display: inline-block;
+}
+
+.hamburger-icon span {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: #878a99;
+    border-radius: 2px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+}
+
+.hamburger-icon span:nth-child(1) { top: 0px; }
+.hamburger-icon span:nth-child(2) { top: 6px; }
+.hamburger-icon span:nth-child(3) { top: 12px; }
+
+.header-item {
+    height: var(--vz-header-height);
+    display: flex;
+    align-items: center;
+}
+
+.app-header__toggle {
+    border: none !important;
+    background: transparent !important;
+    border-radius: 0;
+    width: auto;
+    height: 100%;
+    margin: 0;
+    padding: 0 20px !important;
+}
+
+
 :root {
     --vz-body-bg: #f3f3f9;
     --vz-body-bg-rgb: 243, 243, 249;

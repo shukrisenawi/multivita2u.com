@@ -81,167 +81,184 @@ YiiAsset::register($this);
 
     <section id="container" class="app-shell">
         <!--header start-->
-        <header class="header white-bg app-header">
-            <div class="sidebar-toggle-box app-header__toggle">
-                <i class="fa fa-bars"></i>
-            </div>
-            <div class="app-header__context">
-                <div class="app-header__eyebrow">Workspace</div>
-                <h1 class="app-header__title"><?= $pageTitle ?></h1>
-            </div>
-            <?php if (isset(Yii::$app->user->identity) && !Yii::$app->user->identity->isAdmin()) { ?>
-                <div class="nav notify-row app-topbar-metrics" id="top_menu">
-                    <ul class="nav top-menu">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle app-metric-chip" href="#">
-                                <i class="fa fa-hand-holding-usd"></i>
-                                <span class="app-metric-chip__content">
-                                    <small>E-Wallet</small>
-                                    <strong><?= Helper::convertMoney(Yii::$app->user->identity->ewallet) ?></strong>
-                                </span>
-                            </a>
-                        </li>
-                        <?php if (!Yii::$app->user->identity->isMember()) { ?>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle app-metric-chip" href="#">
-                                    <i class="fa fa-comment-dollar"></i>
-                                    <span class="app-metric-chip__content">
-                                        <small>Pin Wallet</small>
-                                        <strong><?= Helper::convertMoney(Yii::$app->user->identity->pinwallet) ?></strong>
-                                    </span>
-                                </a>
-                            </li>
-                        <?php } ?>
-                        <?php if (Yii::$app->user->identity->isMerchant()) { ?>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle app-metric-chip" href="<?= Url::to(['point-payment/create']) ?>">
-                                    <i class="fa fa-usd"></i>
-                                    <span class="app-metric-chip__content">
-                                        <small>E-Point</small>
-                                        <strong><?= str_replace("-", "", Yii::$app->user->identity->point) ?></strong>
-                                    </span>
-                                </a>
-                            </li>
-                        <?php } ?>
-                        <?php if (Yii::$app->user->identity->isMember()) { ?>
-                            <li class="dropdown">
-                                <?php
-                                $pointActiveDate = Yii::$app->user->identity->maintain_point && Yii::$app->user->identity->maintain_point != '0000-00-00 00:00:00' ? date("d-m-Y H:iA", strtotime(Yii::$app->user->identity->maintain_point)) : null;
-                                if (Yii::$app->user->identity->checkMaintainPoint()) { ?>
-                                    <a class="dropdown-toggle app-metric-chip" href="#">
-                                        <i class="fa fa-comment-dollar"></i>
-                                        <span class="app-metric-chip__content">
-                                            <small>E-Point</small>
-                                            <strong><?= str_replace("-", "", Yii::$app->user->identity->point) ?></strong>
-                                        </span>
-                                        <span class="app-status-dot app-status-dot--success">Aktif<?= $pointActiveDate ? ' • ' . $pointActiveDate : '' ?></span>
-                                    </a>
-                                <?php } else { ?>
-                                    <a class="dropdown-toggle app-metric-chip" href="#">
-                                        <i class="fa fa-usd"></i>
-                                        <span class="app-metric-chip__content">
-                                            <small>E-Point</small>
-                                            <strong><?= str_replace("-", "", Yii::$app->user->identity->point) ?></strong>
-                                        </span>
-                                        <span class="app-status-dot app-status-dot--danger">Tidak aktif<?= $pointActiveDate ? ' • ' . $pointActiveDate : '' ?></span>
-                                    </a>
-                                <?php } ?>
-                            </li>
-                        <?php } ?>
-                    </ul>
+        <header id="page-topbar" class="header white-bg app-header">
+            <div class="navbar-header">
+                <div class="d-flex align-items-center h-100">
+                    <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none sidebar-toggle-box app-header__toggle" id="topnav-hamburger-icon">
+                        <span class="hamburger-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </button>
+
+                    <form class="app-search d-none d-md-block ms-3" style="margin-left: 15px;">
+                        <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Search..." autocomplete="off" style="border: none; background: #f3f3f9; padding: 8px 16px 8px 36px; border-radius: 4px; box-shadow: none;">
+                            <span class="fa fa-search search-widget-icon position-absolute" style="top: 50%; left: 12px; transform: translateY(-50%); color: var(--vz-text-muted);"></span>
+                        </div>
+                    </form>
                 </div>
-            <?php } ?>
-            <div class="top-nav app-topbar-actions">
-                <ul class="nav pull-right top-menu">
-                    <?php if ($impersonatorAdminId) { ?>
-                        <li>
-                            <a href="<?= Url::to(['user/return-admin']) ?>" class="btn btn-warning btn-sm app-return-admin" data-method="post">
-                                <i class="fa fa-user-shield"></i> Kembali Ke Akaun Admin
-                            </a>
-                        </li>
+
+                <div class="d-flex align-items-center h-100">
+                    <?php if (isset(Yii::$app->user->identity) && !Yii::$app->user->identity->isAdmin()) { ?>
+                        <div class="nav notify-row app-topbar-metrics d-none d-lg-flex h-100 align-items-center" id="top_menu" style="margin-right: 15px;">
+                            <ul class="nav top-menu" style="display:flex; flex-direction:row; gap:10px; align-items:center;">
+                                <li class="dropdown mt-0" style="margin:0;">
+                                    <a class="dropdown-toggle app-metric-chip shadow-none" href="#" style="margin:0; min-height:36px; padding:6px 12px;">
+                                        <i class="fa fa-hand-holding-usd"></i>
+                                        <span class="app-metric-chip__content">
+                                            <small>E-Wallet</small>
+                                            <strong><?= Helper::convertMoney(Yii::$app->user->identity->ewallet) ?></strong>
+                                        </span>
+                                    </a>
+                                </li>
+                                <?php if (!Yii::$app->user->identity->isMember()) { ?>
+                                    <li class="dropdown mt-0" style="margin:0;">
+                                        <a class="dropdown-toggle app-metric-chip shadow-none" href="#" style="margin:0; min-height:36px; padding:6px 12px;">
+                                            <i class="fa fa-comment-dollar"></i>
+                                            <span class="app-metric-chip__content">
+                                                <small>Pin Wallet</small>
+                                                <strong><?= Helper::convertMoney(Yii::$app->user->identity->pinwallet) ?></strong>
+                                            </span>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Yii::$app->user->identity->isMerchant()) { ?>
+                                    <li class="dropdown mt-0" style="margin:0;">
+                                        <a class="dropdown-toggle app-metric-chip shadow-none" href="<?= Url::to(['point-payment/create']) ?>" style="margin:0; min-height:36px; padding:6px 12px;">
+                                            <i class="fa fa-usd"></i>
+                                            <span class="app-metric-chip__content">
+                                                <small>E-Point</small>
+                                                <strong><?= str_replace("-", "", Yii::$app->user->identity->point) ?></strong>
+                                            </span>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Yii::$app->user->identity->isMember()) { ?>
+                                    <li class="dropdown mt-0" style="margin:0;">
+                                        <?php
+                                        $pointActiveDate = Yii::$app->user->identity->maintain_point && Yii::$app->user->identity->maintain_point != '0000-00-00 00:00:00' ? date("d-m-Y H:iA", strtotime(Yii::$app->user->identity->maintain_point)) : null;
+                                        if (Yii::$app->user->identity->checkMaintainPoint()) { ?>
+                                            <a class="dropdown-toggle app-metric-chip shadow-none" href="#" style="margin:0; min-height:36px; padding:6px 12px;">
+                                                <i class="fa fa-comment-dollar"></i>
+                                                <span class="app-metric-chip__content">
+                                                    <small>E-Point</small>
+                                                    <strong><?= str_replace("-", "", Yii::$app->user->identity->point) ?></strong>
+                                                </span>
+                                                <span class="app-status-dot app-status-dot--success">Aktif<?= $pointActiveDate ? ' • ' . $pointActiveDate : '' ?></span>
+                                            </a>
+                                        <?php } else { ?>
+                                            <a class="dropdown-toggle app-metric-chip shadow-none" href="#" style="margin:0; min-height:36px; padding:6px 12px;">
+                                                <i class="fa fa-usd"></i>
+                                                <span class="app-metric-chip__content">
+                                                    <small>E-Point</small>
+                                                    <strong><?= str_replace("-", "", Yii::$app->user->identity->point) ?></strong>
+                                                </span>
+                                                <span class="app-status-dot app-status-dot--danger">Tidak aktif<?= $pointActiveDate ? ' • ' . $pointActiveDate : '' ?></span>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
                     <?php } ?>
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle app-user-toggle" href="#">
-                            <img alt="" src="<?= getAvatar($user->id) ?>" class="app-user-toggle__avatar">
-                            <span class="app-user-toggle__text">
-                                <span class="username"><?= $user->username ?></span>
-                                <span class="app-user-toggle__role"><?= $userLevel ?></span>
-                            </span>
-                        </a>
 
-                        <ul class="dropdown-menu extended logout">
-                            <div class="log-arrow-up"></div>
-                            <li class="app-user-menu__hero">
-                                <div class="app-user-menu__cover"></div>
-                                <div class="app-user-menu__profile-card">
-                                    <img alt="" src="<?= getAvatar($user->id) ?>" class="app-user-menu__avatar">
-                                    <div class="app-user-menu__identity">
-                                        <strong><?= Html::encode($displayName) ?></strong>
-                                        <span><?= Html::encode($userLevel) ?></span>
-                                    </div>
-                                </div>
-                                <div class="app-user-menu__welcome">
-                                    <strong>Welcome <?= Html::encode($user->username) ?>!</strong>
-                                    <span>Urus profil, keselamatan, dan akses pantas akaun anda di sini.</span>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="app-user-menu__link" href="<?= Url::to(['profile/index']) ?>">
-                                    <span class="app-user-menu__icon"><i class="fa fa-user-circle"></i></span>
-                                    <span class="app-user-menu__link-text">Profile</span>
-                                </a>
-                            </li>
-                            <?php if (Yii::$app->user->identity->isMember()) { ?>
+                    <div class="top-nav app-topbar-actions ms-sm-3 header-item topbar-user" style="margin-top:0;">
+                        <ul class="nav pull-right top-menu" style="margin:0; height:100%; align-items:center;">
+                            <?php if ($impersonatorAdminId) { ?>
                                 <li>
-                                    <a class="app-user-menu__link" href="<?= Url::to(['network/index']) ?>">
-                                        <span class="app-user-menu__icon"><i class="fa fa-network-wired"></i></span>
-                                        <span class="app-user-menu__link-text">Network</span>
+                                    <a href="<?= Url::to(['user/return-admin']) ?>" class="btn btn-warning btn-sm app-return-admin shadow-none" data-method="post" style="margin-right:15px !important; margin-top:0 !important;">
+                                        <i class="fa fa-user-shield"></i> Kembali Ke Akaun Admin
                                     </a>
                                 </li>
                             <?php } ?>
-                            <?php if (!Yii::$app->user->identity->isMember() && !Yii::$app->user->identity->isAdmin()) { ?>
-                                <li>
-                                    <a class="app-user-menu__link" href="<?= Url::to(['register/create']) ?>">
-                                        <span class="app-user-menu__icon"><i class="fa fa-user"></i></span>
-                                        <span class="app-user-menu__link-text">Register</span>
-                                    </a>
-                                </li>
-                            <?php } ?>
-                            <li>
-                                <a class="app-user-menu__link" href="<?= Url::to(['profile/change-pass']) ?>">
-                                    <span class="app-user-menu__icon"><i class="fa fa-key"></i></span>
-                                    <span class="app-user-menu__link-text">Password</span>
-                                </a>
-                            </li>
+                            <li class="dropdown h-100">
+                                <button type="button" class="btn shadow-none h-100 w-100 d-flex align-items-center dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0 14px; border:none; background:transparent;">
+                                    <span class="d-flex align-items-center">
+                                        <img alt="" src="<?= getAvatar($user->id) ?>" class="rounded-circle header-profile-user">
+                                        <span class="text-left ms-xl-2" style="margin-left: 10px; display:inline-block; text-align:left;">
+                                            <span class="user-name-text d-none d-xl-inline-block fw-medium mb-0" style="display:block !important;"><?= $user->username ?></span>
+                                            <span class="user-name-sub-text d-none d-xl-block fs-12 text-muted" style="display:block !important; margin-top:-2px;"><?= $userLevel ?></span>
+                                        </span>
+                                    </span>
+                                </button>
 
-                            <li class="app-user-menu__divider"></li>
-                            <li class="app-user-menu__metric">
-                                <div class="app-user-menu__metric-card">
-                                    <span class="app-user-menu__icon app-user-menu__icon--soft"><i class="fas fa-wallet"></i></span>
-                                    <div class="app-user-menu__metric-content">
-                                        <span class="app-user-menu__metric-label">Baki E-Wallet</span>
-                                        <strong><?= $userBalance ?></strong>
-                                    </div>
-                                </div>
-                            </li>
-                            <?php if (Yii::$app->user->identity->isAdmin()) { ?>
-                                <li class="app-user-menu__footer-link">
-                                    <a class="app-user-menu__link" href="<?= Url::to(['settings/index']) ?>">
-                                        <span class="app-user-menu__icon"><i class="fa fa-cog"></i></span>
-                                        <span class="app-user-menu__link-text">Settings</span>
-                                        <span class="app-user-menu__badge">New</span>
-                                    </a>
-                                </li>
-                            <?php } ?>
-                            <li>
-                                <a class="app-user-menu__link app-user-menu__link--logout" href="<?= Url::to(['site/logout']) ?>" data-method="post">
-                                    <span class="app-user-menu__icon"><i class="fa fa-power-off"></i></span>
-                                    <span class="app-user-menu__link-text">Logout</span>
-                                </a>
+                                <ul class="dropdown-menu extended logout dropdown-menu-right">
+                                    <div class="log-arrow-up"></div>
+                                    <li class="app-user-menu__hero">
+                                        <div class="app-user-menu__cover"></div>
+                                        <div class="app-user-menu__profile-card">
+                                            <img alt="" src="<?= getAvatar($user->id) ?>" class="app-user-menu__avatar">
+                                            <div class="app-user-menu__identity">
+                                                <strong><?= Html::encode($displayName) ?></strong>
+                                                <span><?= Html::encode($userLevel) ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="app-user-menu__welcome">
+                                            <strong>Welcome <?= Html::encode($user->username) ?>!</strong>
+                                            <span>Urus profil, keselamatan, dan akses pantas akaun anda di sini.</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="app-user-menu__link" href="<?= Url::to(['profile/index']) ?>">
+                                            <span class="app-user-menu__icon"><i class="fa fa-user-circle"></i></span>
+                                            <span class="app-user-menu__link-text">Profile</span>
+                                        </a>
+                                    </li>
+                                    <?php if (Yii::$app->user->identity->isMember()) { ?>
+                                        <li>
+                                            <a class="app-user-menu__link" href="<?= Url::to(['network/index']) ?>">
+                                                <span class="app-user-menu__icon"><i class="fa fa-network-wired"></i></span>
+                                                <span class="app-user-menu__link-text">Network</span>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                    <?php if (!Yii::$app->user->identity->isMember() && !Yii::$app->user->identity->isAdmin()) { ?>
+                                        <li>
+                                            <a class="app-user-menu__link" href="<?= Url::to(['register/create']) ?>">
+                                                <span class="app-user-menu__icon"><i class="fa fa-user"></i></span>
+                                                <span class="app-user-menu__link-text">Register</span>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                    <li>
+                                        <a class="app-user-menu__link" href="<?= Url::to(['profile/change-pass']) ?>">
+                                            <span class="app-user-menu__icon"><i class="fa fa-key"></i></span>
+                                            <span class="app-user-menu__link-text">Password</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="app-user-menu__divider"></li>
+                                    <li class="app-user-menu__metric">
+                                        <div class="app-user-menu__metric-card">
+                                            <span class="app-user-menu__icon app-user-menu__icon--soft"><i class="fas fa-wallet"></i></span>
+                                            <div class="app-user-menu__metric-content">
+                                                <span class="app-user-menu__metric-label">Baki E-Wallet</span>
+                                                <strong><?= $userBalance ?></strong>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php if (Yii::$app->user->identity->isAdmin()) { ?>
+                                        <li class="app-user-menu__footer-link">
+                                            <a class="app-user-menu__link" href="<?= Url::to(['settings/index']) ?>">
+                                                <span class="app-user-menu__icon"><i class="fa fa-cog"></i></span>
+                                                <span class="app-user-menu__link-text">Settings</span>
+                                                <span class="app-user-menu__badge">New</span>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                    <li>
+                                        <a class="app-user-menu__link app-user-menu__link--logout" href="<?= Url::to(['site/logout']) ?>" data-method="post">
+                                            <span class="app-user-menu__icon"><i class="fa fa-power-off"></i></span>
+                                            <span class="app-user-menu__link-text">Logout</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </header>
         <!--header end-->
