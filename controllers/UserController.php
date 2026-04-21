@@ -15,6 +15,7 @@ use yii\base\Exception;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
+use yii\db\Expression;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -255,6 +256,55 @@ class UserController extends MemberController
             $results[] = [
                 'id' => $user['id'],
                 'text' => $text,
+            ];
+        }
+
+        return ['results' => $results];
+    }
+
+    public function actionNavbarSearch($q = null)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $term = trim((string) $q);
+        if ($term === '' || mb_strlen($term) < 2) {
+            return ['results' => []];
+        }
+
+        $query = User::find()
+            ->select(['id', 'username', 'name', 'level_id'])
+            ->where(['status' => User::STATUS_ACTIVE]);
+
+        if (ctype_digit($term)) {
+            $query->andWhere([
+                'or',
+                ['id' => (int) $term],
+                ['like', 'username', $term],
+                ['like', 'name', $term],
+            ]);
+        } else {
+            $query->andWhere([
+                'or',
+                ['like', 'username', $term],
+                ['like', 'name', $term],
+            ]);
+        }
+
+        $users = $query
+            ->orderBy(new Expression("CASE WHEN CAST(id AS CHAR) = :term THEN 0 WHEN username = :term THEN 1 ELSE 2 END", [':term' => $term]))
+            ->addOrderBy(['username' => SORT_ASC])
+            ->limit(8)
+            ->asArray()
+            ->all();
+
+        $results = [];
+        foreach ($users as $user) {
+            $results[] = [
+                'id' => $user['id'],
+                'username' => $user['username'],
+                'name' => $user['name'] ?: '-',
+                'level' => isset($user['level_id']) ? $user['level_id'] : null,
+                'viewUrl' => Yii::$app->urlManager->createUrl(['user/view', 'id' => $user['id']]),
             ];
         }
 

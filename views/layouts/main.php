@@ -38,6 +38,8 @@ $select = Yii::$app->getRequest()->getQueryParam('select');
 $impersonatorAdminId = $session->get('impersonator_admin_id');
 $memberCssVersion = @filemtime(Yii::getAlias('@webroot/css/member.css')) ?: time();
 $memberCssUrl = Url::to('@web/css/member.css?v=' . $memberCssVersion);
+$navbarUserSearchUrl = Url::to(['user/navbar-search']);
+$navbarUserSearchUrlJson = json_encode($navbarUserSearchUrl);
 $userLevel = $user && $user->level ? $user->level->level : 'Pengguna';
 $pageTitle = $this->title ?: 'Dashboard';
 $displayName = trim((string) ($user->name ?? '')) !== '' ? $user->name : $user->username;
@@ -49,6 +51,99 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
 $this->registerCsrfMetaTags();
 $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
 YiiAsset::register($this);
+$this->registerJs(<<<JS
+(function ($) {
+    var \$search = $('#navbar-member-search');
+    var \$results = $('#navbar-member-search-results');
+    var searchUrl = {$navbarUserSearchUrlJson};
+    var timer = null;
+    var lastRequest = null;
+
+    function escapeHtml(text) {
+        return $('<div>').text(text || '').html();
+    }
+
+    function closeResults() {
+        \$results.removeClass('is-open').empty();
+    }
+
+    function renderState(message, modifierClass) {
+        \$results
+            .html('<div class="app-search-results__state ' + modifierClass + '">' + escapeHtml(message) + '</div>')
+            .addClass('is-open');
+    }
+
+    function renderResults(items) {
+        if (!items.length) {
+            renderState('Tiada ahli dijumpai.', 'is-empty');
+            return;
+        }
+
+        var html = items.map(function (item) {
+            var name = item.name && item.name !== '-' ? item.name : 'Nama tidak disetkan';
+            return '' +
+                '<div class="app-search-result-item">' +
+                    '<div class="app-search-result-item__content">' +
+                        '<div class="app-search-result-item__title">' + escapeHtml(name) + '</div>' +
+                        '<div class="app-search-result-item__meta">ID: ' + escapeHtml(String(item.id)) + ' · Username: ' + escapeHtml(item.username) + '</div>' +
+                    '</div>' +
+                    '<a class="app-search-result-item__action" href="' + escapeHtml(item.viewUrl) + '">Lihat Detail</a>' +
+                '</div>';
+        }).join('');
+
+        \$results.html(html).addClass('is-open');
+    }
+
+    \$search.on('input', function () {
+        var keyword = $.trim($(this).val());
+
+        clearTimeout(timer);
+
+        if (keyword.length < 2) {
+            closeResults();
+            return;
+        }
+
+        timer = setTimeout(function () {
+            if (lastRequest && typeof lastRequest.abort === 'function') {
+                lastRequest.abort();
+            }
+
+            renderState('Sedang mencari ahli...', 'is-loading');
+
+            lastRequest = $.getJSON(searchUrl, { q: keyword })
+                .done(function (response) {
+                    renderResults(response && response.results ? response.results : []);
+                })
+                .fail(function (xhr, status) {
+                    if (status !== 'abort') {
+                        renderState('Carian tidak berjaya. Cuba lagi.', 'is-error');
+                    }
+                });
+        }, 250);
+    });
+
+    \$search.on('focus', function () {
+        if (\$results.children().length) {
+            \$results.addClass('is-open');
+        }
+    });
+
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest('.app-search').length) {
+            closeResults();
+        }
+    });
+
+    \$search.closest('form').on('submit', function (event) {
+        event.preventDefault();
+        var \$firstAction = \$results.find('.app-search-result-item__action').first();
+        if (\$firstAction.length) {
+            window.location.href = \$firstAction.attr('href');
+        }
+    });
+})(jQuery);
+JS);
 
 ?>
 <?php $this->beginPage(); ?>
@@ -96,8 +191,9 @@ YiiAsset::register($this);
                     <!-- Search -->
                     <form class="app-search d-none d-md-block">
                         <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search..." autocomplete="off">
+                            <input type="text" id="navbar-member-search" class="form-control" placeholder="Cari nama, username atau ID ahli" autocomplete="off">
                             <i class="fa fa-search search-widget-icon"></i>
+                            <div id="navbar-member-search-results" class="app-search-results"></div>
                         </div>
                     </form>
                 </div>
