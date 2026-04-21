@@ -1449,6 +1449,15 @@ label,
     border-radius: var(--vz-radius-sm);
 }
 
+.grid-view .empty,
+.grid-view table .empty {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    text-align: center !important;
+    color: var(--vz-text-muted);
+    font-weight: 600;
+}
+
 .table .filters > td,
 .table .filters > th {
     background: #fff;
