@@ -298,6 +298,11 @@ a:focus {
     left: auto !important;
 }
 
+.topbar-user .dropdown-menu.dropdown-menu-end.extended,
+.topbar-user .dropdown-menu.extended {
+    margin-top: -8px !important;
+}
+
 .app-user-menu__cover {
     height: 56px;
     background: linear-gradient(135deg, var(--vz-sidebar-bg) 0%, var(--vz-sidebar-bg-dark) 100%);
