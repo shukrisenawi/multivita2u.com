@@ -1082,6 +1082,24 @@ section.card .card-body {
     flex-wrap: wrap;
 }
 
+.app-card-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+}
+
+.app-card-toolbar__title {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.app-card-toolbar__title strong {
+    display: block;
+    white-space: nowrap;
+}
+
 .app-card-toolbar > [class*="col-"]:last-child {
     display: flex;
     justify-content: flex-end;

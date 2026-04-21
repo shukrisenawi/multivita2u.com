@@ -340,18 +340,16 @@ JS);
                         <section class="card-header">
                             <?php
                             if (isset($session['subBtn'])  && count($session['subBtn']) > 0) { ?>
-                                <div class="row app-card-toolbar">
-                                    <div class="col-sm-6"><strong><?= $this->title ?></strong></div>
-                                    <div class="col-sm-6">
-                                        <div class="app-card-toolbar__actions">
-                                            <?php
-                                            foreach ($session['subBtn'] as $btnKey => $btnValue) { ?>
-                                                <a class="btn btn-dark btn-sm" href="<?= Url::to($btnValue['url']) ?>"><?= $btnValue['label'] ?></a>
-
-                                        </div>
+                                <div class="app-card-toolbar">
+                                    <div class="app-card-toolbar__title">
+                                        <strong><?= $this->title ?></strong>
                                     </div>
-                                <?php
-                                            } ?>
+                                    <div class="app-card-toolbar__actions">
+                                        <?php
+                                        foreach ($session['subBtn'] as $btnKey => $btnValue) { ?>
+                                            <a class="btn btn-dark btn-sm" href="<?= Url::to($btnValue['url']) ?>"><?= $btnValue['label'] ?></a>
+                                        <?php } ?>
+                                    </div>
                                 </div>
 
                             <?php } else { ?>
