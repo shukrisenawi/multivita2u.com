@@ -937,7 +937,7 @@ ul.sidebar-menu li a i {
     margin: 0 !important;
     line-height: 1 !important;
     text-align: center;
-    transform: none !important;
+    transform: translateX(1.5px) !important;
 }
 
 ul.sidebar-menu li a.active i,
@@ -952,7 +952,7 @@ ul.sidebar-menu li a:focus i {
     min-height: 30px;
     line-height: 1;
     flex: 1 1 auto;
-    margin-top: 1px;
+    margin-top: 3px;
 }
 
 ul.sidebar-menu li a:hover,
