@@ -39,7 +39,8 @@ phpunit.phar
 # Runtime dan aset dijana
 /runtime/*
 !/runtime/.gitignore
-/web/assets/
+/web/assets/*
+!/web/assets/.gitignore
 
 # Nested Yii 3 app generated files
 /yii3-app/vendor/
