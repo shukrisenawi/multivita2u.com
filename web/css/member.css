@@ -952,7 +952,7 @@ ul.sidebar-menu li a:focus i {
     min-height: 30px;
     line-height: 1;
     flex: 1 1 auto;
-    margin-top: 3px;
+    margin-top: 8px;
 }
 
 ul.sidebar-menu li a:hover,
