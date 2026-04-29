@@ -237,6 +237,24 @@ $this->registerJs(<<<JS
         totalEl.innerHTML = 'Jumlah rekod: ' + rowCount + ' | Jumlah pin wallet: ' + formatMoney(nextTotal);
     }
 
+    function getAjaxErrorMessage(xhr, fallbackMessage) {
+        if (xhr && xhr.responseJSON && xhr.responseJSON.message) {
+            return xhr.responseJSON.message;
+        }
+
+        if (xhr && typeof xhr.responseText === 'string' && xhr.responseText.trim() !== '') {
+            try {
+                var parsed = JSON.parse(xhr.responseText);
+                if (parsed && parsed.message) {
+                    return parsed.message;
+                }
+            } catch (error) {
+            }
+        }
+
+        return fallbackMessage;
+    }
+
     function transferPinTambahan(button) {
         var amount = parseFloat(button.getAttribute('data-amount') || '0');
         var userId = button.getAttribute('data-user-id');
@@ -286,9 +304,9 @@ $this->registerJs(<<<JS
                 button.disabled = false;
                 alert(response && response.message ? response.message : 'Proses tidak berjaya.');
             }
-        }).fail(function () {
+        }).fail(function (xhr) {
             button.disabled = false;
-            alert('Proses tidak berjaya.');
+            alert(getAjaxErrorMessage(xhr, 'Proses tidak berjaya.'));
         });
     }
 
@@ -323,9 +341,9 @@ $this->registerJs(<<<JS
                 transferAllBtn.disabled = false;
                 alert(response && response.message ? response.message : 'Proses tidak berjaya.');
             }
-        }).fail(function () {
+        }).fail(function (xhr) {
             transferAllBtn.disabled = false;
-            alert('Proses tidak berjaya.');
+            alert(getAjaxErrorMessage(xhr, 'Proses tidak berjaya.'));
         });
     }
 

@@ -10,6 +10,7 @@ use app\models\Transaction;
 use yii\helpers\ArrayHelper;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\db\Expression;
 
 class StockistController extends MemberController
 {
@@ -59,7 +60,7 @@ class StockistController extends MemberController
     private function getClaimedPinTambahan($userId)
     {
         $claimed = Transaction::find()
-            ->select('COALESCE(SUM(value), 0) as total')
+            ->select(new Expression('COALESCE(SUM(value), 0)'))
             ->where([
                 'user_id' => $userId,
                 'type_id' => 3,
@@ -94,7 +95,7 @@ class StockistController extends MemberController
             $claimedMap = [];
             if ($userIds) {
                 $claimedRows = Transaction::find()
-                    ->select(['user_id', 'claimed_total' => 'COALESCE(SUM(value), 0)'])
+                    ->select(['user_id', 'claimed_total' => new Expression('COALESCE(SUM(value), 0)')])
                     ->where([
                         'type_id' => 3,
                         'related_id' => $userIds,
