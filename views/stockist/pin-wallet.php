@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col-md-12">
-        <section class="card">
+        <section class="card" id="stockist-pinwallet-page" data-currency-prefix="<?= Html::encode(rtrim(Helper::convertMoney(0), '0')) ?>">
             <div class="revenue-head">
                 <span>
                     <i class="fa fa-user-secret"></i>
@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <section class="card mb-0">
                                 <div class="card-header bg-light d-flex flex-wrap justify-content-between align-items-center">
                                     <h4 class="mb-0"><?= Html::encode($stockistGroup['label']) ?></h4>
-                                    <div class="text-muted">
+                                    <div class="text-muted stockist-pinwallet-group-total" data-total-pinwallet="<?= Html::encode($stockistGroup['total']) ?>">
                                         Jumlah rekod: <?= count($stockistGroup['items']) ?> |
                                         Jumlah pin wallet: <?= Helper::convertMoney($stockistGroup['total']) ?>
                                     </div>
@@ -92,25 +92,41 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     <th>State</th>
                                                     <th>Pin Wallet</th>
                                                     <th>Pin Tambahan</th>
+                                                    <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php if ($stockistGroup['items']) { ?>
                                                     <?php foreach ($stockistGroup['items'] as $index => $stockist) { ?>
-                                                        <?php $pinTambahan = floor(((float) $stockist->pinwallet) / 90) * 10; ?>
-                                                        <tr class="stockist-pinwallet-row" data-search="<?= Html::encode(strtolower(trim(($stockist->username ?? '') . ' ' . ($stockist->name ?? '') . ' ' . ($stockist->state ?? '') . ' ' . ($stockist->hp ?? '')))) ?>">
+                                                        <?php $pinTambahan = (float) $stockist['pinTambahan']; ?>
+                                                        <tr class="stockist-pinwallet-row" data-user-id="<?= Html::encode($stockist['id']) ?>" data-search="<?= Html::encode(strtolower(trim(($stockist['username'] ?? '') . ' ' . ($stockist['name'] ?? '') . ' ' . ($stockist['state'] ?? '') . ' ' . ($stockist['hp'] ?? '')))) ?>">
                                                             <td><?= $index + 1 ?></td>
-                                                            <td><?= Html::encode($stockist->username) ?></td>
-                                                            <td><?= Html::encode($stockist->name) ?></td>
-                                                            <td><?= Html::encode($stockist->hp) ?></td>
-                                                            <td><?= Html::encode($stockist->state) ?></td>
-                                                            <td><?= Helper::convertMoney($stockist->pinwallet) ?></td>
-                                                            <td><?= Helper::convertMoney($pinTambahan) ?></td>
+                                                            <td><?= Html::encode($stockist['username']) ?></td>
+                                                            <td><?= Html::encode($stockist['name']) ?></td>
+                                                            <td><?= Html::encode($stockist['hp']) ?></td>
+                                                            <td><?= Html::encode($stockist['state']) ?></td>
+                                                            <td class="stockist-pinwallet-value" data-value="<?= Html::encode($stockist['pinwallet']) ?>"><?= Helper::convertMoney($stockist['pinwallet']) ?></td>
+                                                            <td class="stockist-pinwallet-bonus" data-value="<?= Html::encode($pinTambahan) ?>"><?= Helper::convertMoney($pinTambahan) ?></td>
+                                                            <td class="stockist-pinwallet-action-cell">
+                                                                <?php if (Yii::$app->user->identity->isAdmin() && $pinTambahan > 0) { ?>
+                                                                    <button
+                                                                        type="button"
+                                                                        class="btn btn-success btn-sm stockist-pinwallet-transfer-btn"
+                                                                        data-user-id="<?= Html::encode($stockist['id']) ?>"
+                                                                        data-username="<?= Html::encode($stockist['username']) ?>"
+                                                                        data-amount="<?= Html::encode($pinTambahan) ?>"
+                                                                    >
+                                                                        Transfer
+                                                                    </button>
+                                                                <?php } else { ?>
+                                                                    <span class="text-muted">-</span>
+                                                                <?php } ?>
+                                                            </td>
                                                         </tr>
                                                     <?php } ?>
                                                 <?php } else { ?>
                                                     <tr>
-                                                        <td colspan="7" class="text-center text-muted">Tiada rekod untuk kategori ini.</td>
+                                                        <td colspan="8" class="text-center text-muted">Tiada rekod untuk kategori ini.</td>
                                                     </tr>
                                                 <?php } ?>
                                             </tbody>
@@ -130,11 +146,18 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $this->registerJs(<<<JS
 (function () {
+    var page = document.getElementById('stockist-pinwallet-page');
     var input = document.getElementById('stockist-pinwallet-filter');
     var searchBtn = document.getElementById('stockist-pinwallet-search');
     var resetBtn = document.getElementById('stockist-pinwallet-reset');
     var rows = Array.prototype.slice.call(document.querySelectorAll('.stockist-pinwallet-row'));
     var tabs = Array.prototype.slice.call(document.querySelectorAll('[data-stockist-level]'));
+    var transferButtons = Array.prototype.slice.call(document.querySelectorAll('.stockist-pinwallet-transfer-btn'));
+    var currencyPrefix = page ? (page.getAttribute('data-currency-prefix') || 'RM') : 'RM';
+
+    function formatMoney(value) {
+        return currencyPrefix + value;
+    }
 
     function applyFilter() {
         var keyword = (input.value || '').trim().toLowerCase();
@@ -174,6 +197,80 @@ $this->registerJs(<<<JS
         });
     }
 
+    function updateGroupTotal(row, delta) {
+        var tabPane = row.closest('.tab-pane');
+        if (!tabPane) {
+            return;
+        }
+
+        var totalEl = tabPane.querySelector('.stockist-pinwallet-group-total');
+        if (!totalEl) {
+            return;
+        }
+
+        var currentTotal = parseFloat(totalEl.getAttribute('data-total-pinwallet') || '0');
+        var nextTotal = currentTotal + delta;
+        var rowCount = tabPane.querySelectorAll('.stockist-pinwallet-row').length;
+
+        totalEl.setAttribute('data-total-pinwallet', String(nextTotal));
+        totalEl.innerHTML = 'Jumlah rekod: ' + rowCount + ' | Jumlah pin wallet: ' + formatMoney(nextTotal);
+    }
+
+    function transferPinTambahan(button) {
+        var amount = parseFloat(button.getAttribute('data-amount') || '0');
+        var userId = button.getAttribute('data-user-id');
+        var username = button.getAttribute('data-username') || '';
+
+        if (!amount || amount <= 0) {
+            alert('Tiada pin tambahan untuk dipindahkan.');
+            return;
+        }
+
+        if (!confirm('Anda pasti ingin transfer pin tambahan ' + formatMoney(amount) + ' kepada ' + username + '?')) {
+            return;
+        }
+
+        button.disabled = true;
+
+        $.ajax({
+            url: '<?= Url::to(['stockist/transfer-pin-additional']) ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                _csrf: '<?= Yii::$app->request->csrfToken ?>',
+                id: userId
+            }
+        }).done(function (response) {
+            if (response && response.success) {
+                var row = button.closest('.stockist-pinwallet-row');
+                var pinWalletCell = row.querySelector('.stockist-pinwallet-value');
+                var bonusCell = row.querySelector('.stockist-pinwallet-bonus');
+                var actionCell = row.querySelector('.stockist-pinwallet-action-cell');
+                var currentPinwallet = parseFloat(pinWalletCell.getAttribute('data-value') || '0');
+                var nextPinwallet = currentPinwallet + amount;
+
+                pinWalletCell.setAttribute('data-value', String(nextPinwallet));
+                pinWalletCell.textContent = formatMoney(nextPinwallet);
+
+                bonusCell.setAttribute('data-value', '0');
+                bonusCell.textContent = formatMoney(0);
+
+                if (actionCell) {
+                    actionCell.innerHTML = '<span class="text-success">Berjaya</span>';
+                }
+
+                updateGroupTotal(row, amount);
+                alert(response.message || 'Pin tambahan berjaya dipindahkan.');
+            } else {
+                button.disabled = false;
+                alert(response && response.message ? response.message : 'Proses tidak berjaya.');
+            }
+        }).fail(function () {
+            button.disabled = false;
+            alert('Proses tidak berjaya.');
+        });
+    }
+
     searchBtn.addEventListener('click', applyFilter);
     resetBtn.addEventListener('click', function () {
         input.value = '';
@@ -186,6 +283,12 @@ $this->registerJs(<<<JS
             event.preventDefault();
             applyFilter();
         }
+    });
+
+    transferButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            transferPinTambahan(button);
+        });
     });
 
     applyFilter();
