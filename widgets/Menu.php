@@ -153,11 +153,12 @@ class Menu extends \yii\bootstrap\Widget
         if (isset($session['subBtn']))
             $this->subBtn = $session['subBtn'];
         $list = $this->listMenu();
+        $currentRoute = strtolower(Yii::$app->controller->route);
         $str = '<ul class="sidebar-menu" id="nav-accordion">';
         foreach ($list as $value) {
             if (!isset($value['hidden']) || !$value['hidden']) {
-                $urlExplode = explode('/', $value['url'][0]);
-                $select = (strtoupper($this->idPage) == strtoupper($urlExplode[1])) ? true : false;
+                $menuRoute = strtolower(trim($value['url'][0], '/'));
+                $select = ($currentRoute === $menuRoute);
                 $str .= '<li><a class="' . ($select ? 'active' : '') . '" href="' . Url::to($value['url']) . '"><span class="sidebar-menu__icon"><i class="' . $value['icon'] . '"></i></span><span class="sidebar-menu__label">' . $value['label'] . '</span></a>';
                 $str .= '</li>';
             }
