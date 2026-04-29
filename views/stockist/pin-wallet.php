@@ -144,6 +144,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <?php
+$transferUrlJson = json_encode(Url::to(['stockist/transfer-pin-additional']));
+$csrfTokenJson = json_encode(Yii::$app->request->csrfToken);
 $this->registerJs(<<<JS
 (function () {
     var page = document.getElementById('stockist-pinwallet-page');
@@ -233,11 +235,11 @@ $this->registerJs(<<<JS
         button.disabled = true;
 
         $.ajax({
-            url: '<?= Url::to(['stockist/transfer-pin-additional']) ?>',
+            url: {$transferUrlJson},
             type: 'POST',
             dataType: 'json',
             data: {
-                _csrf: '<?= Yii::$app->request->csrfToken ?>',
+                _csrf: {$csrfTokenJson},
                 id: userId
             }
         }).done(function (response) {
