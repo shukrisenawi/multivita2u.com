@@ -158,12 +158,17 @@ class StockistController extends MemberController
         ]);
     }
 
-    public function actionTransferPinAdditional($id)
+    public function actionTransferPinAdditional()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         if (!Yii::$app->user->identity || !Yii::$app->user->identity->isAdmin()) {
             return ['success' => false, 'message' => 'Akses tidak dibenarkan.'];
+        }
+
+        $id = Yii::$app->request->post('id');
+        if (!$id) {
+            return ['success' => false, 'message' => 'Id stokis diperlukan.'];
         }
 
         $user = User::findOne($id);
