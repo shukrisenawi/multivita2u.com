@@ -91,11 +91,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     <th>No. HP</th>
                                                     <th>State</th>
                                                     <th>Pin Wallet</th>
+                                                    <th>Pin Tambahan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php if ($stockistGroup['items']) { ?>
                                                     <?php foreach ($stockistGroup['items'] as $index => $stockist) { ?>
+                                                        <?php $pinTambahan = floor(((float) $stockist->pinwallet) / 90) * 10; ?>
                                                         <tr class="stockist-pinwallet-row" data-search="<?= Html::encode(strtolower(trim(($stockist->username ?? '') . ' ' . ($stockist->name ?? '') . ' ' . ($stockist->state ?? '') . ' ' . ($stockist->hp ?? '')))) ?>">
                                                             <td><?= $index + 1 ?></td>
                                                             <td><?= Html::encode($stockist->username) ?></td>
@@ -103,11 +105,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             <td><?= Html::encode($stockist->hp) ?></td>
                                                             <td><?= Html::encode($stockist->state) ?></td>
                                                             <td><?= Helper::convertMoney($stockist->pinwallet) ?></td>
+                                                            <td><?= Helper::convertMoney($pinTambahan) ?></td>
                                                         </tr>
                                                     <?php } ?>
                                                 <?php } else { ?>
                                                     <tr>
-                                                        <td colspan="6" class="text-center text-muted">Tiada rekod untuk kategori ini.</td>
+                                                        <td colspan="7" class="text-center text-muted">Tiada rekod untuk kategori ini.</td>
                                                     </tr>
                                                 <?php } ?>
                                             </tbody>
