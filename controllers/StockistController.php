@@ -20,6 +20,7 @@ class StockistController extends MemberController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'transfer-pin-additional' => ['post'],
+                    'transfer-all-pin-additional' => ['post'],
                 ],
             ],
         ]);
@@ -75,32 +76,8 @@ class StockistController extends MemberController
         return max(0, (float) $baseAmount - (float) $claimed);
     }
 
-    public function actionIndex()
+    private function buildPinWalletStockists($keyword = null)
     {
-        $model = new SearchDateForm;
-        $model->load(Yii::$app->request->post());
-        if (!Yii::$app->request->post()) {
-            $model->from =  date('Y-m-01');
-            $model->to =  date('Y-m-d');
-            $model->limit =  10;
-        }
-
-        $users = User::find()
-            ->alias('u')
-            ->select(['COUNT(u.register_id) as total', 'u.register_id'])
-            ->where('u.register_id > 0 AND u.created_at>=:from AND u.created_at<=:to', [':from' => $model->from . " 00:00:00", ':to' => $model->to . " 23:59:59"])
-            ->groupBy('u.register_id')
-            ->orderBy('COUNT(u.register_id) desc')
-            ->limit($model->limit)
-            ->with('register')
-            ->all();
-
-        return $this->render('index', ['users' => $users, 'model' => $model]);
-    }
-
-    public function actionPinWallet()
-    {
-        $keyword = Yii::$app->request->get('q', '');
         $levels = [
             4 => 'Mobile Stockist',
             3 => 'Stockist',
@@ -143,6 +120,37 @@ class StockistController extends MemberController
                 'total' => (float) $query->sum('pinwallet'),
             ];
         }
+
+        return $stockists;
+    }
+
+    public function actionIndex()
+    {
+        $model = new SearchDateForm;
+        $model->load(Yii::$app->request->post());
+        if (!Yii::$app->request->post()) {
+            $model->from =  date('Y-m-01');
+            $model->to =  date('Y-m-d');
+            $model->limit =  10;
+        }
+
+        $users = User::find()
+            ->alias('u')
+            ->select(['COUNT(u.register_id) as total', 'u.register_id'])
+            ->where('u.register_id > 0 AND u.created_at>=:from AND u.created_at<=:to', [':from' => $model->from . " 00:00:00", ':to' => $model->to . " 23:59:59"])
+            ->groupBy('u.register_id')
+            ->orderBy('COUNT(u.register_id) desc')
+            ->limit($model->limit)
+            ->with('register')
+            ->all();
+
+        return $this->render('index', ['users' => $users, 'model' => $model]);
+    }
+
+    public function actionPinWallet()
+    {
+        $keyword = Yii::$app->request->get('q', '');
+        $stockists = $this->buildPinWalletStockists($keyword);
 
         return $this->render('pin-wallet', [
             'stockists' => $stockists,
@@ -194,6 +202,80 @@ class StockistController extends MemberController
                 'pinTambahan' => 0,
                 'amount' => (float) $amount,
                 'transactionId' => $transactionId,
+            ];
+        } catch (\Throwable $e) {
+            if ($transaction->isActive) {
+                $transaction->rollBack();
+            }
+
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    public function actionTransferAllPinAdditional()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if (!Yii::$app->user->identity || !Yii::$app->user->identity->isAdmin()) {
+            return ['success' => false, 'message' => 'Akses tidak dibenarkan.'];
+        }
+
+        $stockists = $this->buildPinWalletStockists();
+        $targets = [];
+        foreach ($stockists as $group) {
+            foreach ($group['items'] as $item) {
+                if ((float) ($item['pinTambahan'] ?? 0) > 0) {
+                    $targets[] = $item;
+                }
+            }
+        }
+
+        if (!$targets) {
+            return ['success' => false, 'message' => 'Tiada stokis dengan pin tambahan untuk dipindahkan.'];
+        }
+
+        $db = Yii::$app->db;
+        $transaction = $db->beginTransaction();
+        try {
+            $processed = 0;
+            $totalAmount = 0;
+
+            foreach ($targets as $item) {
+                $user = User::findOne($item['id']);
+                if (!$user) {
+                    continue;
+                }
+
+                $claimed = $this->getClaimedPinTambahan($user->id);
+                $amount = $this->getPinTambahanAmount($user->pinwallet, $claimed);
+                if ($amount <= 0) {
+                    continue;
+                }
+
+                $data = [
+                    'username' => $user->username,
+                    'remark' => 'Pin Tambahan',
+                ];
+
+                $transactionId = Transaction::createTransaction($user->id, $user->id, 3, $amount, $data, $user->id);
+                if (!$transactionId) {
+                    throw new \RuntimeException('Gagal mencipta transaksi untuk ' . $user->username . '.');
+                }
+
+                $processed++;
+                $totalAmount += (float) $amount;
+            }
+
+            $transaction->commit();
+
+            return [
+                'success' => true,
+                'message' => 'Semua pin tambahan berjaya dipindahkan.',
+                'processed' => $processed,
+                'amount' => $totalAmount,
             ];
         } catch (\Throwable $e) {
             if ($transaction->isActive) {

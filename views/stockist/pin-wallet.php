@@ -41,6 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </form>
 
+                <?php if (Yii::$app->user->identity->isAdmin()) { ?>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-warning" id="stockist-pinwallet-transfer-all">
+                            Transfer Semua Pin Tambahan
+                        </button>
+                    </div>
+                <?php } ?>
+
                 <ul class="nav nav-tabs mb-3" role="tablist">
                     <?php $tabIndex = 0; ?>
                     <?php foreach ($stockists as $levelId => $stockistGroup) { ?>
@@ -145,6 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 $transferUrlJson = json_encode(Url::to(['stockist/transfer-pin-additional']));
+$transferAllUrlJson = json_encode(Url::to(['stockist/transfer-all-pin-additional']));
 $csrfTokenJson = json_encode(Yii::$app->request->csrfToken);
 $this->registerJs(<<<JS
 (function () {
@@ -152,6 +161,7 @@ $this->registerJs(<<<JS
     var input = document.getElementById('stockist-pinwallet-filter');
     var searchBtn = document.getElementById('stockist-pinwallet-search');
     var resetBtn = document.getElementById('stockist-pinwallet-reset');
+    var transferAllBtn = document.getElementById('stockist-pinwallet-transfer-all');
     var rows = Array.prototype.slice.call(document.querySelectorAll('.stockist-pinwallet-row'));
     var tabs = Array.prototype.slice.call(document.querySelectorAll('[data-stockist-level]'));
     var transferButtons = Array.prototype.slice.call(document.querySelectorAll('.stockist-pinwallet-transfer-btn'));
@@ -159,6 +169,15 @@ $this->registerJs(<<<JS
 
     function formatMoney(value) {
         return currencyPrefix + value;
+    }
+
+    function getRowBonusAmount(row) {
+        var bonusCell = row.querySelector('.stockist-pinwallet-bonus');
+        if (!bonusCell) {
+            return 0;
+        }
+
+        return parseFloat(bonusCell.getAttribute('data-value') || '0') || 0;
     }
 
     function applyFilter() {
@@ -273,6 +292,43 @@ $this->registerJs(<<<JS
         });
     }
 
+    function transferAllPinTambahan() {
+        var activeRows = rows.filter(function (row) {
+            return getRowBonusAmount(row) > 0;
+        });
+
+        if (!activeRows.length) {
+            alert('Tiada stokis dengan pin tambahan untuk dipindahkan.');
+            return;
+        }
+
+        if (!confirm('Anda pasti ingin transfer semua pin tambahan untuk ' + activeRows.length + ' stokis?')) {
+            return;
+        }
+
+        transferAllBtn.disabled = true;
+
+        $.ajax({
+            url: {$transferAllUrlJson},
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                _csrf: {$csrfTokenJson}
+            }
+        }).done(function (response) {
+            if (response && response.success) {
+                alert(response.message || 'Semua pin tambahan berjaya dipindahkan.');
+                window.location.reload();
+            } else {
+                transferAllBtn.disabled = false;
+                alert(response && response.message ? response.message : 'Proses tidak berjaya.');
+            }
+        }).fail(function () {
+            transferAllBtn.disabled = false;
+            alert('Proses tidak berjaya.');
+        });
+    }
+
     searchBtn.addEventListener('click', applyFilter);
     resetBtn.addEventListener('click', function () {
         input.value = '';
@@ -292,6 +348,10 @@ $this->registerJs(<<<JS
             transferPinTambahan(button);
         });
     });
+
+    if (transferAllBtn) {
+        transferAllBtn.addEventListener('click', transferAllPinTambahan);
+    }
 
     applyFilter();
 })();
