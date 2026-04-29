@@ -71,10 +71,36 @@ class StockistController extends MemberController
         return (float) $claimed;
     }
 
-    private function getPinTambahanAmount($pinwallet, $claimed = 0)
+    private function getNextPinTambahanAmount($pinwallet, $claimed = 0)
     {
         $baseAmount = floor(((float) $pinwallet) / 90) * 10;
         return max(0, (float) $baseAmount - (float) $claimed);
+    }
+
+    private function getPinTambahanAmount($pinwallet, $claimed = 0)
+    {
+        $totalTransfer = 0;
+        $currentPinwallet = (float) $pinwallet;
+        $currentClaimed = (float) $claimed;
+        $safetyCounter = 0;
+
+        while (true) {
+            $nextAmount = $this->getNextPinTambahanAmount($currentPinwallet, $currentClaimed);
+            if ($nextAmount <= 0) {
+                break;
+            }
+
+            $totalTransfer += $nextAmount;
+            $currentPinwallet += $nextAmount;
+            $currentClaimed += $nextAmount;
+            $safetyCounter++;
+
+            if ($safetyCounter > 1000) {
+                throw new \RuntimeException('Pengiraan pin tambahan melebihi had yang dibenarkan.');
+            }
+        }
+
+        return (float) $totalTransfer;
     }
 
     private function buildPinWalletStockists($keyword = null)
