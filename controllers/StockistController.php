@@ -18,12 +18,25 @@ class StockistController extends MemberController
         // $this->view->title = $session['subMenu'][$this->select];
     }
 
-    private function getPinWalletStockistQuery($levelId)
+    private function getPinWalletStockistQuery($levelId, $keyword = null)
     {
-        return User::find()
+        $query = User::find()
             ->where(['level_id' => $levelId])
             ->andWhere(['>', 'pinwallet', 0])
             ->andWhere('UPPER(name)<>"HEADQUATERS" AND id<>1032');
+
+        if ($keyword !== null && trim($keyword) !== '') {
+            $keyword = trim($keyword);
+            $query->andWhere([
+                'or',
+                ['like', 'username', $keyword],
+                ['like', 'name', $keyword],
+                ['like', 'state', $keyword],
+                ['like', 'hp', $keyword],
+            ]);
+        }
+
+        return $query;
     }
 
     public function actionIndex()
@@ -51,6 +64,7 @@ class StockistController extends MemberController
 
     public function actionPinWallet()
     {
+        $keyword = Yii::$app->request->get('q', '');
         $levels = [
             4 => 'Mobile Stockist',
             3 => 'Stockist',
@@ -59,7 +73,7 @@ class StockistController extends MemberController
 
         $stockists = [];
         foreach ($levels as $levelId => $levelLabel) {
-            $query = $this->getPinWalletStockistQuery($levelId)
+            $query = $this->getPinWalletStockistQuery($levelId, $keyword)
                 ->orderBy(['pinwallet' => SORT_DESC, 'name' => SORT_ASC]);
 
             $stockists[$levelId] = [
@@ -71,6 +85,7 @@ class StockistController extends MemberController
 
         return $this->render('pin-wallet', [
             'stockists' => $stockists,
+            'keyword' => $keyword,
         ]);
     }
 }

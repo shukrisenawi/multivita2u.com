@@ -2,6 +2,7 @@
 
 use app\components\Helper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = 'Stokis Pin Wallet';
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,6 +22,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 <p class="mb-4 text-muted">
                     Hanya akaun Mobile Stockist, Stockist, dan State Stockist yang mempunyai nilai pin wallet dipaparkan di sini.
                 </p>
+
+                <form class="row align-items-end mb-3" method="get" action="<?= Url::to(['/stockist/pin-wallet']) ?>">
+                    <div class="col-md-8 col-lg-6">
+                        <label for="pinwallet-filter">Filter carian</label>
+                        <input
+                            type="text"
+                            id="pinwallet-filter"
+                            name="q"
+                            class="form-control"
+                            value="<?= Html::encode($keyword ?? '') ?>"
+                            placeholder="Cari username, nama, state atau no. HP"
+                        >
+                    </div>
+                    <div class="col-md-4 col-lg-3">
+                        <button type="submit" class="btn btn-primary">Cari</button>
+                        <a href="<?= Url::to(['/stockist/pin-wallet']) ?>" class="btn btn-light" style="margin-left: 8px;">Reset</a>
+                    </div>
+                </form>
 
                 <ul class="nav nav-tabs mb-3" role="tablist">
                     <?php $tabIndex = 0; ?>
