@@ -256,7 +256,7 @@ JS);
                     <div class="dropdown ms-sm-3 header-item topbar-user">
                         <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="d-flex align-items-center">
-                                <img class="rounded-circle header-profile-user" src="<?= getAvatar($user->id) ?>" alt="Header Avatar">
+                                <img class="rounded-circle header-profile-user" style="margin-right: 10px;" src="<?= getAvatar($user->id) ?>" alt="Header Avatar">
                                 <span class="text-start ms-xl-2">
                                     <span class="d-none d-xl-inline-block fw-medium user-name-text"><?= $user->username ?></span>
                                     <span class="d-none d-xl-block fs-12 text-muted user-name-sub-text"><?= $userLevel ?></span>
