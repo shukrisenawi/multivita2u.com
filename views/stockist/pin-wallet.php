@@ -285,8 +285,8 @@ $this->registerJs(<<<JS
                 var pinWalletCell = row.querySelector('.stockist-pinwallet-value');
                 var bonusCell = row.querySelector('.stockist-pinwallet-bonus');
                 var actionCell = row.querySelector('.stockist-pinwallet-action-cell');
-                var currentPinwallet = parseFloat(pinWalletCell.getAttribute('data-value') || '0');
-                var nextPinwallet = currentPinwallet + amount;
+                var nextPinwallet = parseFloat(response.pinwallet || '0');
+                var transferredAmount = parseFloat(response.amount || amount || '0');
 
                 pinWalletCell.setAttribute('data-value', String(nextPinwallet));
                 pinWalletCell.textContent = formatMoney(nextPinwallet);
@@ -298,7 +298,8 @@ $this->registerJs(<<<JS
                     actionCell.innerHTML = '<span class="text-success">Berjaya</span>';
                 }
 
-                updateGroupTotal(row, amount);
+                button.setAttribute('data-amount', '0');
+                updateGroupTotal(row, transferredAmount);
                 alert(response.message || 'Pin tambahan berjaya dipindahkan.');
             } else {
                 button.disabled = false;
