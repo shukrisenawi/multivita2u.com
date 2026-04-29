@@ -23,12 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     Hanya akaun Mobile Stockist, Stockist, dan State Stockist yang mempunyai nilai pin wallet dipaparkan di sini.
                 </p>
 
-                <form class="row align-items-end mb-3" method="get" action="<?= Url::to(['/stockist/pin-wallet']) ?>">
+                <form class="row align-items-end mb-3" id="stockist-pinwallet-filter-form" action="javascript:void(0);">
                     <div class="col-md-8 col-lg-6">
-                        <label for="pinwallet-filter">Filter carian</label>
+                        <label for="stockist-pinwallet-filter">Filter carian</label>
                         <input
                             type="text"
-                            id="pinwallet-filter"
+                            id="stockist-pinwallet-filter"
                             name="q"
                             class="form-control"
                             value="<?= Html::encode($keyword ?? '') ?>"
@@ -36,8 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         >
                     </div>
                     <div class="col-md-4 col-lg-3">
-                        <button type="submit" class="btn btn-primary">Cari</button>
-                        <a href="<?= Url::to(['/stockist/pin-wallet']) ?>" class="btn btn-light" style="margin-left: 8px;">Reset</a>
+                        <button type="button" class="btn btn-primary" id="stockist-pinwallet-search">Cari</button>
+                        <button type="button" class="btn btn-light" id="stockist-pinwallet-reset" style="margin-left: 8px;">Reset</button>
                     </div>
                 </form>
 
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <tbody>
                                                 <?php if ($stockistGroup['items']) { ?>
                                                     <?php foreach ($stockistGroup['items'] as $index => $stockist) { ?>
-                                                        <tr>
+                                                        <tr class="stockist-pinwallet-row" data-search="<?= Html::encode(strtolower(trim(($stockist->username ?? '') . ' ' . ($stockist->name ?? '') . ' ' . ($stockist->state ?? '') . ' ' . ($stockist->hp ?? '')))) ?>">
                                                             <td><?= $index + 1 ?></td>
                                                             <td><?= Html::encode($stockist->username) ?></td>
                                                             <td><?= Html::encode($stockist->name) ?></td>
@@ -121,3 +121,39 @@ $this->params['breadcrumbs'][] = $this->title;
         </section>
     </div>
 </div>
+
+<?php
+$this->registerJs(<<<JS
+(function () {
+    var input = document.getElementById('stockist-pinwallet-filter');
+    var searchBtn = document.getElementById('stockist-pinwallet-search');
+    var resetBtn = document.getElementById('stockist-pinwallet-reset');
+    var rows = Array.prototype.slice.call(document.querySelectorAll('.stockist-pinwallet-row'));
+
+    function applyFilter() {
+        var keyword = (input.value || '').trim().toLowerCase();
+
+        rows.forEach(function (row) {
+            var haystack = (row.getAttribute('data-search') || '');
+            row.style.display = !keyword || haystack.indexOf(keyword) !== -1 ? '' : 'none';
+        });
+    }
+
+    searchBtn.addEventListener('click', applyFilter);
+    resetBtn.addEventListener('click', function () {
+        input.value = '';
+        applyFilter();
+        input.focus();
+    });
+
+    input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            applyFilter();
+        }
+    });
+
+    applyFilter();
+})();
+JS);
+?>
