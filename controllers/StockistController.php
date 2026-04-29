@@ -18,6 +18,14 @@ class StockistController extends MemberController
         // $this->view->title = $session['subMenu'][$this->select];
     }
 
+    private function getPinWalletStockistQuery($levelId)
+    {
+        return User::find()
+            ->where(['level_id' => $levelId])
+            ->andWhere(['>', 'pinwallet', 0])
+            ->andWhere('UPPER(name)<>"HEADQUATERS" AND id<>1032');
+    }
+
     public function actionIndex()
     {
         $model = new SearchDateForm;
@@ -39,5 +47,30 @@ class StockistController extends MemberController
             ->all();
 
         return $this->render('index', ['users' => $users, 'model' => $model]);
+    }
+
+    public function actionPinWallet()
+    {
+        $levels = [
+            4 => 'Mobile Stockist',
+            3 => 'Stockist',
+            2 => 'State Stockist',
+        ];
+
+        $stockists = [];
+        foreach ($levels as $levelId => $levelLabel) {
+            $query = $this->getPinWalletStockistQuery($levelId)
+                ->orderBy(['pinwallet' => SORT_DESC, 'name' => SORT_ASC]);
+
+            $stockists[$levelId] = [
+                'label' => $levelLabel,
+                'items' => (clone $query)->all(),
+                'total' => (float) (clone $query)->sum('pinwallet'),
+            ];
+        }
+
+        return $this->render('pin-wallet', [
+            'stockists' => $stockists,
+        ]);
     }
 }

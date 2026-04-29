@@ -45,6 +45,7 @@ class Menu extends \yii\bootstrap\Widget
             $menuNav = [
                 ['icon' => 'fa fa-home', 'label' => 'Dashboard', 'url' => ['/dashboard/admin']],
                 ['icon' => 'fa fa-users', 'label' => 'Top Stockist', 'url' => ['/stockist/index']],
+                ['icon' => 'fa fa-user-secret', 'label' => 'Stokis', 'url' => ['/stockist/pin-wallet']],
                 ['icon' => 'fa fa-users', 'label' => 'Members', 'url' => ['/user/index']],
                 ['icon' => 'fa fa-cart-arrow-down', 'label' => 'Buy', 'url' => ['/buy/index']],
                 ['icon' => 'fa fa-network-wired', 'label' => 'Network', 'url' => ['/network/index']],
