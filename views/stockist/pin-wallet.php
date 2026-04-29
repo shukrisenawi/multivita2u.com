@@ -48,6 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <a
                                 class="nav-link<?= $tabIndex === 0 ? ' active' : '' ?>"
                                 id="stockist-tab-<?= $levelId ?>"
+                                data-stockist-level="<?= $levelId ?>"
                                 data-toggle="tab"
                                 href="#stockist-panel-<?= $levelId ?>"
                                 role="tab"
@@ -55,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 aria-selected="<?= $tabIndex === 0 ? 'true' : 'false' ?>"
                             >
                                 <?= Html::encode($stockistGroup['label']) ?>
+                                <span class="badge badge-pill badge-warning stockist-pinwallet-tab-badge" style="display:none; margin-left:6px;"></span>
                             </a>
                         </li>
                         <?php $tabIndex++; ?>
@@ -129,13 +131,43 @@ $this->registerJs(<<<JS
     var searchBtn = document.getElementById('stockist-pinwallet-search');
     var resetBtn = document.getElementById('stockist-pinwallet-reset');
     var rows = Array.prototype.slice.call(document.querySelectorAll('.stockist-pinwallet-row'));
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[data-stockist-level]'));
 
     function applyFilter() {
         var keyword = (input.value || '').trim().toLowerCase();
+        var hasKeyword = keyword.length > 0;
+        var tabCounts = {};
 
         rows.forEach(function (row) {
             var haystack = (row.getAttribute('data-search') || '');
-            row.style.display = !keyword || haystack.indexOf(keyword) !== -1 ? '' : 'none';
+            var isMatch = !hasKeyword || haystack.indexOf(keyword) !== -1;
+            row.style.display = isMatch ? '' : 'none';
+
+            if (isMatch) {
+                var tabPane = row.closest('.tab-pane');
+                if (tabPane && tabPane.id) {
+                    tabCounts[tabPane.id] = (tabCounts[tabPane.id] || 0) + 1;
+                }
+            }
+        });
+
+        tabs.forEach(function (tab) {
+            var levelId = tab.getAttribute('data-stockist-level');
+            var paneId = 'stockist-panel-' + levelId;
+            var count = tabCounts[paneId] || 0;
+            var badge = tab.querySelector('.stockist-pinwallet-tab-badge');
+
+            if (!badge) {
+                return;
+            }
+
+            if (hasKeyword && count > 0) {
+                badge.textContent = count;
+                badge.style.display = '';
+            } else {
+                badge.textContent = '';
+                badge.style.display = 'none';
+            }
         });
     }
 
