@@ -68,9 +68,6 @@ $stats = [
                     <h2 class="dashboard-panel__title">Berita Terkini</h2>
                     <p class="dashboard-panel__subtitle">Makluman terbaru untuk ahli dan rangkaian semasa.</p>
                 </div>
-                <a class="dashboard-panel__action dashboard-panel__action--accent" href="<?= Url::to(['news/index']) ?>">
-                    <i class="fa fa-plus"></i> Lihat Semua
-                </a>
             </div>
             <div class="dashboard-panel__body">
                 <div class="dashboard-news-list">
