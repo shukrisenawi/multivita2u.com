@@ -56,6 +56,7 @@ class Menu extends \yii\bootstrap\Widget
                 ['icon' => 'fa fa-usd', 'label' => 'Point Balance', 'url' => ['/point-balance/index']],
                 ['icon' => 'fa fa-newspaper', 'label' => 'News', 'url' => ['/news/index']],
                 ['icon' => 'fa fa-images', 'label' => 'Slides', 'url' => ['/slide/index']],
+                ['icon' => 'fa fa-chart-area', 'label' => 'Laporan', 'url' => ['/report/index']],
                 ['icon' => 'fa fa-portrait', 'label' => 'Profile', 'url' => ['/profile/index'], 'hidden' => true],
                 ['icon' => 'fa fa-cog', 'label' => 'Settings', 'url' => ['/settings/index'], 'hidden' => true],
             ];
