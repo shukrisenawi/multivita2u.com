@@ -138,7 +138,7 @@ class ReportController extends MemberController
     {
         $rows = Buy::find()
             ->alias('b')
-            ->joinWith('user u')
+            ->innerJoin('yr_user u', 'u.id = b.user_id')
             ->select([
                 'month' => new Expression('MONTH(b.date_created)'),
                 'total' => new Expression('SUM(b.quantity)'),
