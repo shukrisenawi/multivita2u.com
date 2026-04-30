@@ -19,6 +19,7 @@ $chartConfigs = [
 
 $reportJson = json_encode($report, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 $chartsJson = json_encode($chartConfigs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+$reportIndexUrl = Url::to(['report/index']);
 
 $this->registerCss(<<<CSS
 .report-filter-form {
@@ -62,6 +63,7 @@ $this->registerJs(<<<JS
 (function () {
     var report = $reportJson;
     var charts = $chartsJson;
+    var reportIndexUrl = '$reportIndexUrl';
 
     function createGradient(context, color) {
         var gradient = context.createLinearGradient(0, 0, 0, 260);
@@ -135,6 +137,15 @@ $this->registerJs(<<<JS
             }
         });
     });
+
+    var yearSelect = document.getElementById('report-year');
+    var applyButton = document.getElementById('report-apply-year');
+    if (yearSelect && applyButton) {
+        applyButton.addEventListener('click', function () {
+            var year = yearSelect.value || '';
+            window.location.href = reportIndexUrl + (year ? '&year=' + encodeURIComponent(year) : '');
+        });
+    }
 })();
 JS, \yii\web\View::POS_END);
 ?>
@@ -149,7 +160,7 @@ JS, \yii\web\View::POS_END);
             </div>
         </div>
         <div class="dashboard-panel__body">
-            <form class="report-filter-form" method="get" action="<?= Url::to(['report/index']) ?>">
+            <div class="report-filter-form">
                 <div class="report-filter-form__group">
                     <label for="report-year">Tahun</label>
                     <select id="report-year" name="year" class="form-control">
@@ -159,10 +170,10 @@ JS, \yii\web\View::POS_END);
                     </select>
                 </div>
                 <div class="report-filter-form__actions">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-filter"></i> Papar</button>
+                    <button type="button" id="report-apply-year" class="btn btn-primary"><i class="fa fa-filter"></i> Papar</button>
                     <a href="<?= Url::to(['report/index']) ?>" class="btn btn-light">Reset</a>
                 </div>
-            </form>
+            </div>
         </div>
     </section>
 
