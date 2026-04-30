@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
+use app\models\Slide;
 use app\models\User;
 use app\models\ContactForm;
 use app\models\News;
@@ -78,7 +79,8 @@ class SiteController extends Controller
     public function actionIndex($page = "index")
     {
         $news = News::find()->where(['status' => 5])->orderBy('id desc')->all();
-        return $this->render($page, ['news' => $news]);
+        $slides = Slide::findActive()->all();
+        return $this->render($page, ['news' => $news, 'slides' => $slides]);
     }
 
     public function actionHubungi()

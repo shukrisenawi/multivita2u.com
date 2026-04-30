@@ -56,6 +56,7 @@ $tabs = [
                     <p class="dashboard-panel__subtitle">Makluman terbaru untuk semua peringkat rangkaian.</p>
                 </div>
                 <a class="btn btn-success" href="<?= Url::to(['news/create']) ?>"><i class="fa fa-plus"></i> Tambah Berita</a>
+                <a class="btn btn-primary ml-2" href="<?= Url::to(['slide/index']) ?>"><i class="fa fa-images"></i> Urus Slides</a>
             </div>
             <div class="dashboard-panel__body">
                 <div class="dashboard-news-list">

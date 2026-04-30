@@ -1,26 +1,24 @@
 <?php
 
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 $linkAssets = 'themes/Main2/HTML';
+$frontSlides = !empty($slides) ? $slides : [
+    (object) ['title' => 'Slide 1', 'imageUrl' => 'images/slides/slide-01.png'],
+    (object) ['title' => 'Slide 2', 'imageUrl' => 'images/slides/slide-02.png'],
+    (object) ['title' => 'Slide 3', 'imageUrl' => 'images/slides/slide-03.png'],
+];
 ?>
 
 <div class="owl-carousel carousel-center-active-item-3 dots-modern mb-0" data-plugin-options="{'items': 1, 'loop': true, 'margin': 60, 'autoplay': true, 'autoplayTimeout': 4000}">
-    <div>
-        <div class="img-thumbnail border-0 p-0 pb-3 d-block">
-            <img class="img-fluid border-radius-0" src="images/slides/slide-01.png" alt="">
+    <?php foreach ($frontSlides as $slide) { ?>
+        <div>
+            <div class="img-thumbnail border-0 p-0 pb-3 d-block">
+                <img class="img-fluid border-radius-0" src="<?= Html::encode($slide->imageUrl) ?>" alt="<?= Html::encode($slide->title) ?>">
+            </div>
         </div>
-    </div>
-    <div>
-        <div class="img-thumbnail border-0 p-0 pb-3 d-block">
-            <img class="img-fluid border-radius-0" src="images/slides/slide-02.png" alt="">
-        </div>
-    </div>
-    <div>
-        <div class="img-thumbnail border-0 p-0 pb-3 d-block">
-            <img class="img-fluid border-radius-0" src="images/slides/slide-03.png" alt="">
-        </div>
-    </div>
+    <?php } ?>
 </div>
 
 
