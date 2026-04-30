@@ -7,14 +7,14 @@ $this->title = 'Laporan';
 $this->params['breadcrumbs'][] = $this->title;
 
 $chartConfigs = [
+    ['key' => 'state_stockist', 'title' => 'Graf State Stokis', 'description' => 'Pendaftaran state stokis mengikut bulan.', 'type' => 'bar', 'color' => '#0f766e'],
+    ['key' => 'stockist', 'title' => 'Graf Stokis', 'description' => 'Pendaftaran stokis mengikut bulan.', 'type' => 'bar', 'color' => '#2563eb'],
+    ['key' => 'mobile_stockist', 'title' => 'Graf Mobile Stokis', 'description' => 'Pendaftaran mobile stokis mengikut bulan.', 'type' => 'bar', 'color' => '#7c3aed'],
     ['key' => 'member', 'title' => 'Graf Ahli', 'description' => 'Pendaftaran ahli mengikut bulan.', 'type' => 'bar', 'color' => '#db2777'],
     ['key' => 'bonus', 'title' => 'Graf Bonus', 'description' => 'Jumlah bonus bulanan berdasarkan transaksi bonus.', 'type' => 'line', 'color' => '#ea580c'],
     ['key' => 'sales', 'title' => 'Graf Jualan', 'description' => 'Jumlah jualan bulanan mengikut transaksi jualan sistem.', 'type' => 'line', 'color' => '#16a34a'],
     ['key' => 'repeat_buy', 'title' => 'Graf Belian Repeat', 'description' => 'Jumlah kuantiti pembelian repeat bulanan.', 'type' => 'line', 'color' => '#ca8a04'],
     ['key' => 'pin_wallet', 'title' => 'Graf Pin Wallet', 'description' => 'Jumlah topup pin wallet bulanan.', 'type' => 'line', 'color' => '#0891b2'],
-    ['key' => 'state_stockist', 'title' => 'Graf State Stokis', 'description' => 'Pendaftaran state stokis mengikut bulan.', 'type' => 'bar', 'color' => '#0f766e'],
-    ['key' => 'stockist', 'title' => 'Graf Stokis', 'description' => 'Pendaftaran stokis mengikut bulan.', 'type' => 'bar', 'color' => '#2563eb'],
-    ['key' => 'mobile_stockist', 'title' => 'Graf Mobile Stokis', 'description' => 'Pendaftaran mobile stokis mengikut bulan.', 'type' => 'bar', 'color' => '#7c3aed'],
 ];
 
 $reportJson = json_encode($report, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
