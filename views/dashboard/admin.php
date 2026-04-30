@@ -55,7 +55,7 @@ $tabs = [
                     <h2 class="dashboard-panel__title">Berita Terkini</h2>
                     <p class="dashboard-panel__subtitle">Makluman terbaru untuk semua peringkat rangkaian.</p>
                 </div>
-                <a class="btn btn-success" href="<?= Url::to(['news/create']) ?>"><i class="fa fa-plus"></i> Tambah Berita</a>
+                <a class="btn btn-success" href="<?= Url::to(['news/create']) ?>" title="Tambah Berita" aria-label="Tambah Berita"><i class="fa fa-plus"></i></a>
             </div>
             <div class="dashboard-panel__body">
                 <div class="dashboard-news-list">
