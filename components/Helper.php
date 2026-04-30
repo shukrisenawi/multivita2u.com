@@ -15,6 +15,10 @@ class Helper
     {
         if ($date) {
             $value = strtotime($date);
+            if ($value === false || $value <= 0) {
+                return null;
+            }
+
             return date($format, $value);
         } else {
             return null;
@@ -30,6 +34,10 @@ class Helper
     {
         if ($time) {
             $value = strtotime($time);
+            if ($value === false || $value <= 0) {
+                return null;
+            }
+
             return date($format, $value);
         } else {
             return null;

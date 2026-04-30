@@ -62,7 +62,7 @@ $stats = [
                                 <div class="dashboard-list-item__marker"><i class="fa fa-bullhorn"></i></div>
                                 <div>
                                     <h3 class="dashboard-list-item__title"><?= $item->title ?></h3>
-                                    <p class="dashboard-list-item__meta"><?= Helper::viewDate($item->created_at) ?></p>
+                                    <p class="dashboard-list-item__meta"><?= Helper::viewDate($item->displayDate) ?></p>
                                     <?php if ($item->news) { ?>
                                         <p class="dashboard-list-item__desc"><?= $item->news ?></p>
                                     <?php } ?>
