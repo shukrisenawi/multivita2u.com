@@ -409,6 +409,108 @@ $css = '
     background: rgba(255, 255, 255, 0.9);
     border-color: rgba(64, 81, 137, 0.15);
 }
+
+.member-profile-hero {
+    padding: 16px 20px !important;
+    gap: 14px !important;
+}
+
+.member-profile-hero__eyebrow {
+    margin-bottom: 4px !important;
+}
+
+.member-profile-hero__title {
+    margin: 0 0 8px !important;
+    font-size: 22px !important;
+}
+
+.member-profile-hero__meta {
+    gap: 6px !important;
+    margin-bottom: 0 !important;
+}
+
+.member-profile-hero__meta span {
+    min-height: 26px !important;
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+}
+
+.member-profile-hero__aside {
+    gap: 10px !important;
+}
+
+.member-profile-badge,
+.member-profile-card {
+    padding: 10px 14px !important;
+}
+
+.member-profile-badge__label,
+.member-profile-card__label {
+    margin-bottom: 2px !important;
+}
+
+.member-profile-badge__value,
+.member-profile-card__value {
+    font-size: 15px !important;
+}
+
+.member-profile-grid {
+    gap: 10px !important;
+    margin-bottom: 14px !important;
+}
+
+.member-profile-panel {
+    border-radius: 14px !important;
+}
+
+.member-profile-panel .panel-heading {
+    padding: 12px 16px !important;
+}
+
+.member-profile-panel__heading {
+    gap: 2px !important;
+}
+
+.member-profile-panel__eyebrow {
+    font-size: 10px !important;
+}
+
+.member-profile-actions {
+    gap: 8px !important;
+}
+
+.member-profile-actions .btn {
+    font-size: 12px !important;
+    padding: 7px 12px !important;
+}
+
+.kv-attribute {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+}
+
+.kv-group-label {
+    font-size: 12px !important;
+}
+
+.user-view__bg-orb--1 {
+    width: 300px !important;
+    height: 300px !important;
+    top: -80px !important;
+    right: -60px !important;
+}
+
+.user-view__bg-orb--2 {
+    width: 250px !important;
+    height: 250px !important;
+    bottom: 5% !important;
+    left: -60px !important;
+}
+
+.user-view__bg-orb--3 {
+    width: 200px !important;
+    height: 200px !important;
+}
 ';
 $this->registerCss($css);
 ?>
