@@ -188,6 +188,7 @@ JS);
                         </span>
                     </button>
 
+                    <?php if (isset(Yii::$app->user->identity) && Yii::$app->user->identity->isAdmin()) { ?>
                     <!-- Search -->
                     <form class="app-search d-none d-md-block">
                         <div class="position-relative">
@@ -196,6 +197,7 @@ JS);
                             <div id="navbar-member-search-results" class="app-search-results"></div>
                         </div>
                     </form>
+                    <?php } ?>
                 </div>
 
                 <!-- Right side icons -->
