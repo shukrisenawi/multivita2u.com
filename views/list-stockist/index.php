@@ -237,21 +237,27 @@ $('#stockist-search').on('keyup', function() {
     $('.stockist-state-panel').each(function() {
         var panel = $(this);
         var state = panel.data('state').toLowerCase();
-        var found = false;
+        var collapseEl = panel.find('.collapse');
+        var hasMatch = false;
         panel.find('.stockist-agent-card').each(function() {
             var name = $(this).data('name');
             var match = name.indexOf(q) > -1 || state.indexOf(q) > -1;
-            if (match) found = true;
+            if (match) hasMatch = true;
             $(this).closest('.col-lg-4, .col-md-6').toggle(match);
         });
         panel.find('.dashboard-empty').each(function() {
             $(this).toggle(panel.find('.stockist-agent-card').length === 0);
         });
-        var visibleCards = panel.find('.stockist-agent-card:visible').length;
         if (q === '') {
             panel.show();
+            collapseEl.collapse('hide');
         } else {
-            panel.toggle(found || visibleCards > 0);
+            panel.show();
+            if (hasMatch) {
+                collapseEl.collapse('show');
+            } else {
+                collapseEl.collapse('hide');
+            }
         }
     });
 });
