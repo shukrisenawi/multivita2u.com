@@ -78,6 +78,12 @@ $this->params['breadcrumbs'][] = $this->title;
         $agen_stokis = $agentsByState[$value][3] ?? [];
         $agen_mobile = $agentsByState[$value][4] ?? [];
         $total_agen = count($agen_negeri) + count($agen_stokis) + count($agen_mobile);
+
+        $tabDefs = [];
+        if ($agen_negeri) $tabDefs[] = ['id' => $id_negeri, 'label' => 'Stokis Negeri', 'agents' => $agen_negeri];
+        if ($agen_stokis) $tabDefs[] = ['id' => $id_stokis, 'label' => 'Stokis', 'agents' => $agen_stokis];
+        if ($agen_mobile) $tabDefs[] = ['id' => $id_mobile, 'label' => 'Mobile Stokis', 'agents' => $agen_mobile];
+        $firstTabId = $tabDefs[0]['id'] ?? null;
     ?>
     <div class="dashboard-panel stockist-state-panel mb-3" data-state="<?= Html::encode($value) ?>">
         <div class="dashboard-panel__header stockist-state-header" style="cursor:pointer;padding:14px 20px" data-toggle="collapse" data-target="#stateCollapse<?= $i ?>" aria-expanded="<?= $value == Yii::$app->user->identity->state ? 'true' : 'false' ?>">
@@ -95,29 +101,20 @@ $this->params['breadcrumbs'][] = $this->title;
         <div id="stateCollapse<?= $i ?>" class="collapse <?= $value == Yii::$app->user->identity->state ? 'show' : '' ?>" data-parent="">
             <div class="dashboard-panel__body" style="padding:0">
 
+                <?php if ($tabDefs): ?>
                 <ul class="nav nav-tabs stockist-tabs" role="tablist" style="padding:14px 20px 0;border-bottom:1px solid var(--vz-border)">
+                    <?php foreach ($tabDefs as $t): ?>
                     <li class="nav-item">
-                        <a class="nav-link active" id="<?= $id_negeri ?>-tab" data-toggle="tab" href="#<?= $id_negeri ?>" role="tab">Stokis Negeri</a>
+                        <a class="nav-link <?= $t['id'] === $firstTabId ? 'active' : '' ?>" id="<?= $t['id'] ?>-tab" data-toggle="tab" href="#<?= $t['id'] ?>" role="tab"><?= $t['label'] ?></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="<?= $id_stokis ?>-tab" data-toggle="tab" href="#<?= $id_stokis ?>" role="tab">Stokis</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="<?= $id_mobile ?>-tab" data-toggle="tab" href="#<?= $id_mobile ?>" role="tab">Mobile Stokis</a>
-                    </li>
+                    <?php endforeach; ?>
                 </ul>
 
                 <div class="tab-content" style="padding:18px 20px 22px">
-                    <?php for ($j = 1; $j <= 3; $j++):
-                        $tabId = $id_negeri;
-                        $agentList = $agen_negeri;
-                        if ($j == 2) { $tabId = $id_stokis; $agentList = $agen_stokis; }
-                        if ($j == 3) { $tabId = $id_mobile; $agentList = $agen_mobile; }
-                    ?>
-                    <div class="tab-pane fade <?= $j == 1 ? 'show active' : '' ?>" id="<?= $tabId ?>" role="tabpanel">
-                        <?php if ($agentList): ?>
+                    <?php foreach ($tabDefs as $t): ?>
+                    <div class="tab-pane fade <?= $t['id'] === $firstTabId ? 'show active' : '' ?>" id="<?= $t['id'] ?>" role="tabpanel">
                         <div class="row" style="margin:-6px">
-                            <?php foreach ($agentList as $agent): ?>
+                            <?php foreach ($t['agents'] as $agent): ?>
                             <div class="col-lg-4 col-md-6" style="padding:6px">
                                 <div class="stockist-agent-card" data-name="<?= Html::encode(strtolower($agent['name'])) ?>">
                                     <div class="stockist-agent-card__icon"><?= Html::encode(substr($agent['name'], 0, 1)) ?></div>
@@ -139,12 +136,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                             <?php endforeach; ?>
                         </div>
-                        <?php else: ?>
-                        <div class="dashboard-empty">Tiada data.</div>
-                        <?php endif; ?>
                     </div>
-                    <?php endfor; ?>
+                    <?php endforeach; ?>
                 </div>
+                <?php else: ?>
+                <div style="padding:18px 20px 22px">
+                    <div class="dashboard-empty">Tiada data.</div>
+                </div>
+                <?php endif; ?>
 
             </div>
         </div>
