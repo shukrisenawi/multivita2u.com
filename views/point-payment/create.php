@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = "Payment";
                     <span>
                         <i class="fa fa-hand-holding-usd"></i>
                     </span>
-                    <h3>Pay Cash to admin (1 Point = RM<?= $rm ?>)</h3>
+                    <h3>Pay Cash to admin (1 Point = RM<?= number_format((float) $rm, 2) ?>)</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">

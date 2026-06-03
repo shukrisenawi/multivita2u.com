@@ -69,13 +69,13 @@ class ScriptController extends Controller
                     ':dateLast' => $dateLast,
                 ])->select("SUM(value) as total")->one();
 
-                echo "<h1>Jumlah Keseluruhan : " . str_replace("-", "", "RM" . $total->total) . "</h1><br>";
+                echo "<h1>Jumlah Keseluruhan : " . "RM" . number_format((float) str_replace("-", "", $total->total), 2) . "</h1><br>";
                 $i = 1;
                 $totalAll = 0;
 
                 echo '<pre><table><tr><th style="text-align:center">Bil</th><th>Username</th><th>Catatan</th><th>Jumlah</th><th>Tarikh Dibayar</th></tr>';
                 foreach ($transactions as $transaction) {
-                    echo "<tr><td>" . $i . "</td><td>" . $transaction->user->username . "</td><td>" . $transaction->remarks . "</td><td>" . str_replace("-", "", "RM" . $transaction->value) . "</td><td>" . date('d-m-Y', strtotime($transaction->date_success)) . "</td></tr>";
+                    echo "<tr><td>" . $i . "</td><td>" . $transaction->user->username . "</td><td>" . $transaction->remarks . "</td><td>" . "RM" . number_format((float) str_replace("-", "", $transaction->value), 2) . "</td><td>" . date('d-m-Y', strtotime($transaction->date_success)) . "</td></tr>";
                     $i++;
                     $totalAll += $transaction->value;
                 }
@@ -130,13 +130,13 @@ class ScriptController extends Controller
                     ':dateLast' => $dateLast,
                 ])->select("SUM(value) as total")->one();
 
-                echo "<h1>" . strtoupper($checkUser->name) . "(" . $checkUser->username . ")<br>Bulan : " . $arrayMonth[$month] . ", Tahun : " . $year . "<br>Jumlah Keseluruhan : " .  "RM" . $total->total . "</h1>";
+                echo "<h1>" . strtoupper($checkUser->name) . "(" . $checkUser->username . ")<br>Bulan : " . $arrayMonth[$month] . ", Tahun : " . $year . "<br>Jumlah Keseluruhan : " .  "RM" . number_format((float) $total->total, 2) . "</h1>";
                 $i = 1;
                 $totalAll = 0;
 
                 echo '<pre><table><tr><th style="text-align:center">Bil</th><th>Username</th><th>Catatan</th><th>Jumlah</th><th>Tarikh</th></tr>';
                 foreach ($transactions as $transaction) {
-                    echo "<tr><td>" . $i . "</td><td>" . $transaction->user->username . "</td><td>" . $transaction->remarks . "</td><td>" . "RM" . $transaction->value . "</td><td>" . date('d-m-Y', strtotime($transaction->date)) . "</td></tr>";
+                    echo "<tr><td>" . $i . "</td><td>" . $transaction->user->username . "</td><td>" . $transaction->remarks . "</td><td>" . "RM" . number_format((float) $transaction->value, 2) . "</td><td>" . date('d-m-Y', strtotime($transaction->date)) . "</td></tr>";
                     $i++;
                     $totalAll += $transaction->value;
                 }
@@ -170,13 +170,13 @@ class ScriptController extends Controller
                     ':dateLast' => $dateLast,
                 ])->select("SUM(value) as total")->one();
 
-                echo "<h1>Jumlah Keseluruhan : " . str_replace("-", "", "RM" . $total->total) . "</h1><br>";
+                echo "<h1>Jumlah Keseluruhan : " . "RM" . number_format((float) str_replace("-", "", $total->total), 2) . "</h1><br>";
                 $i = 1;
                 $totalAll = 0;
 
                 echo '<pre><table><tr><th style="text-align:center">Bil</th><th>Username</th><th>Catatan</th><th>Jumlah</th><th>Tarikh</th></tr>';
                 foreach ($transactions as $transaction) {
-                    echo "<tr><td>" . $i . "</td><td>" . $transaction->user->username . "</td><td>" . $transaction->remarks . "</td><td>" . str_replace("-", "", "RM" . $transaction->value) . "</td><td>" . date('d-m-Y', strtotime($transaction->date)) . "</td></tr>";
+                    echo "<tr><td>" . $i . "</td><td>" . $transaction->user->username . "</td><td>" . $transaction->remarks . "</td><td>" . "RM" . number_format((float) str_replace("-", "", $transaction->value), 2) . "</td><td>" . date('d-m-Y', strtotime($transaction->date)) . "</td></tr>";
                     $i++;
                     $totalAll += $transaction->value;
                 }

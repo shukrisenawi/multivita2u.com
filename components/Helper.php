@@ -118,7 +118,7 @@ class Helper
     public static function convertMoney($value)
     {
         $setting = Settings::value();
-        return $setting['currency'] . $value;
+        return $setting['currency'] . number_format((float) $value, 2);
     }
 
     public static function dateToOri($date, $time = true)

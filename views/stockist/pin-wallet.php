@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col-md-12">
-        <section class="card" id="stockist-pinwallet-page" data-currency-prefix="<?= Html::encode(rtrim(Helper::convertMoney(0), '0')) ?>">
+        <section class="card" id="stockist-pinwallet-page" data-currency-prefix="<?= Html::encode(rtrim(Helper::convertMoney(0), '0.')) ?>">
             <div class="revenue-head">
                 <span>
                     <i class="fa fa-user-secret"></i>
@@ -168,7 +168,8 @@ $this->registerJs(<<<JS
     var currencyPrefix = page ? (page.getAttribute('data-currency-prefix') || 'RM') : 'RM';
 
     function formatMoney(value) {
-        return currencyPrefix + value;
+        var num = parseFloat(value) || 0;
+        return currencyPrefix + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
     function getRowBonusAmount(row) {
