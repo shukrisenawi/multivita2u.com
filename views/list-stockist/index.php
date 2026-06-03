@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="dashboard-panel stockist-state-panel mb-3" data-state="<?= Html::encode($value) ?>">
         <div class="dashboard-panel__header stockist-state-header" style="cursor:pointer;padding:14px 20px" data-toggle="collapse" data-target="#stateCollapse<?= $i ?>" aria-expanded="<?= $value == Yii::$app->user->identity->state ? 'true' : 'false' ?>">
             <div class="d-flex align-items-center gap-3">
-                <div style="width:36px;height:36px;border-radius:10px;background:var(--vz-primary-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;color:var(--vz-primary);font-weight:700"><?= substr($value, 0, 2) ?></div>
+                <div style="width:36px;height:36px;border-radius:10px;background:var(--vz-primary-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;color:var(--vz-primary);font-weight:700;margin-right:10px"><?= substr($value, 0, 2) ?></div>
                 <div>
                     <div style="font-size:14px;font-weight:700;color:var(--vz-heading)"><?= Html::encode(strtoupper($value)) ?></div>
                     <div style="font-size:11px;color:var(--vz-text-muted);margin-top:1px">
