@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="member-profile-badge__value"><?= $model->activated ? 'Aktif' : 'Belum Aktif' ?></div>
             </div>
             <div class="member-profile-actions">
-                <?= Html::a('<i class="fa fa-pencil"></i> Kemaskini Ahli', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('<i class="fa fa-pencil"></i> Kemaskini Ahli', ['update', 'id' => $model->id, 'username' => $model->username], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Senarai', ['index'], ['class' => 'btn btn-light']) ?>
             </div>
         </aside>
