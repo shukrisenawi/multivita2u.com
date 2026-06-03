@@ -48,3 +48,5 @@ phpunit.phar
 /yii3-app/public/assets/
 /yii3-app/.env
 /yii3-app/.env.*
+
+web/login.png
