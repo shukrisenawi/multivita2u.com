@@ -249,14 +249,14 @@ $('#stockist-search').on('keyup', function() {
             $(this).toggle(panel.find('.stockist-agent-card').length === 0);
         });
         if (q === '') {
-            panel.show();
-            collapseEl.collapse('hide');
+            collapseEl.attr('data-parent', '.app-section-stack').removeAttr('style').removeClass('show').addClass('collapse');
+            $('.stockist-state-panel').show();
         } else {
             panel.show();
             if (hasMatch) {
-                collapseEl.collapse('show');
+                collapseEl.removeAttr('data-parent').addClass('show').removeClass('collapse').css('display', 'block').height('');
             } else {
-                collapseEl.collapse('hide');
+                collapseEl.removeClass('show').addClass('collapse').removeAttr('style');
             }
         }
     });
