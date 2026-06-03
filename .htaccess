@@ -1,4 +1,11 @@
 RewriteEngine On
+
+# If the requested file/dir exists under web/, serve it directly
+RewriteCond %{DOCUMENT_ROOT}/yii3_multivita2u.com/web/$1 -f [OR]
+RewriteCond %{DOCUMENT_ROOT}/yii3_multivita2u.com/web/$1 -d
+RewriteRule ^(.*)$ web/$1 [L]
+
+# Route everything else to Yii2 entry point
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [QSA,L]
+RewriteRule ^(.*)$ web/index.php [QSA,L]
