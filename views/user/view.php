@@ -449,15 +449,16 @@ $css = '
 
 .member-profile-actions-strip {
     display: flex !important;
-    gap: 8px !important;
+    flex-direction: column !important;
+    gap: 6px !important;
     flex: 1 !important;
-    justify-content: flex-end !important;
 }
 
 .member-profile-actions-strip .btn {
     white-space: nowrap !important;
     font-size: 12px !important;
     padding: 7px 14px !important;
+    width: 100% !important;
 }
 
 .member-profile-badge,
