@@ -1,122 +1,257 @@
 <?php
+
+use yii\helpers\Html;
+use yii\helpers\Url;
+use app\models\Level;
+
 $this->title = 'Stockist';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<article class="media mb-3">
-    <a class="mr-3 p-thumb">
-        <img class="" src="images/logo_2.png">
-    </a>
-    <div class="media-body">
-        <h4 class="list-group-item-heading"><strong>HEADQUATERS</strong></h4>
-        <p class="list-group-item-text">012-9544847</p>
+<div class="app-section-stack">
+    <section class="app-page-intro">
+        <div class="app-page-intro__eyebrow">Rangkaian</div>
+        <h1 class="app-page-intro__title"><?= $this->title ?></h1>
+        <p class="app-page-intro__desc">Senarai penuh Stokis Negeri, Stokis dan Mobile Stokis di seluruh Malaysia.</p>
+    </section>
+
+    <?php
+    $totalNegeri = 0;
+    $totalStokis = 0;
+    $totalMobile = 0;
+    foreach ($agentsByState as $agents) {
+        $totalNegeri += count($agents[2] ?? []);
+        $totalStokis += count($agents[3] ?? []);
+        $totalMobile += count($agents[4] ?? []);
+    }
+    ?>
+
+    <div class="app-stat-strip">
+        <article class="app-stat-chip">
+            <div class="app-stat-chip__label">Stokis Negeri</div>
+            <div class="app-stat-chip__value"><?= $totalNegeri ?></div>
+        </article>
+        <article class="app-stat-chip">
+            <div class="app-stat-chip__label">Stokis</div>
+            <div class="app-stat-chip__value"><?= $totalStokis ?></div>
+        </article>
+        <article class="app-stat-chip">
+            <div class="app-stat-chip__label">Mobile Stokis</div>
+            <div class="app-stat-chip__value"><?= $totalMobile ?></div>
+        </article>
+        <article class="app-stat-chip">
+            <div class="app-stat-chip__label">Negeri</div>
+            <div class="app-stat-chip__value"><?= count($state) ?></div>
+        </article>
     </div>
-</article>
-<br>
-<section class="card">
-    <div class="accordion" id="accordionStockist">
-        <?php
-        $i = 1;
-        foreach ($state as $key => $value) {
 
-        ?>
-        <div class="card">
-            <div class="card-header bg-light border-bottom-0" id="heading<?= $key ?>">
-
-                <h5 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse"
-                        data-target="#collapse<?= $key ?>" aria-expanded="true" aria-controls="collapse<?= $key ?>">
-                        <?= strtoupper($value) ?>
-                    </button>
-                </h5>
-            </div>
-
-            <section class="card">
-                <div id="collapse<?= $key ?>"
-                    class="collapse <?= $value == Yii::$app->user->identity->state ? "show" : "" ?>"
-                    aria-labelledby="heading<?= $key ?>" data-parent="#accordionStockist">
-                    <div class="card-body">
-                        <section class="card">
-                            <?php
-                                $id[$i][1] = "negeri" . $i;
-                                $id[$i][2] = "stokis" . $i;
-                                $id[$i][3] = "mobile" . $i;
-                                $agen[$i][1] = $agentsByState[$value][2] ?? [];
-                                $agen[$i][2] = $agentsByState[$value][3] ?? [];
-                                $agen[$i][3] = $agentsByState[$value][4] ?? [];
-
-                                ?>
-                            <header class="card-header tab-bg-dark-navy-blue p-0">
-                                <ul class="nav nav-tabs nav-justified" id="myTab<?= $i ?>" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="<?= $id[$i][1] ?>-tab" data-toggle="tab"
-                                            href="#<?= $id[$i][1] ?>" role="tab" aria-controls="<?= $id[$i][1] ?>"
-                                            aria-selected="true">STOKIS NEGERI</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="<?= $id[$i][2] ?>-tab" data-toggle="tab"
-                                            href="#<?= $id[$i][2] ?>" role="tab" aria-controls="<?= $id[$i][2] ?>"
-                                            aria-selected="false">STOKIS</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="<?= $id[$i][3] ?>-tab" data-toggle="tab"
-                                            href="#<?= $id[$i][3] ?>" role="tab" aria-controls="<?= $id[$i][3] ?>"
-                                            aria-selected="false">MOBILE STOKIS</a>
-                                    </li>
-                                </ul>
-
-                            </header>
-                            <div class="card-body">
-                                <div class="tab-content tasi-tab" id="myTabContent<?= $i ?>">
-                                    <?php
-                                        for ($j = 1; $j <= 3; $j++) { ?>
-                                    <div class="tab-pane fade <?= $j == 1 ? "show active" : "" ?>"
-                                        id="<?= $id[$i][$j] ?>" role="tabpanel"
-                                        aria-labelledby="<?= $id[$i][$j] ?>-tab">
-                                        <?php
-                                                if ($agen[$i][$j]) { ?>
-                                        <div class="row">
-                                            <?php
-                                                        foreach ($agen[$i][$j] as $user[$i][$j]) { ?>
-                                            <div class="col-lg-3 col-sm-6 sm-mb-30">
-
-                                                <div class="room-box">
-                                                    <h5 class="text-primary"><a href="#"><?= $user[$i][$j]['name'] ?></a>
-                                                    </h5>
-                                                    <?= $user[$i][$j]['city'] ? "<p><em> ( " . $user[$i][$j]['city'] . " ) </em></p>" : "" ?>
-                                                    <p> <span class="text-muted"><strong>Tel
-                                                                :
-                                                        </span><?= $user[$i][$j]['hp'] ? $user[$i][$j]['hp'] : "-" ?></strong><br>
-                                                        <span class="text-muted">Email : </span>
-                                                        <?= $user[$i][$j]['email'] ? $user[$i][$j]['email'] : "-" ?>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <?php
-                                                        } ?>
-                                        </div>
-                                        <?php } else { ?>
-                                        <div class="col-lg-12">
-                                            <div class="team team-hover">
-                                                Tiada data.
-                                            </div>
-                                        </div>
-                                        <?php
-                                                } ?>
-                                    </div>
-                                    <?php } ?>
-                                </div>
-
-                            </div>
-                        </section>
-
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="dashboard-panel h-100">
+                <div class="dashboard-panel__body d-flex align-items-center gap-3" style="padding:16px 20px">
+                    <div style="width:52px;height:52px;border-radius:12px;background:var(--vz-primary-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;color:var(--vz-primary)">&#x1f3e2;</div>
+                    <div>
+                        <div style="font-size:15px;font-weight:700;color:var(--vz-heading)">HEADQUARTERS</div>
+                        <div style="font-size:12px;color:var(--vz-text-muted);margin-top:2px">012-9544847</div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
-
-        <?php
-
-            $i++;
-        } ?>
+        <div class="col-md-6">
+            <div class="dashboard-panel h-100">
+                <div class="dashboard-panel__body" style="padding:12px 20px">
+                    <div class="position-relative">
+                        <input type="text" id="stockist-search" class="form-control" placeholder="Cari stokis, negeri atau jenis..." style="padding-left:36px;min-height:38px">
+                        <span style="position:absolute;top:50%;left:12px;transform:translateY(-50%);color:var(--vz-text-muted);font-size:13px;pointer-events:none">&#x1f50d;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</section>
+
+    <?php
+    $i = 1;
+    foreach ($state as $key => $value):
+        $id_negeri = "negeri" . $i;
+        $id_stokis = "stokis" . $i;
+        $id_mobile = "mobile" . $i;
+        $agen_negeri = $agentsByState[$value][2] ?? [];
+        $agen_stokis = $agentsByState[$value][3] ?? [];
+        $agen_mobile = $agentsByState[$value][4] ?? [];
+        $total_agen = count($agen_negeri) + count($agen_stokis) + count($agen_mobile);
+    ?>
+    <div class="dashboard-panel stockist-state-panel mb-3" data-state="<?= Html::encode($value) ?>">
+        <div class="dashboard-panel__header stockist-state-header" style="cursor:pointer;padding:14px 20px" data-toggle="collapse" data-target="#stateCollapse<?= $i ?>" aria-expanded="<?= $value == Yii::$app->user->identity->state ? 'true' : 'false' ?>">
+            <div class="d-flex align-items-center gap-3">
+                <div style="width:36px;height:36px;border-radius:10px;background:var(--vz-primary-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;color:var(--vz-primary);font-weight:700"><?= substr($value, 0, 2) ?></div>
+                <div>
+                    <div style="font-size:14px;font-weight:700;color:var(--vz-heading)"><?= Html::encode(strtoupper($value)) ?></div>
+                    <div style="font-size:11px;color:var(--vz-text-muted);margin-top:1px">
+                        <?php $parts = []; if ($agen_negeri) $parts[] = count($agen_negeri).' Negeri'; if ($agen_stokis) $parts[] = count($agen_stokis).' Stokis'; if ($agen_mobile) $parts[] = count($agen_mobile).' Mobile'; echo implode(' &middot; ', $parts); ?>
+                    </div>
+                </div>
+            </div>
+            <span style="font-size:12px;color:var(--vz-text-muted);white-space:nowrap"><?= $total_agen ?> &nbsp;&#x25BC;</span>
+        </div>
+        <div id="stateCollapse<?= $i ?>" class="collapse <?= $value == Yii::$app->user->identity->state ? 'show' : '' ?>" data-parent="">
+            <div class="dashboard-panel__body" style="padding:0">
+
+                <ul class="nav nav-tabs stockist-tabs" role="tablist" style="padding:12px 20px 0;border-bottom:1px solid var(--vz-border)">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="<?= $id_negeri ?>-tab" data-toggle="tab" href="#<?= $id_negeri ?>" role="tab">Stokis Negeri</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="<?= $id_stokis ?>-tab" data-toggle="tab" href="#<?= $id_stokis ?>" role="tab">Stokis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="<?= $id_mobile ?>-tab" data-toggle="tab" href="#<?= $id_mobile ?>" role="tab">Mobile Stokis</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" style="padding:16px 20px">
+                    <?php for ($j = 1; $j <= 3; $j++):
+                        $tabId = $id_negeri;
+                        $agentList = $agen_negeri;
+                        if ($j == 2) { $tabId = $id_stokis; $agentList = $agen_stokis; }
+                        if ($j == 3) { $tabId = $id_mobile; $agentList = $agen_mobile; }
+                    ?>
+                    <div class="tab-pane fade <?= $j == 1 ? 'show active' : '' ?>" id="<?= $tabId ?>" role="tabpanel">
+                        <?php if ($agentList): ?>
+                        <div class="row" style="margin:-6px">
+                            <?php foreach ($agentList as $agent): ?>
+                            <div class="col-lg-4 col-md-6" style="padding:6px">
+                                <div class="stockist-agent-card" data-name="<?= Html::encode(strtolower($agent['name'])) ?>">
+                                    <div class="stockist-agent-card__icon"><?= Html::encode(substr($agent['name'], 0, 1)) ?></div>
+                                    <div class="stockist-agent-card__body">
+                                        <div class="stockist-agent-card__name"><?= Html::encode($agent['name']) ?></div>
+                                        <?php if ($agent['city']): ?>
+                                        <div class="stockist-agent-card__city"><?= Html::encode($agent['city']) ?></div>
+                                        <?php endif; ?>
+                                        <div class="stockist-agent-card__contact">
+                                            <?php if ($agent['hp']): ?>
+                                            <span>&#x260E; <?= Html::encode($agent['hp']) ?></span>
+                                            <?php endif; ?>
+                                            <?php if ($agent['email']): ?>
+                                            <span>&#x2709; <?= Html::encode($agent['email']) ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php else: ?>
+                        <div class="dashboard-empty">Tiada data.</div>
+                        <?php endif; ?>
+                    </div>
+                    <?php endfor; ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <?php
+        $i++;
+    endforeach; ?>
+</div>
+
+<?php
+$css = <<<CSS
+.stockist-agent-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--vz-border);
+    border-radius: var(--vz-radius-md);
+    background: var(--vz-surface);
+    transition: border-color .15s ease, box-shadow .15s ease;
+    height: 100%;
+}
+.stockist-agent-card:hover {
+    border-color: var(--vz-primary);
+    box-shadow: 0 0 0 3px var(--vz-primary-soft);
+}
+.stockist-agent-card__icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 10px;
+    background: var(--vz-primary-soft);
+    color: var(--vz-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.stockist-agent-card__body {
+    min-width: 0;
+    flex: 1;
+}
+.stockist-agent-card__name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--vz-heading);
+    line-height: 1.3;
+}
+.stockist-agent-card__city {
+    font-size: 11px;
+    color: var(--vz-text-muted);
+    margin-top: 1px;
+}
+.stockist-agent-card__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--vz-text-muted);
+    line-height: 1.4;
+}
+.stockist-agent-card__contact span {
+    white-space: nowrap;
+}
+.stockist-tabs .nav-link {
+    font-size: 10px;
+    padding: 6px 12px;
+    min-height: 30px;
+}
+.stockist-state-header:hover {
+    background: #f8f9fc;
+}
+.stockist-state-header[aria-expanded="true"] span {
+    color: var(--vz-primary);
+}
+CSS;
+$this->registerCss($css);
+?>
+
+<?php
+$js = <<<JS
+$('#stockist-search').on('keyup', function() {
+    var q = $(this).val().toLowerCase().trim();
+    $('.stockist-state-panel').each(function() {
+        var panel = $(this);
+        var state = panel.data('state').toLowerCase();
+        var found = false;
+        panel.find('.stockist-agent-card').each(function() {
+            var name = $(this).data('name');
+            var match = name.indexOf(q) > -1 || state.indexOf(q) > -1;
+            if (match) found = true;
+            $(this).closest('.col-lg-4, .col-md-6').toggle(match);
+        });
+        panel.find('.dashboard-empty').each(function() {
+            $(this).toggle(panel.find('.stockist-agent-card').length === 0);
+        });
+        var visibleCards = panel.find('.stockist-agent-card:visible').length;
+        if (q === '') {
+            panel.show();
+        } else {
+            panel.toggle(found || visibleCards > 0);
+        }
+    });
+});
+JS;
+$this->registerJs($js);
+?>
