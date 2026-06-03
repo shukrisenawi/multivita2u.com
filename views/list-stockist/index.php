@@ -107,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php foreach ($t['agents'] as $agent): ?>
                             <div class="col-lg-4 col-md-6" style="padding:6px">
                                 <div class="stockist-agent-card" data-name="<?= Html::encode(strtolower($agent['name'])) ?>">
-                                    <div class="stockist-agent-card__icon"><?= Html::encode(substr($agent['name'], 0, 1)) ?></div>
+                                    <div class="stockist-agent-card__icon"><i class="fa fa-user-circle"></i></div>
                                     <div class="stockist-agent-card__body">
                                         <div class="stockist-agent-card__name"><?= Html::encode($agent['name']) ?></div>
                                         <?php if ($agent['city']): ?>
@@ -170,9 +170,7 @@ $css = <<<CSS
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
-    font-weight: 700;
-    text-transform: uppercase;
+    font-size: 18px;
 }
 .stockist-agent-card__body {
     min-width: 0;
