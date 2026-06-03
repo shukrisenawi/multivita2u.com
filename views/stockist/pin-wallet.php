@@ -1,6 +1,7 @@
 <?php
 
 use app\components\Helper;
+use app\models\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -107,11 +108,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <?php if ($stockistGroup['items']) { ?>
                                                     <?php foreach ($stockistGroup['items'] as $index => $stockist) { ?>
                                                         <?php $pinTambahan = (float) $stockist['pinTambahan']; ?>
-                                                        <tr class="stockist-pinwallet-row" data-user-id="<?= Html::encode($stockist['id']) ?>" data-search="<?= Html::encode(strtolower(trim(($stockist['username'] ?? '') . ' ' . ($stockist['name'] ?? '') . ' ' . ($stockist['state'] ?? '') . ' ' . ($stockist['hp'] ?? '')))) ?>">
+                                                        <tr class="stockist-pinwallet-row" data-user-id="<?= Html::encode($stockist['id']) ?>" data-search="<?= Html::encode(strtolower(trim(($stockist['username'] ?? '') . ' ' . ($stockist['name'] ?? '') . ' ' . ($stockist['state'] ?? '') . ' ' . User::formatPhone($stockist['hp'] ?? '')))) ?>">
                                                             <td><?= $index + 1 ?></td>
                                                             <td><?= Html::encode($stockist['username']) ?></td>
                                                             <td><?= Html::encode($stockist['name']) ?></td>
-                                                            <td><?= Html::encode($stockist['hp']) ?></td>
+                                                            <td><?= Html::encode(User::formatPhone($stockist['hp'])) ?></td>
                                                             <td><?= Html::encode($stockist['state']) ?></td>
                                                             <td class="stockist-pinwallet-value" data-value="<?= Html::encode($stockist['pinwallet']) ?>"><?= Helper::convertMoney($stockist['pinwallet']) ?></td>
                                                             <td class="stockist-pinwallet-bonus" data-value="<?= Html::encode($pinTambahan) ?>"><?= Helper::convertMoney($pinTambahan) ?></td>

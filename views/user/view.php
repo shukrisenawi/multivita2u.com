@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="member-profile-hero__meta">
                 <span>@<?= Html::encode($model->username) ?></span>
                 <span><?= Html::encode($model->email ?: 'Tiada emel') ?></span>
-                <span><?= Html::encode($model->hp ?: 'Tiada nombor telefon') ?></span>
+                <span><?= Html::encode($model->hp ? User::formatPhone($model->hp) : 'Tiada nombor telefon') ?></span>
             </div>
             <p class="member-profile-hero__desc">Paparan profil ini menghimpunkan status akaun, butiran kewangan, bank, dan alamat dalam susun atur yang lebih eksklusif dan mudah dibaca.</p>
         </div>

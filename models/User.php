@@ -114,6 +114,7 @@ class User extends ActiveRecord implements IdentityInterface
             ],
             [['name'], 'string', 'max' => 50],
             [['ip', 'hp', 'ic'], 'string', 'max' => 20],
+            ['hp', 'match', 'pattern' => '/^\d{3}-\d{7,8}$/', 'message' => 'Nombor telefon mesti dalam format 01X-XXXXXXX'],
             // [['wallet'], 'check', 'skipOnEmpty' => false, 'skipOnError' => false],
             [['username'], 'unique'],
             ['email', 'email'],
@@ -260,15 +261,34 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    // public function check($attribute, $param)
-    // {
-    //     $setting = Settings::value();
-    //     if (!Yii::$app->user->identity->isAdmin()) {
-    //         if (Yii::$app->user->identity->ewallet < $this->price) {
-    //             $this->addError($attribute, 'Wallet anda tidak mencukupi.');
-    //         }
-    //     }
-    // }
+    public function beforeValidate()
+    {
+        if (parent::beforeValidate()) {
+            if ($this->hp) {
+                $this->hp = self::formatPhone($this->hp);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static function formatPhone($hp)
+    {
+        $hp = trim($hp);
+        if (empty($hp)) {
+            return $hp;
+        }
+        if (str_starts_with($hp, '+6')) {
+            $hp = substr($hp, 2);
+        } elseif (str_starts_with($hp, '6') && strlen($hp) > 1) {
+            $hp = substr($hp, 1);
+        }
+        $hp = preg_replace('/[^0-9]/', '', $hp);
+        if (strlen($hp) > 3) {
+            $hp = substr($hp, 0, 3) . '-' . substr($hp, 3);
+        }
+        return $hp;
+    }
 
     public static function stateList()
     {

@@ -1,5 +1,6 @@
 <?php
 
+use app\models\User;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -118,7 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <?php Pjax::begin(['id' => 'list-data', 'timeout' => false, 'enablePushState' => false]); ?>
 
-                        <?=
+                            <?=
                         GridView::widget([
                             'dataProvider' => $dataProvider,
                             'columns' => [
@@ -126,7 +127,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'username',
                                 'name',
                                 'ic',
-                                'hp',
+                                [
+                                    'attribute' => 'hp',
+                                    'value' => function ($model) {
+                                        return User::formatPhone($model->hp);
+                                    },
+                                ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
                                     // 'options' => ['style' => 'width:170px;word-wrap: normal'],

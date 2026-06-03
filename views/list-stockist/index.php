@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\Level;
+use app\models\User;
 
 $this->title = 'Stockist';
 $this->params['breadcrumbs'][] = $this->title;
@@ -115,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <?php endif; ?>
                                         <div class="stockist-agent-card__contact">
                                             <?php if ($agent['hp']): ?>
-                                            <span>&#x260E; <?= Html::encode($agent['hp']) ?></span>
+                                            <span>&#x260E; <?= Html::encode(User::formatPhone($agent['hp'])) ?></span>
                                             <?php endif; ?>
                                             <?php if ($agent['email']): ?>
                                             <span>&#x2709; <?= Html::encode($agent['email']) ?></span>

@@ -51,9 +51,9 @@ use yii\widgets\ActiveForm;
                             <td>
                                 <?= $stockist->name ?>
                             </td>
-                            <td>
-                                <?= $stockist->hp ?>
-                            </td>
+                                                            <td>
+                                                                <?= User::formatPhone($stockist->hp) ?>
+                                                            </td>
                             <td>
                                 <span
                                     class="badge badge-pill badge-primary"><?= isset($value->total) ? $value->total : "" ?></span>

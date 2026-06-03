@@ -85,7 +85,7 @@ use yii\helpers\Url;
                                                 <span><i class="fa fa-location"></i> &nbsp;<?= $user->city ?></span><?php } ?>
                                         </div>
                                         <div class="team-contact">
-                                            <span class="call"><i class="fa fa-phone"></i> &nbsp;<?= $user->hp ?></span>
+                                            <span class="call"><i class="fa fa-phone"></i> &nbsp;<?= User::formatPhone($user->hp) ?></span>
                                             <?php if ($user->email) { ?><br>
                                                 <span class="email"> <i class="fa fa-envelope"></i> <?= $user->email ?></span>
                                             <?php } ?>
@@ -118,7 +118,7 @@ use yii\helpers\Url;
                                                 <span><i class="fa fa-location"></i> &nbsp;<?= $user->city ?></span><?php } ?>
                                         </div>
                                         <div class="team-contact">
-                                            <span class="call"><i class="fa fa-phone"></i> &nbsp;<?= $user->hp ?></span>
+                                            <span class="call"><i class="fa fa-phone"></i> &nbsp;<?= User::formatPhone($user->hp) ?></span>
                                             <?php if ($user->email) { ?><br>
                                                 <span class="email"> <i class="fa fa-envelope"></i> <?= $user->email ?></span>
                                             <?php } ?>
@@ -148,7 +148,7 @@ use yii\helpers\Url;
                                                 <span><i class="fa fa-location"></i> &nbsp;<?= $user->city ?></span><?php } ?>
                                         </div>
                                         <div class="team-contact">
-                                            <span class="call"><i class="fa fa-phone"></i> &nbsp;<?= $user->hp ?></span>
+                                            <span class="call"><i class="fa fa-phone"></i> &nbsp;<?= User::formatPhone($user->hp) ?></span>
                                             <?php if ($user->email) { ?><br>
                                                 <span class="email"> <i class="fa fa-envelope"></i> <?= $user->email ?></span>
                                             <?php } ?>
