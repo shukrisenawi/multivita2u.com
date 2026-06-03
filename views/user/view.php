@@ -37,9 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="member-profile-badge__label">Status Akaun</div>
                 <div class="member-profile-badge__value"><?= $model->activated ? 'Aktif' : 'Belum Aktif' ?></div>
             </div>
-            <div class="member-profile-actions">
-                <?= Html::a('<i class="fa fa-pencil"></i> Kemaskini Ahli', ['update', 'id' => $model->id, 'username' => $model->username], ['class' => 'btn btn-primary']) ?>
-                <?= Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Senarai', ['index'], ['class' => 'btn btn-light']) ?>
+            <div class="member-profile-actions-strip">
+                <?= Html::a('<i class="fa fa-pencil"></i> Kemaskini', ['update', 'id' => $model->id, 'username' => $model->username], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('<i class="fa fa-arrow-left"></i> Kembali', ['index'], ['class' => 'btn btn-light']) ?>
             </div>
         </aside>
     </section>
@@ -387,27 +387,27 @@ $css = '
     padding: 12px 14px !important;
 }
 
-.member-profile-actions .btn-primary {
-    background: linear-gradient(135deg, #405189 0%, #3577f1 100%);
-    border: none;
-    box-shadow: 0 4px 16px rgba(53, 119, 241, 0.2);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+.member-profile-actions-strip .btn-primary {
+    background: linear-gradient(135deg, #405189 0%, #3577f1 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 16px rgba(53, 119, 241, 0.2) !important;
+    transition: box-shadow 0.2s ease, transform 0.2s ease !important;
 }
 
-.member-profile-actions .btn-primary:hover {
-    box-shadow: 0 8px 28px rgba(53, 119, 241, 0.3);
-    transform: translateY(-1px);
+.member-profile-actions-strip .btn-primary:hover {
+    box-shadow: 0 8px 28px rgba(53, 119, 241, 0.3) !important;
+    transform: translateY(-1px) !important;
 }
 
-.member-profile-actions .btn-light {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
-    border-color: rgba(64, 81, 137, 0.08);
+.member-profile-actions-strip .btn-light {
+    background: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(8px) !important;
+    border-color: rgba(64, 81, 137, 0.08) !important;
 }
 
-.member-profile-actions .btn-light:hover {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(64, 81, 137, 0.15);
+.member-profile-actions-strip .btn-light:hover {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(64, 81, 137, 0.15) !important;
 }
 
 .member-profile-hero {
@@ -436,7 +436,27 @@ $css = '
 }
 
 .member-profile-hero__aside {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
     gap: 10px !important;
+}
+
+.member-profile-hero__aside .member-profile-badge {
+    flex-shrink: 0 !important;
+}
+
+.member-profile-actions-strip {
+    display: flex !important;
+    gap: 8px !important;
+    flex: 1 !important;
+    justify-content: flex-end !important;
+}
+
+.member-profile-actions-strip .btn {
+    white-space: nowrap !important;
+    font-size: 12px !important;
+    padding: 7px 14px !important;
 }
 
 .member-profile-badge,
@@ -473,15 +493,6 @@ $css = '
 
 .member-profile-panel__eyebrow {
     font-size: 10px !important;
-}
-
-.member-profile-actions {
-    gap: 8px !important;
-}
-
-.member-profile-actions .btn {
-    font-size: 12px !important;
-    padding: 7px 12px !important;
 }
 
 .kv-attribute {
