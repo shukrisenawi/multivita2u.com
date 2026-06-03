@@ -45,23 +45,13 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="row mb-3">
-        <div class="col-md-6">
-            <div class="dashboard-panel h-100">
+        <div class="col-md-12">
+            <div class="dashboard-panel">
                 <div class="dashboard-panel__body d-flex align-items-center gap-3" style="padding:16px 20px">
                     <div style="width:52px;height:52px;border-radius:12px;background:var(--vz-primary-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;color:var(--vz-primary);margin-right:10px">&#x1f3e2;</div>
                     <div>
                         <div style="font-size:15px;font-weight:700;color:var(--vz-heading)">HEADQUARTERS</div>
                         <div style="font-size:12px;color:var(--vz-text-muted);margin-top:2px">012-9544847</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="dashboard-panel h-100">
-                <div class="dashboard-panel__body" style="padding:12px 20px">
-                    <div class="position-relative">
-                        <input type="text" id="stockist-search" class="form-control" placeholder="Cari stokis, negeri atau jenis..." style="padding-left:36px;min-height:38px">
-                        <span style="position:absolute;top:50%;left:12px;transform:translateY(-50%);color:var(--vz-text-muted);font-size:13px;pointer-events:none">&#x1f50d;</span>
                     </div>
                 </div>
             </div>
@@ -230,58 +220,4 @@ CSS;
 $this->registerCss($css);
 ?>
 
-<?php
-$js = <<<JS
-$('#stockist-search').on('keyup', function() {
-    var q = $(this).val().toLowerCase().trim();
-    var firstMatchTab = null;
-    $('.stockist-state-panel').each(function() {
-        var panel = $(this);
-        var state = panel.data('state').toLowerCase();
-        var collapseEl = panel.find('.collapse');
-        var tabPanes = panel.find('.tab-pane');
-        var anyVisible = false;
-        var firstVisiblePane = null;
-        tabPanes.each(function() {
-            var pane = $(this);
-            var hasVisible = false;
-            pane.find('.stockist-agent-card').each(function() {
-                var name = $(this).data('name');
-                var match = q === '' || name.indexOf(q) > -1 || state.indexOf(q) > -1;
-                $(this).closest('.col-lg-4, .col-md-6').toggle(match);
-                if (match) hasVisible = true;
-            });
-            var tabId = pane.attr('id');
-            var tabLink = panel.find('a[href="#' + tabId + '"]').closest('.nav-item');
-            if (q === '' || hasVisible) {
-                tabLink.show();
-                if (hasVisible) {
-                    anyVisible = true;
-                    if (!firstVisiblePane) firstVisiblePane = pane;
-                }
-            } else {
-                tabLink.hide();
-            }
-        });
-        if (q === '') {
-            panel.find('.stockist-tabs .nav-item').show();
-            collapseEl.attr('data-parent', '.app-section-stack').removeAttr('style').removeClass('show').addClass('collapse');
-            $('.stockist-state-panel').show();
-        } else {
-            panel.show();
-            if (anyVisible) {
-                collapseEl.removeAttr('data-parent').addClass('show').removeClass('collapse').css('display', 'block').height('');
-                if (firstVisiblePane) {
-                    var tabId = firstVisiblePane.attr('id');
-                    panel.find('a[href="#' + tabId + '"]').tab('show');
-                }
-                if (!firstMatchTab) firstMatchTab = firstVisiblePane;
-            } else {
-                collapseEl.removeClass('show').addClass('collapse').removeAttr('style');
-            }
-        }
-    });
-});
-JS;
-$this->registerJs($js);
-?>
+
