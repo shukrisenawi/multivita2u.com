@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </article>
         <article class="member-profile-card">
             <div class="member-profile-card__label">Tarikh Daftar</div>
-            <div class="member-profile-card__value"><?= Html::encode($model->created_at) ?></div>
+            <div class="member-profile-card__value"><?= Html::encode(date('d-m-Y', strtotime($model->created_at))) ?></div>
         </article>
     </div>
 
