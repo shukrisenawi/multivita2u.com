@@ -15,6 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="user-view app-section-stack">
+    <div class="user-view__bg-orb user-view__bg-orb--1"></div>
+    <div class="user-view__bg-orb user-view__bg-orb--2"></div>
+    <div class="user-view__bg-orb user-view__bg-orb--3"></div>
+    <div class="user-view__bg-grid"></div>
+
     <section class="member-profile-hero">
         <div class="member-profile-hero__body">
             <div class="member-profile-hero__eyebrow">Profil Ahli</div>
@@ -239,3 +244,171 @@ $this->params['breadcrumbs'][] = $this->title;
         ]); ?>
     </section>
 </div>
+
+<?php
+$css = '
+.user-view {
+    position: relative;
+    overflow: hidden;
+}
+
+.user-view__bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(80px);
+    z-index: 0;
+}
+
+.user-view__bg-orb--1 {
+    width: 500px;
+    height: 500px;
+    top: -120px;
+    right: -80px;
+    background: radial-gradient(circle, rgba(10, 179, 156, 0.15), rgba(10, 179, 156, 0.06) 50%, transparent 70%);
+}
+
+.user-view__bg-orb--2 {
+    width: 400px;
+    height: 400px;
+    bottom: 10%;
+    left: -100px;
+    background: radial-gradient(circle, rgba(64, 81, 137, 0.12), rgba(64, 81, 137, 0.04) 50%, transparent 70%);
+}
+
+.user-view__bg-orb--3 {
+    width: 300px;
+    height: 300px;
+    top: 40%;
+    right: 30%;
+    background: radial-gradient(circle, rgba(53, 119, 241, 0.08), transparent 60%);
+}
+
+.user-view__bg-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        linear-gradient(rgba(64, 81, 137, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(64, 81, 137, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black, transparent 80%);
+}
+
+.member-profile-hero,
+.member-profile-grid,
+.member-profile-panel {
+    position: relative;
+    z-index: 1;
+}
+
+.member-profile-hero {
+    background:
+        radial-gradient(circle at 0% 0%, rgba(10, 179, 156, 0.08), transparent 40%),
+        radial-gradient(circle at 100% 0%, rgba(64, 81, 137, 0.06), transparent 40%),
+        radial-gradient(circle at 50% 100%, rgba(53, 119, 241, 0.04), transparent 40%),
+        linear-gradient(135deg, #ffffff 0%, #f0f7ff 40%, #fafeff 70%, #ffffff 100%);
+    border-color: rgba(64, 81, 137, 0.08);
+    box-shadow: 0 4px 24px rgba(64, 81, 137, 0.04), 0 1px 4px rgba(64, 81, 137, 0.06);
+}
+
+.member-profile-hero__title {
+    background: linear-gradient(135deg, #2d3b5e 0%, #405189 50%, #3577f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.member-profile-hero__meta span {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border-color: rgba(64, 81, 137, 0.08);
+    box-shadow: 0 2px 8px rgba(64, 81, 137, 0.04);
+}
+
+.member-profile-badge,
+.member-profile-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border-color: rgba(64, 81, 137, 0.08);
+    box-shadow: 0 2px 12px rgba(64, 81, 137, 0.04);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.member-profile-card:hover {
+    box-shadow: 0 6px 24px rgba(64, 81, 137, 0.08);
+    transform: translateY(-2px);
+}
+
+.member-profile-badge__value {
+    background: linear-gradient(135deg, #0ab39c, #089b87);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.member-profile-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border-color: rgba(64, 81, 137, 0.08);
+    box-shadow: 0 4px 24px rgba(64, 81, 137, 0.04), 0 1px 4px rgba(64, 81, 137, 0.06);
+}
+
+.member-profile-panel .panel-heading {
+    background: linear-gradient(135deg, rgba(64, 81, 137, 0.04), rgba(10, 179, 156, 0.04)) !important;
+    border-bottom: 1px solid rgba(64, 81, 137, 0.06) !important;
+}
+
+.member-profile-panel__heading strong {
+    background: linear-gradient(135deg, #405189, #3577f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.member-profile-group {
+    background: linear-gradient(135deg, rgba(10, 179, 156, 0.06), rgba(64, 81, 137, 0.04)) !important;
+    border-radius: 10px !important;
+    margin-bottom: 4px !important;
+}
+
+.member-profile-group .kv-group-label {
+    font-weight: 700 !important;
+    letter-spacing: 0.04em;
+}
+
+.kv-view-mode .kv-attribute {
+    border-color: rgba(64, 81, 137, 0.04) !important;
+}
+
+.member-profile-detail .kv-attribute {
+    padding: 12px 14px !important;
+}
+
+.member-profile-actions .btn-primary {
+    background: linear-gradient(135deg, #405189 0%, #3577f1 100%);
+    border: none;
+    box-shadow: 0 4px 16px rgba(53, 119, 241, 0.2);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.member-profile-actions .btn-primary:hover {
+    box-shadow: 0 8px 28px rgba(53, 119, 241, 0.3);
+    transform: translateY(-1px);
+}
+
+.member-profile-actions .btn-light {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    border-color: rgba(64, 81, 137, 0.08);
+}
+
+.member-profile-actions .btn-light:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(64, 81, 137, 0.15);
+}
+';
+$this->registerCss($css);
+?>
