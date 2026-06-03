@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="dashboard-panel__body" style="padding:0">
 
                 <?php if ($tabDefs): ?>
-                <ul class="nav nav-tabs stockist-tabs" role="tablist" style="padding:14px 20px 0;border-bottom:1px solid var(--vz-border)">
+                <ul class="nav nav-tabs stockist-tabs" role="tablist" style="padding:14px 20px 10px;border-bottom:1px solid var(--vz-border)">
                     <?php foreach ($tabDefs as $t): ?>
                     <li class="nav-item">
                         <a class="nav-link <?= $t['id'] === $firstTabId ? 'active' : '' ?>" id="<?= $t['id'] ?>-tab" data-toggle="tab" href="#<?= $t['id'] ?>" role="tab"><?= $t['label'] ?></a>
