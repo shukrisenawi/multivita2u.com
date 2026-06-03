@@ -177,8 +177,13 @@ class DashboardController extends MemberController
     }
     public function actionProgrammer()
     {
-        $transaction = Transaction::find()->where(['user_id' => Yii::$app->user->id])->limit(10)->orderBy('id DESC')->asArray()->all();
-        return $this->render('programmer', ['transaction' => $transaction]);
+        $userId = Yii::$app->user->id;
+        $transaction = Transaction::find()->where(['user_id' => $userId])->limit(10)->orderBy('id DESC')->asArray()->all();
+        $bonusTotal = Transaction::find()->where(['user_id' => $userId, 'type_id' => 19])->sum('value');
+        return $this->render('programmer', [
+            'transaction' => $transaction,
+            'bonusTotal' => $bonusTotal ?: 0,
+        ]);
     }
 
     public function actionMerchant()
