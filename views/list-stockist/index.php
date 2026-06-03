@@ -110,7 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php endforeach; ?>
                 </ul>
 
-                <div class="tab-content" style="padding:18px 20px 22px">
+                <div class="tab-content" style="padding:18px 20px 22px;margin-bottom:10px">
                     <?php foreach ($tabDefs as $t): ?>
                     <div class="tab-pane fade <?= $t['id'] === $firstTabId ? 'show active' : '' ?>" id="<?= $t['id'] ?>" role="tabpanel">
                         <div class="row" style="margin:-6px">
