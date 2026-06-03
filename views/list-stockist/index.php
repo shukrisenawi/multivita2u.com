@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-6">
             <div class="dashboard-panel h-100">
                 <div class="dashboard-panel__body d-flex align-items-center gap-3" style="padding:16px 20px">
-                    <div style="width:52px;height:52px;border-radius:12px;background:var(--vz-primary-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;color:var(--vz-primary)">&#x1f3e2;</div>
+                    <div style="width:52px;height:52px;border-radius:12px;background:var(--vz-primary-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;color:var(--vz-primary);margin-right:10px">&#x1f3e2;</div>
                     <div>
                         <div style="font-size:15px;font-weight:700;color:var(--vz-heading)">HEADQUARTERS</div>
                         <div style="font-size:12px;color:var(--vz-text-muted);margin-top:2px">012-9544847</div>
