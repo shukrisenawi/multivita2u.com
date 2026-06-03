@@ -413,6 +413,7 @@ $css = '
 .member-profile-hero {
     padding: 16px 20px !important;
     gap: 14px !important;
+    margin-bottom: 10px !important;
 }
 
 .member-profile-hero__eyebrow {
