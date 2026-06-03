@@ -86,8 +86,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
+            <span style="font-size:12px;color:var(--vz-text-muted);white-space:nowrap"><?= $total_agen ?> &nbsp;</span>
             <span class="stockist-chevron" style="font-size:12px;color:var(--vz-text-muted)">&#x25BC;</span>
-            <span style="font-size:12px;color:var(--vz-text-muted);white-space:nowrap;margin-left:6px"><?= $total_agen ?></span>
         </div>
         <div id="stateCollapse<?= $i ?>" class="collapse <?= $value == Yii::$app->user->identity->state ? 'show' : '' ?>" data-parent=".app-section-stack">
             <div class="dashboard-panel__body" style="padding:0">
