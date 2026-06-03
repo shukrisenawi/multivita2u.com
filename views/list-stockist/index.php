@@ -95,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div id="stateCollapse<?= $i ?>" class="collapse <?= $value == Yii::$app->user->identity->state ? 'show' : '' ?>" data-parent="">
             <div class="dashboard-panel__body" style="padding:0">
 
-                <ul class="nav nav-tabs stockist-tabs" role="tablist" style="padding:12px 20px 0;border-bottom:1px solid var(--vz-border)">
+                <ul class="nav nav-tabs stockist-tabs" role="tablist" style="padding:14px 20px 0;border-bottom:1px solid var(--vz-border)">
                     <li class="nav-item">
                         <a class="nav-link active" id="<?= $id_negeri ?>-tab" data-toggle="tab" href="#<?= $id_negeri ?>" role="tab">Stokis Negeri</a>
                     </li>
@@ -107,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </li>
                 </ul>
 
-                <div class="tab-content" style="padding:16px 20px">
+                <div class="tab-content" style="padding:18px 20px 22px">
                     <?php for ($j = 1; $j <= 3; $j++):
                         $tabId = $id_negeri;
                         $agentList = $agen_negeri;
@@ -159,8 +159,8 @@ $css = <<<CSS
 .stockist-agent-card {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 12px 14px;
+    gap: 14px;
+    padding: 14px 16px;
     border: 1px solid var(--vz-border);
     border-radius: var(--vz-radius-md);
     background: var(--vz-surface);
@@ -203,8 +203,8 @@ $css = <<<CSS
 .stockist-agent-card__contact {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 12px;
-    margin-top: 6px;
+    gap: 4px 14px;
+    margin-top: 8px;
     font-size: 11px;
     color: var(--vz-text-muted);
     line-height: 1.4;
@@ -213,9 +213,9 @@ $css = <<<CSS
     white-space: nowrap;
 }
 .stockist-tabs .nav-link {
-    font-size: 10px;
-    padding: 6px 12px;
-    min-height: 30px;
+    font-size: 11px;
+    padding: 8px 16px;
+    min-height: 36px;
 }
 .stockist-state-header:hover {
     background: #f8f9fc;
