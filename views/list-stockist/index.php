@@ -234,27 +234,48 @@ $this->registerCss($css);
 $js = <<<JS
 $('#stockist-search').on('keyup', function() {
     var q = $(this).val().toLowerCase().trim();
+    var firstMatchTab = null;
     $('.stockist-state-panel').each(function() {
         var panel = $(this);
         var state = panel.data('state').toLowerCase();
         var collapseEl = panel.find('.collapse');
-        var hasMatch = false;
-        panel.find('.stockist-agent-card').each(function() {
-            var name = $(this).data('name');
-            var match = name.indexOf(q) > -1 || state.indexOf(q) > -1;
-            if (match) hasMatch = true;
-            $(this).closest('.col-lg-4, .col-md-6').toggle(match);
-        });
-        panel.find('.dashboard-empty').each(function() {
-            $(this).toggle(panel.find('.stockist-agent-card').length === 0);
+        var tabPanes = panel.find('.tab-pane');
+        var anyVisible = false;
+        var firstVisiblePane = null;
+        tabPanes.each(function() {
+            var pane = $(this);
+            var hasVisible = false;
+            pane.find('.stockist-agent-card').each(function() {
+                var name = $(this).data('name');
+                var match = q === '' || name.indexOf(q) > -1 || state.indexOf(q) > -1;
+                $(this).closest('.col-lg-4, .col-md-6').toggle(match);
+                if (match) hasVisible = true;
+            });
+            var tabId = pane.attr('id');
+            var tabLink = panel.find('a[href="#' + tabId + '"]').closest('.nav-item');
+            if (q === '' || hasVisible) {
+                tabLink.show();
+                if (hasVisible) {
+                    anyVisible = true;
+                    if (!firstVisiblePane) firstVisiblePane = pane;
+                }
+            } else {
+                tabLink.hide();
+            }
         });
         if (q === '') {
+            panel.find('.stockist-tabs .nav-item').show();
             collapseEl.attr('data-parent', '.app-section-stack').removeAttr('style').removeClass('show').addClass('collapse');
             $('.stockist-state-panel').show();
         } else {
             panel.show();
-            if (hasMatch) {
+            if (anyVisible) {
                 collapseEl.removeAttr('data-parent').addClass('show').removeClass('collapse').css('display', 'block').height('');
+                if (firstVisiblePane) {
+                    var tabId = firstVisiblePane.attr('id');
+                    panel.find('a[href="#' + tabId + '"]').tab('show');
+                }
+                if (!firstMatchTab) firstMatchTab = firstVisiblePane;
             } else {
                 collapseEl.removeClass('show').addClass('collapse').removeAttr('style');
             }
