@@ -2505,16 +2505,14 @@ label,
 }
 
 .network-tree-hero {
-    padding: 22px 24px;
-    border: 1px solid var(--vz-border);
-    border-radius: 16px;
-    background:
-        radial-gradient(circle at top right, rgba(64, 81, 137, 0.10), transparent 28%),
-        linear-gradient(180deg, #ffffff, #f9fbff);
+    padding: 20px 24px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
 }
 
 .network-tree-hero__eyebrow {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     color: var(--vz-text-muted);
     font-size: 11px;
     font-weight: 700;
@@ -2523,9 +2521,9 @@ label,
 }
 
 .network-tree-hero__title {
-    margin: 0 0 10px;
+    margin: 0;
     color: var(--vz-heading);
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
     letter-spacing: -0.03em;
 }
@@ -2534,15 +2532,15 @@ label,
     color: var(--vz-primary);
 }
 
-.network-tree-hero__desc {
-    margin: 0;
-    max-width: 760px;
-    color: var(--vz-text-muted);
-    font-size: 13px;
+.network-tree-panel {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
 }
 
-.network-tree-panel {
-    border-radius: 16px;
+.network-tree-panel > .card-body {
+    padding: 0;
 }
 
 .network-tree-toolbar {
@@ -2551,7 +2549,7 @@ label,
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .network-tree-toolbar__actions {
@@ -2564,7 +2562,9 @@ label,
 .network-tree-btn {
     border: 1px solid var(--vz-border) !important;
     background: #fff !important;
-    color: var(--vz-heading) !important;
+    color: var(--vz-text-muted) !important;
+    font-size: 11px !important;
+    padding: 7px 14px !important;
 }
 
 .network-tree-btn:hover,
@@ -2589,19 +2589,24 @@ label,
 }
 
 .network-tree-search input {
-    height: 42px;
-    padding-left: 40px;
+    height: 40px;
+    padding-left: 38px;
     border-radius: 999px;
+    background: #f3f6fb;
+    border-color: transparent;
+    transition: 0.2s ease;
+}
+
+.network-tree-search input:focus {
     background: #fff;
+    border-color: rgba(64, 81, 137, 0.35);
 }
 
 .network-tree-frame {
-    padding: 18px;
-    border: 1px solid var(--vz-border);
-    border-radius: 14px;
-    background:
-        linear-gradient(180deg, rgba(64, 81, 137, 0.03), rgba(64, 81, 137, 0.01)),
-        #fff;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
 }
 
 .dtree {
@@ -2617,8 +2622,8 @@ label,
 .dtree .dTreeNode {
     display: flex;
     align-items: center;
-    min-height: 32px;
-    margin: 2px 0;
+    min-height: 28px;
+    margin: 1px 0;
 }
 
 .dtree img {
