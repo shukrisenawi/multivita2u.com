@@ -2857,3 +2857,389 @@ body.is-sidebar-nav-open .app-header.header.white-bg {
         flex: 1 1 100%;
     }
 }
+
+/* ── Stockist Dashboard ── */
+.stockist-dash {
+    display: grid;
+    gap: 20px;
+}
+
+.stockist-dash__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.stockist-dash__greet {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.stockist-dash__greet-icon {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3577f1 0%, #5b8ef2 100%);
+    color: #fff;
+    font-size: 17px;
+    box-shadow: 0 6px 14px rgba(53, 119, 241, 0.22);
+}
+
+.stockist-dash__greet-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #17233c;
+    letter-spacing: -0.03em;
+}
+
+.stockist-dash__greet-sub {
+    margin: 4px 0 0;
+    color: #7a86a4;
+    font-size: 13px;
+}
+
+.stockist-dash__actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.stockist-dash__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.18s;
+    border: none;
+    cursor: pointer;
+}
+
+.stockist-dash__btn:hover {
+    text-decoration: none;
+}
+
+.stockist-dash__btn--outline {
+    border: 1.5px solid #d7dde8;
+    background: #fff;
+    color: #405189;
+}
+
+.stockist-dash__btn--outline:hover {
+    border-color: #405189;
+    background: #f5f7fd;
+    color: #405189;
+}
+
+.stockist-dash__cards {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+}
+
+.stockist-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 18px 20px;
+    border: 1px solid rgba(223, 227, 232, 0.9);
+    border-radius: 14px;
+    background:
+        radial-gradient(circle at right bottom, rgba(53, 119, 241, 0.04) 0, rgba(53, 119, 241, 0.04) 20%, transparent 21%),
+        linear-gradient(180deg, #ffffff 0%, #fdfdff 100%);
+    box-shadow: 0 8px 24px rgba(64, 81, 137, 0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+.stockist-card::after {
+    content: "";
+    position: absolute;
+    right: -20px;
+    bottom: -22px;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.06;
+    pointer-events: none;
+}
+
+.stockist-card__icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.stockist-card__body {
+    position: relative;
+    z-index: 1;
+}
+
+.stockist-card__label {
+    color: #7e8aac;
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    margin-bottom: 6px;
+}
+
+.stockist-card__value {
+    color: #17233c;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 5px;
+}
+
+.stockist-card__note {
+    color: #7583a4;
+    font-size: 11.5px;
+    font-weight: 500;
+}
+
+.stockist-card--primary { color: var(--vz-primary); }
+.stockist-card--primary .stockist-card__icon { background: var(--vz-primary-soft); }
+.stockist-card--secondary { color: var(--vz-secondary); }
+.stockist-card--secondary .stockist-card__icon { background: var(--vz-secondary-soft); }
+.stockist-card--success { color: var(--vz-success); }
+.stockist-card--success .stockist-card__icon { background: var(--vz-success-soft); }
+.stockist-card--warning { color: var(--vz-warning); }
+.stockist-card--warning .stockist-card__icon { background: var(--vz-warning-soft); }
+.stockist-card--danger { color: var(--vz-danger); }
+.stockist-card--danger .stockist-card__icon { background: var(--vz-danger-soft); }
+.stockist-card--info { color: var(--vz-info); }
+.stockist-card--info .stockist-card__icon { background: var(--vz-info-soft); }
+
+.stockist-dash__bottom {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    gap: 18px;
+}
+
+.stockist-dash__news,
+.stockist-dash__txn {
+    border: 1px solid rgba(223, 227, 232, 0.92);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(64, 81, 137, 0.05);
+    overflow: hidden;
+}
+
+.stockist-dash__section-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px 20px 16px;
+    border-bottom: 1px solid var(--vz-border);
+}
+
+.stockist-dash__section-label {
+    margin-bottom: 5px;
+    display: block;
+    color: #7c88a9;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.stockist-dash__section-title {
+    margin: 0;
+    color: #17233c;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.stockist-dash__section-body {
+    padding: 16px 20px 20px;
+}
+
+.stockist-news-item {
+    display: flex;
+    gap: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid #eef1f7;
+}
+
+.stockist-news-item:last-child {
+    border-bottom: none;
+}
+
+.stockist-news-item__dot {
+    width: 10px;
+    height: 10px;
+    margin-top: 6px;
+    border-radius: 50%;
+    background: var(--vz-primary);
+    flex-shrink: 0;
+}
+
+.stockist-news-item__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.stockist-news-item__title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #17233c;
+    margin-bottom: 3px;
+}
+
+.stockist-news-item__date {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #8692af;
+    margin-bottom: 5px;
+}
+
+.stockist-news-item__desc {
+    font-size: 12.5px;
+    color: #41516f;
+    line-height: 1.6;
+}
+
+.stockist-txn-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stockist-txn-table thead th {
+    padding: 10px 14px;
+    border-bottom: 1.5px solid #dfe4ec;
+    color: #7d89a8;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #f7f8fc;
+}
+
+.stockist-txn-table thead th:first-child {
+    border-radius: 8px 0 0 0;
+}
+
+.stockist-txn-table thead th:last-child {
+    border-radius: 0 8px 0 0;
+}
+
+.stockist-txn-table tbody tr {
+    transition: background 0.12s;
+}
+
+.stockist-txn-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.stockist-txn-table tbody tr:hover {
+    background: #f6f9ff;
+}
+
+.stockist-txn-table tbody td {
+    padding: 14px;
+    border-bottom: 1px solid #eef1f7;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+.stockist-txn-table__remarks {
+    color: #27344f;
+    font-weight: 500;
+}
+
+.stockist-txn-table__value {
+    font-weight: 700;
+    color: #17233c;
+    white-space: nowrap;
+}
+
+.stockist-txn-table__date {
+    color: #53627f;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.stockist-dash__empty {
+    padding: 16px;
+    border: 1px dashed var(--vz-border-strong);
+    border-radius: 12px;
+    background: var(--vz-surface-muted);
+    color: var(--vz-text-muted);
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1199px) {
+    .stockist-dash__cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .stockist-dash__bottom {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .stockist-dash__cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .stockist-card {
+        padding: 14px 14px 16px;
+    }
+    .stockist-card__value {
+        font-size: 18px;
+    }
+    .stockist-dash__top {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .stockist-dash__greet {
+        flex-wrap: wrap;
+    }
+    .stockist-dash__actions {
+        flex-wrap: wrap;
+    }
+    .stockist-dash__section-head {
+        flex-direction: column;
+        padding: 16px 14px 14px;
+    }
+    .stockist-dash__section-body {
+        padding: 12px 14px 16px;
+    }
+    .stockist-txn-table thead th,
+    .stockist-txn-table tbody td {
+        padding: 10px 12px;
+    }
+    .stockist-news-item {
+        padding: 11px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .stockist-dash__cards {
+        grid-template-columns: 1fr;
+    }
+}

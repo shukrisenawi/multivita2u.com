@@ -15,79 +15,78 @@ $stats = [
 ];
 ?>
 
-<div class="dashboard-shell">
-    <section class="dashboard-hero">
-        <div class="dashboard-hero__eyebrow">Dashboard Operasi</div>
-        <h1 class="dashboard-hero__title">Pantau jaringan, jualan, dan berita semasa dari satu paparan yang lebih profesional.</h1>
-        <p class="dashboard-hero__copy">
-            Direka untuk kerja harian stockist dengan maklumat penting di bahagian hadapan dan transaksi disusun dengan lebih mudah dibaca.
-        </p>
-        <div class="dashboard-hero__meta">
-            <span class="dashboard-badge"><i class="fa fa-id-badge"></i> Akaun <?= $user->username ?></span>
-            <span class="dashboard-badge"><i class="fa fa-layer-group"></i> Fokus pada rangkaian dan jualan</span>
+<div class="stockist-dash">
+    <div class="stockist-dash__top">
+        <div class="stockist-dash__greet">
+            <span class="stockist-dash__greet-icon"><i class="fa fa-store"></i></span>
+            <div>
+                <h1 class="stockist-dash__greet-title">Hai, <?= $user->username ?></h1>
+                <p class="stockist-dash__greet-sub">Ringkasan harian rangkaian dan jualan anda.</p>
+            </div>
         </div>
-    </section>
+        <div class="stockist-dash__actions">
+            <a href="<?= \yii\helpers\Url::to(['/stockist/pin-wallet']) ?>" class="stockist-dash__btn stockist-dash__btn--outline">
+                <i class="fa fa-wallet"></i> Pin Wallet
+            </a>
+        </div>
+    </div>
 
-    <section class="dashboard-grid">
-        <?php 
+    <div class="stockist-dash__cards">
+        <?php
         $colors = ['primary', 'secondary', 'success', 'warning', 'danger', 'info'];
-        foreach ($stats as $index => $stat) { 
-            $colorClass = isset($colors[$index]) ? 'dashboard-stat--' . $colors[$index] : 'dashboard-stat--primary';
+        foreach ($stats as $index => $stat) {
+            $colorClass = isset($colors[$index]) ? 'stockist-card--' . $colors[$index] : 'stockist-card--primary';
         ?>
-            <article class="dashboard-stat <?= $colorClass ?>" style="grid-column: span 4;">
-                <div class="dashboard-stat__icon">
-                    <i class="<?= $stat['icon'] ?>"></i>
+            <div class="stockist-card <?= $colorClass ?>">
+                <div class="stockist-card__icon"><i class="<?= $stat['icon'] ?>"></i></div>
+                <div class="stockist-card__body">
+                    <div class="stockist-card__label"><?= $stat['label'] ?></div>
+                    <div class="stockist-card__value"><?= $stat['value'] ?></div>
+                    <div class="stockist-card__note"><?= $stat['note'] ?></div>
                 </div>
-                <div class="dashboard-stat__label"><?= $stat['label'] ?></div>
-                <h2 class="dashboard-stat__value"><?= $stat['value'] ?></h2>
-                <div class="dashboard-stat__note"><?= $stat['note'] ?></div>
-            </article>
+            </div>
         <?php } ?>
-    </section>
+    </div>
 
-    <section class="dashboard-grid">
-        <article class="dashboard-panel" style="grid-column: span 4;">
-            <div class="dashboard-panel__header">
+    <div class="stockist-dash__bottom">
+        <div class="stockist-dash__news">
+            <div class="stockist-dash__section-head">
                 <div>
-                    <div class="dashboard-panel__eyebrow">Info</div>
-                    <h2 class="dashboard-panel__title">Berita Terkini</h2>
-                    <p class="dashboard-panel__subtitle">Makluman terkini untuk rangkaian anda.</p>
+                    <span class="stockist-dash__section-label">Info</span>
+                    <h2 class="stockist-dash__section-title">Berita Terkini</h2>
                 </div>
             </div>
-            <div class="dashboard-panel__body">
-                <div class="dashboard-news-list">
-                    <?php if ($newsItems) { ?>
-                        <?php foreach ($newsItems as $item) { ?>
-                            <div class="dashboard-list-item">
-                                <div class="dashboard-list-item__marker"><i class="fa fa-bullhorn"></i></div>
-                                <div>
-                                    <h3 class="dashboard-list-item__title"><?= $item->title ?></h3>
-                                    <p class="dashboard-list-item__meta"><?= Helper::viewDate($item->displayDate) ?></p>
-                                    <?php if ($item->news) { ?>
-                                        <p class="dashboard-list-item__desc"><?= $item->news ?></p>
-                                    <?php } ?>
-                                </div>
+            <div class="stockist-dash__section-body">
+                <?php if ($newsItems) { ?>
+                    <?php foreach ($newsItems as $item) { ?>
+                        <div class="stockist-news-item">
+                            <div class="stockist-news-item__dot"></div>
+                            <div class="stockist-news-item__body">
+                                <div class="stockist-news-item__title"><?= $item->title ?></div>
+                                <div class="stockist-news-item__date"><?= Helper::viewDate($item->displayDate) ?></div>
+                                <?php if ($item->news) { ?>
+                                    <div class="stockist-news-item__desc"><?= $item->news ?></div>
+                                <?php } ?>
                             </div>
-                        <?php } ?>
-                    <?php } else { ?>
-                        <div class="dashboard-empty">Tiada berita untuk dipaparkan.</div>
+                        </div>
                     <?php } ?>
-                </div>
+                <?php } else { ?>
+                    <div class="stockist-dash__empty">Tiada berita untuk dipaparkan.</div>
+                <?php } ?>
             </div>
-        </article>
+        </div>
 
-        <article class="dashboard-panel" style="grid-column: span 8;">
-            <div class="dashboard-panel__header">
+        <div class="stockist-dash__txn">
+            <div class="stockist-dash__section-head">
                 <div>
-                    <div class="dashboard-panel__eyebrow">Aktiviti</div>
-                    <h2 class="dashboard-panel__title">10 Transaksi Terkini</h2>
-                    <p class="dashboard-panel__subtitle">Aktiviti transaksi yang paling baru direkodkan.</p>
+                    <span class="stockist-dash__section-label">Aktiviti</span>
+                    <h2 class="stockist-dash__section-title">10 Transaksi Terkini</h2>
                 </div>
             </div>
-            <div class="dashboard-panel__body">
+            <div class="stockist-dash__section-body">
                 <?php if ($transactions) { ?>
                     <div class="table-responsive">
-                        <table class="table dashboard-table">
+                        <table class="stockist-txn-table">
                             <thead>
                                 <tr>
                                     <th>Butiran</th>
@@ -98,18 +97,18 @@ $stats = [
                             <tbody>
                                 <?php foreach ($transactions as $item) { ?>
                                     <tr>
-                                        <td><?= $item['remarks'] ?></td>
-                                        <td><?= Helper::convertMoney($item['value']) ?></td>
-                                        <td><?= Helper::viewDate($item['date'], 'd-m-Y, h:iA') ?></td>
+                                        <td class="stockist-txn-table__remarks"><?= $item['remarks'] ?></td>
+                                        <td class="stockist-txn-table__value"><?= Helper::convertMoney($item['value']) ?></td>
+                                        <td class="stockist-txn-table__date"><?= Helper::viewDate($item['date'], 'd-m-Y, h:iA') ?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
                     </div>
                 <?php } else { ?>
-                    <div class="dashboard-empty">Tiada transaksi untuk dipaparkan.</div>
+                    <div class="stockist-dash__empty">Tiada transaksi untuk dipaparkan.</div>
                 <?php } ?>
             </div>
-        </article>
-    </section>
+        </div>
+    </div>
 </div>
