@@ -68,15 +68,6 @@
         "API_KEY": "sk-user-hl1N8sod-BJwM7veaGHOVriokWV0fIkXcMQT4HJYvIqM9wePhv6ebGV0PM_YRi37mkz27TMFRgQkZLNqUOdcorMHDTN9VoYr4u2p9bRVw5Hbc69xPpUweOSuKKqKI8sEv_I"
       },
       "enabled": true
-    },
-    "pencil": {
-      "type": "local",
-      "command": [
-        "C:\\Users\\shukri\\.pencil\\mcp\\visual_studio_code\\out\\mcp-server-windows-x64.exe",
-        "--app",
-        "visual_studio_code"
-      ],
-      "enabled": true
     }
   }
 }

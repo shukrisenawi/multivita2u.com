@@ -76,8 +76,10 @@ class CronController extends Controller
     }
     public function countDownline($month = false, $year = false)
     {
-        $month ?? date('m', strtotime("-1 months"));
-        $year ?? date('Y', strtotime("-1 months"));
+        $month = !$month ? date('m', strtotime("-1 months")) : $month;
+        $year = !$year ? date('Y', strtotime("-1 months")) : $year;
+        // $month ?? date('m', strtotime("-1 months"));
+        // $year ?? date('Y', strtotime("-1 months"));
         if ($month && $year) {
 
             $stockist = User::find()->select('register_id,count(register_id) as total')->where('MONTH(created_at)=:month AND YEAR(created_at)=:year', [':month' => $month, ':year' => $year])->groupBy('register_id')->all();
