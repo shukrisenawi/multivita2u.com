@@ -101,8 +101,9 @@ class RegisterController extends MemberController
                         $this->bonusProgrammer("Daftar : " . $model->username);
 
                         $uplineRegister = User::find()->select('id')->where(['id' => Yii::$app->user->identity->upline_id, 'level_id' => 4])->one();
-                        if ($uplineRegister)
+                        if ($uplineRegister) {
                             $this->runBonusRegisterMobile($model);
+                        }
                         $this->runBonusLevel($model);
                     }
                     // if ($settings['bonus_sponsor']) {
