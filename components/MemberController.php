@@ -87,8 +87,10 @@ class MemberController extends Controller
             } else if ($this->id == "user") {
                 if (Yii::$app->user->identity->isMember())
                     $this->actionAllow = $isImpersonating ? ['downline', 'return-admin'] : ['downline'];
-                else if ($isImpersonating)
+                else if ($isImpersonating) {
                     $this->actionAllow = ['return-admin'];
+                    $this->allow[] = 'user';
+                }
             } else if ($this->id == "withdrawal") {
                 if (!Yii::$app->user->identity->isAdmin())
                     $this->actionAllow = ['index', 'create'];

@@ -73,7 +73,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'on' => 'register',
             ],
             [
-                ['password', 'password_repeat'],
+                ['password', 'password_repeat', 'ic', 'address1', 'city', 'zip_code', 'uplineUsername'],
                 'required',
                 'on' => 'memberRegister',
             ],
