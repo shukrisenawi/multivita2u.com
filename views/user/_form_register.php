@@ -128,6 +128,7 @@ $errors = $model->getErrors();
                 </div>
             </section>
         </div>
+        <?php if (!Yii::$app->user->identity->isAdmin()) { ?>
         <div class="col-lg-6">
             <section class="card">
                 <header class="card-header bg-success text-light">
@@ -138,6 +139,7 @@ $errors = $model->getErrors();
                 </div>
             </section>
         </div>
+        <?php } ?>
 
         <div class="col-xl-12">
             <div class="text-center">

@@ -62,7 +62,6 @@ class User extends ActiveRecord implements IdentityInterface
                     'hp',
                     'level_id',
                     'state',
-                    'pass',
                 ],
                 'required',
             ],
@@ -143,7 +142,9 @@ class User extends ActiveRecord implements IdentityInterface
                 'targetClass' => User::className(),
                 'targetAttribute' => ['upline_id' => 'id'],
             ],
-            ['pass', 'checkPass'],
+            ['pass', 'checkPass', 'when' => function () {
+                return !isset(Yii::$app->user->identity) || !Yii::$app->user->identity->isAdmin();
+            }],
         ];
     }
     public function checkPass()
