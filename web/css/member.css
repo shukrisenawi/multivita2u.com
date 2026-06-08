@@ -1343,6 +1343,11 @@ label,
     letter-spacing: 0.05em;
 }
 
+.required .control-label:after {
+    content: " *";
+    color: #dc3545;
+}
+
 .help-block,
 .hint-block,
 .text-muted {
