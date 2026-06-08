@@ -258,8 +258,8 @@ class MemberController extends Controller
 
     protected function runBonusRegisterMobile($user)
     {
-
         $upline = User::find()->select('id,username,upline_id,downline_stockist')->where(['id' => $user->register_id, 'level_id' => 4])->one();
+
 
         $uplineStockist = User::find()->select('id,stockist_on')->where(['id' => $upline->upline_id, 'level_id' => 4])->one();
 
