@@ -17,6 +17,7 @@ ehthumbs.db
 
 # Dependencies dan binary tempatan
 /vendor
+.opencode/node_modules
 /bower/vendor
 composer.phar
 phpunit.phar
