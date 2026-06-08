@@ -52,7 +52,8 @@
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "D:\\xampp\\htdocs",
-        "C:\\Users\\shukri"
+        "C:\\Users\\shukri",
+        "C:\\Users\\shukri\\.opencode"
       ],
       "enabled": true
     },
