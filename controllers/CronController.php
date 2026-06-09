@@ -207,7 +207,7 @@ class CronController extends Controller
                 $upline = $users[$newUser['register_id']] ?? null;
                 if (!$upline || $upline['level_id'] !== 4) continue;
 
-                $grandUpline = $users[$upline['upline_id']] ?? null;
+                $grandUpline = $users[$upline['register_id']] ?? null;
                 if (!$grandUpline || $grandUpline['level_id'] !== 4) continue;
 
                 $expected = isset($eligible[(int)$grandUpline['id']]);
