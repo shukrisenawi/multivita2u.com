@@ -57,7 +57,7 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
             </div>
         <?php endif; ?>
 
-        <?php if (empty($discrepancies)): ?>
+        <?php             if (empty($discrepancies)): ?>
             <div class="alert alert-success">
                 <i class="fa fa-check"></i> Tiada discrepancy dijumpai. Semua data bonus adalah tepat.
             </div>
@@ -65,6 +65,27 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
             <div class="alert alert-danger">
                 <i class="fa fa-exclamation-triangle"></i>
                 Dijumpai <strong><?= count($discrepancies) ?></strong> discrepancy dalam data bonus.
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body text-center">
+                            <h4><?= $totalMissing ?></h4>
+                            <strong>Bonus Tak Bayar</strong>
+                            <br><small>Perlu dibayar: RM<?= number_format($totalMissing * 5, 2) ?></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body text-center">
+                            <h4><?= $totalWrong ?></h4>
+                            <strong>Bonus Silap Bayar</strong>
+                            <br><small>Kena pulihkan: RM<?= number_format($totalWrong * 5, 2) ?></small>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="table-responsive">
@@ -76,6 +97,7 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                             <th>Ahli Baru</th>
                             <th>Upline (Mobile Stockist)</th>
                             <th>Grand-Upline (Penerima Bonus)</th>
+                            <th>Ewallet</th>
                             <th>Status Bonus</th>
                             <th>Jenis</th>
                         </tr>
@@ -97,6 +119,7 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                                     <?= Html::encode($d['grandUplineUsername']) ?>
                                     <br><small class="text-muted">ID: <?= $d['grandUplineId'] ?></small>
                                 </td>
+                                <td class="text-right">RM<?= number_format($d['grandUplineEwallet'] ?? 0, 2) ?></td>
                                 <td>
                                     <?php if ($d['expected']): ?>
                                         <span class="badge badge-success">Patut Dapat</span>

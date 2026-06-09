@@ -115,7 +115,7 @@ class CronController extends Controller
 
         // ---- BULK LOAD: semua user (guna index by id & month) ---- //
         $allRows = Yii::$app->db->createCommand(
-            'SELECT id, register_id, upline_id, level_id, username, created_at FROM yr_user'
+            'SELECT id, register_id, upline_id, level_id, username, created_at, ewallet FROM yr_user'
         )->queryAll();
 
         $users = [];
@@ -127,6 +127,7 @@ class CronController extends Controller
             $r['register_id'] = (int)$r['register_id'];
             $r['upline_id'] = (int)$r['upline_id'];
             $r['level_id'] = (int)$r['level_id'];
+            $r['ewallet'] = (float)$r['ewallet'];
             $users[$id] = $r;
             if ($r['level_id'] === 4) {
                 $level4Ids[$id] = true;
@@ -221,6 +222,7 @@ class CronController extends Controller
                         'uplineUsername'     => $upline['username'],
                         'grandUplineId'      => $grandUpline['id'],
                         'grandUplineUsername' => $grandUpline['username'],
+                        'grandUplineEwallet' => $grandUpline['ewallet'],
                         'expected'           => $expected,
                         'actual'             => $actual,
                         'transactionId'      => $actual ? (int)$txByRelated[(int)$newUser['id']]['id'] : null,
@@ -280,11 +282,20 @@ class CronController extends Controller
             }));
         }
 
+        $totalMissing = 0;
+        $totalWrong = 0;
+        foreach ($discrepancies as $d) {
+            if ($d['expected'] && !$d['actual']) $totalMissing++;
+            elseif (!$d['expected'] && $d['actual']) $totalWrong++;
+        }
+
         return $this->render('repair-bonus-stokis', [
             'discrepancies' => $discrepancies,
             'isRepairing' => $isRepairing,
             'repairLog' => $repairLog,
             'search' => $search,
+            'totalMissing' => $totalMissing,
+            'totalWrong' => $totalWrong,
         ]);
     }public function actionRunBonusMaintain()
     {
