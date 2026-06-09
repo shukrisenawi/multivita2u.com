@@ -86,19 +86,19 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="card bg-info text-white">
-                        <div class="card-body">
-                            <h4 class="text-center"><?= count($overpaidUsers) ?></h4>
-                            <strong class="text-center d-block">Pengguna Terlebih Bayar</strong>
-                            <ul class="list-unstyled mb-0 mt-2" style="font-size:0.85rem;">
-                                <?php foreach ($overpaidUsers as $ou): ?>
-                                    <li class="d-flex justify-content-between">
-                                        <span><?= Html::encode($ou['username']) ?></span>
-                                        <span><strong>RM<?= number_format($ou['amount'], 2) ?></strong></span>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
+                        <div class="card-body py-2">
+                            <strong>Pengguna Terlebih Bayar:</strong>
+                            <span style="font-size:0.9rem;">
+                                <?php
+                                $parts = [];
+                                foreach ($overpaidUsers as $ou) {
+                                    $parts[] = Html::encode($ou['username']) . ' : RM' . number_format($ou['amount'], 2);
+                                }
+                                echo implode(', ', $parts);
+                                ?>
+                            </span>
                         </div>
                     </div>
                 </div>
