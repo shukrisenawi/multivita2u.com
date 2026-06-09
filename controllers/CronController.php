@@ -102,7 +102,7 @@ class CronController extends Controller
         public function actionRepairBonusStokis()
     {
         $startMonth = 2;
-        $startYear = 2024;
+        $startYear = 2023;
 
         $repair = (int)Yii::$app->request->get('repair', 0);
         $search = trim(Yii::$app->request->get('search', ''));
@@ -113,11 +113,9 @@ class CronController extends Controller
         $currentMonth = (int)date('n');
         $currentYear = (int)date('Y');
 
-        // ---- BULK LOAD: semua user dari start date ---- //
-        $startDate = sprintf('%s-%02s-01', $startYear, $startMonth);
+        // ---- BULK LOAD: semua user (guna index by id & month) ---- //
         $allRows = Yii::$app->db->createCommand(
-            'SELECT id, register_id, upline_id, level_id, username, created_at FROM yr_user WHERE created_at >= :dt',
-            [':dt' => $startDate]
+            'SELECT id, register_id, upline_id, level_id, username, created_at FROM yr_user'
         )->queryAll();
 
         $users = [];
