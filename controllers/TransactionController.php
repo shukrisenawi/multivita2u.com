@@ -52,7 +52,6 @@ class TransactionController extends Controller
             $user = $this->findModelUser($id);
             $searchModel->user_id = $user->id;
         }
-        $searchModel->dateFilter = '1-' . date('m') . '-' . date('Y') . ' - ' . date('t') . '-' . date('m') . '-' . date('Y');
         $searchModel->notPoint = 1;
         $searchModel->load(Yii::$app->request->queryParams);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
