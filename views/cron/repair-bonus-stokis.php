@@ -22,7 +22,8 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
 
         <div class="row mb-3">
             <div class="col-md-8">
-                <form class="form-inline" method="get" action="<?= $reportUrl ?>">
+                <form class="form-inline" method="get">
+                    <input type="hidden" name="r" value="cron/repair-bonus-stokis">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control"
                                placeholder="Cari username..." value="<?= Html::encode($search) ?>">
