@@ -105,6 +105,7 @@ class CronController extends Controller
         $startYear = 2024;
 
         $repair = (int)Yii::$app->request->get('repair', 0);
+        $search = trim(Yii::$app->request->get('search', ''));
         $isRepairing = false;
         $repairLog = [];
         $discrepancies = [];
@@ -271,10 +272,21 @@ class CronController extends Controller
             }
         }
 
+        // Filter by search
+        if ($search) {
+            $searchLower = strtolower($search);
+            $discrepancies = array_values(array_filter($discrepancies, function ($d) use ($searchLower) {
+                return str_contains(strtolower($d['newUsername']), $searchLower)
+                    || str_contains(strtolower($d['uplineUsername']), $searchLower)
+                    || str_contains(strtolower($d['grandUplineUsername']), $searchLower);
+            }));
+        }
+
         return $this->render('repair-bonus-stokis', [
             'discrepancies' => $discrepancies,
             'isRepairing' => $isRepairing,
             'repairLog' => $repairLog,
+            'search' => $search,
         ]);
     }public function actionRunBonusMaintain()
     {

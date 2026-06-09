@@ -20,20 +20,33 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
             (iaitu mempunyai >= 5 downline pada bulan sebelumnya).
         </div>
 
-        <div class="mb-3">
-            <?php if (!$isRepairing): ?>
-                <a href="<?= $reportUrl ?>?repair=1" class="btn btn-warning"
-                   onclick="return confirm('Anda pasti mahu repair semua data bonus? Tindakan ini akan mengubah data transaksi dan ewallet.')">
-                    <i class="fa fa-wrench"></i> Repair Sekarang
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <form class="form-inline" method="get" action="<?= $reportUrl ?>">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control"
+                               placeholder="Cari username..." value="<?= Html::encode($search) ?>">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="submit"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4 text-right">
+                <?php if (!$isRepairing): ?>
+                    <a href="<?= $reportUrl ?>?repair=1<?= $search ? '&search=' . urlencode($search) : '' ?>" class="btn btn-warning"
+                       onclick="return confirm('Anda pasti mahu repair semua data bonus? Tindakan ini akan mengubah data transaksi dan ewallet.')">
+                        <i class="fa fa-wrench"></i> Repair Sekarang
+                    </a>
+                <?php else: ?>
+                    <div class="alert alert-success">
+                        <i class="fa fa-check-circle"></i> Repair selesai!
+                    </div>
+                <?php endif; ?>
+                <a href="<?= $reportUrl ?>" class="btn btn-secondary">
+                    <i class="fa fa-sync"></i> Refresh
                 </a>
-            <?php else: ?>
-                <div class="alert alert-success">
-                    <i class="fa fa-check-circle"></i> Repair selesai!
-                </div>
-            <?php endif; ?>
-            <a href="<?= $reportUrl ?>" class="btn btn-secondary">
-                <i class="fa fa-sync"></i> Refresh
-            </a>
+            </div>
         </div>
 
         <?php if ($isRepairing && $repairLog): ?>
