@@ -98,6 +98,174 @@ class CronController extends Controller
         }
     }
 
+    public function actionRepairBonusStokis()
+    {
+        $startMonth = 2; // var: bulan mula bonus
+        $startYear = 2024;
+
+        $repair = (int)Yii::$app->request->get('repair', 0);
+        $isRepairing = false;
+        $repairLog = [];
+
+        $currentMonth = (int)date('n');
+        $currentYear = (int)date('Y');
+
+        $discrepancies = [];
+
+        // Loop setiap bulan dari startMonth hingga sekarang
+        for ($year = $startYear; $year <= $currentYear; $year++) {
+            $monthStart = ($year == $startYear) ? $startMonth : 1;
+            $monthEnd = ($year == $currentYear) ? $currentMonth : 12;
+
+            for ($month = $monthStart; $month <= $monthEnd; $month++) {
+                // Kira prev month untuk tentukan stockist_on
+                $prevMonth = $month - 1;
+                $prevYear = $year;
+                if ($prevMonth == 0) {
+                    $prevMonth = 12;
+                    $prevYear = $year - 1;
+                }
+
+                // Count all registrations in previous month per register_id
+                $prevReg = Yii::$app->db->createCommand(
+                    "SELECT register_id, COUNT(*) as total FROM yr_user
+                     WHERE MONTH(created_at) = :month AND YEAR(created_at) = :year
+                     GROUP BY register_id",
+                    [':month' => $prevMonth, ':year' => $prevYear]
+                )->queryAll();
+
+                $downlineCount = [];
+                foreach ($prevReg as $r) {
+                    $downlineCount[(int)$r['register_id']] = (int)$r['total'];
+                }
+
+                // Siapa yang layak stockist_on = 1 (level 4 dengan >=5 downline bln lepas)
+                $eligibleUserIds = [];
+                $allLevel4 = User::find()->select(['id'])->where(['level_id' => 4])->asArray()->all();
+                foreach ($allLevel4 as $u) {
+                    $uid = (int)$u['id'];
+                    $count = $downlineCount[$uid] ?? 0;
+                    if ($count >= 5) {
+                        $eligibleUserIds[$uid] = true;
+                    }
+                }
+
+                // Dapatkan semua registrasi bulan ini yang trigger runBonusRegisterMobile
+                $period = $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT);
+
+                // Cari ahli baru level 5 & level 4 dalam bulan ini
+                $currentUsers = User::find()
+                    ->where('MONTH(created_at) = :month AND YEAR(created_at) = :year', [':month' => $month, ':year' => $year])
+                    ->andWhere(['IN', 'level_id', [4, 5]])
+                    ->orderBy('created_at')
+                    ->all();
+
+                foreach ($currentUsers as $newUser) {
+                    $triggerBonus = false;
+
+                    if ($newUser->level_id == 5) {
+                        // Level 5: jika pendaftar (register_id) punya upline adalah level 4
+                        $registerer = User::findOne($newUser->register_id);
+                        if ($registerer) {
+                            $uplineRegister = User::find()->where(['id' => $registerer->upline_id, 'level_id' => 4])->exists();
+                            if ($uplineRegister) {
+                                $triggerBonus = true;
+                            }
+                        }
+                    } elseif ($newUser->level_id == 4) {
+                        // Level 4: terus trigger
+                        $triggerBonus = true;
+                    }
+
+                    if (!$triggerBonus) continue;
+
+                    // Simulasi runBonusRegisterMobile
+                    $upline = User::find()->where(['id' => $newUser->register_id, 'level_id' => 4])->one();
+                    if (!$upline) continue;
+
+                    $uplineStockist = User::find()->where(['id' => $upline->upline_id, 'level_id' => 4])->one();
+                    if (!$uplineStockist) continue;
+
+                    $expectedBonus = isset($eligibleUserIds[(int)$uplineStockist->id]) ? 1 : 0;
+
+                    // Cek jika transaksi type 21 wujud
+                    $existingTxn = Transaction::find()
+                        ->where(['type_id' => 21, 'related_id' => $newUser->id])
+                        ->one();
+
+                    $actualBonus = $existingTxn ? 1 : 0;
+
+                    if ($expectedBonus != $actualBonus) {
+                        $discrepancies[] = [
+                            'period' => $period,
+                            'newId' => $newUser->id,
+                            'newUsername' => $newUser->username,
+                            'uplineId' => $upline->id,
+                            'uplineUsername' => $upline->username,
+                            'grandUplineId' => $uplineStockist->id,
+                            'grandUplineUsername' => $uplineStockist->username,
+                            'expected' => (bool)$expectedBonus,
+                            'actual' => (bool)$actualBonus,
+                            'transaction' => $existingTxn,
+                            'newUser' => $newUser,
+                            'uplineStockist' => $uplineStockist,
+                        ];
+                    }
+                }
+            }
+        }
+
+        // Repair jika diminta
+        if ($repair) {
+            $isRepairing = true;
+            $conn = Yii::$app->db;
+            $trans = $conn->beginTransaction();
+            try {
+                foreach ($discrepancies as $d) {
+                    if ($d['expected'] && !$d['actual']) {
+                        // Missing bonus - perlu tambah
+                        $data = [
+                            'username' => $d['newUsername'],
+                            'stockist' => $d['uplineUsername'],
+                        ];
+                        Transaction::createTransaction(
+                            $d['grandUplineId'],
+                            $d['newId'],
+                            21,
+                            5,
+                            $data
+                        );
+                        $repairLog[] = "TAMBAH bonus: {$d['grandUplineUsername']} (ID:{$d['grandUplineId']}) dapat RM5 dari pendaftaran {$d['newUsername']} ({$d['period']})";
+                    } elseif (!$d['expected'] && $d['actual']) {
+                        // Wrong bonus - perlu buang
+                        $txn = $d['transaction'];
+                        if ($txn) {
+                            $txnId = $txn->id;
+                            $txn->delete();
+
+                            // Subtract dari ewallet
+                            $u = User::findOne($d['grandUplineId']);
+                            if ($u) {
+                                $u->ewallet -= 5;
+                                $u->save(false);
+                            }
+                            $repairLog[] = "BUANG bonus: {$d['grandUplineUsername']} (ID:{$d['grandUplineId']}) - RM5 dari pendaftaran {$d['newUsername']} ({$d['period']}) - Transaksi #{$txnId} dipadam";
+                        }
+                    }
+                }
+                $trans->commit();
+            } catch (\Exception $e) {
+                $trans->rollback();
+                $repairLog[] = "ERROR: " . $e->getMessage();
+            }
+        }
+
+        return $this->render('repair-bonus-stokis', [
+            'discrepancies' => $discrepancies,
+            'isRepairing' => $isRepairing,
+            'repairLog' => $repairLog,
+        ]);
+    }
     public function actionRunBonusMaintain()
     {
         date_default_timezone_set(Yii::$app->params['utc']);
