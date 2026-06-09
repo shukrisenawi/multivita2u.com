@@ -112,9 +112,6 @@ $errors = $model->getErrors();
                     <?= $form->field($model, 'state')->dropDownList(['Perlis' => 'Perlis', 'Kedah' => 'Kedah', 'Pulau Pinang' => 'Pulau Pinang', 'Perak' => 'Perak', 'Pahang' => 'Pahang', 'Kelantan' => 'Kelantan', 'Terengganu' => 'Terengganu', 'Selangor' => 'Selangor', 'Kuala Lumpur' => 'Kuala Lumpur', 'Negeri Sembilan' => 'Negeri Sembilan', 'Melaka' => 'Melaka', 'Johor' => 'Johor', 'Sabah' => 'Sabah', 'Sarawak' => 'Sarawak',], ['prompt' => 'Pilih']) ?>
                 </div>
             </section>
-        </div>
-
-        <div class="col-lg-6">
             <section class="card">
                 <header class="card-header bg-success text-light">
                     Bank Details
@@ -127,9 +124,7 @@ $errors = $model->getErrors();
                     <?= $form->field($model, 'bank_name')->textInput(['maxlength' => true]) ?>
                 </div>
             </section>
-        </div>
-        <?php if (!Yii::$app->user->identity->isAdmin()) { ?>
-        <div class="col-lg-6">
+            <?php if (!Yii::$app->user->identity->isAdmin() && !Yii::$app->session->has('impersonator_admin_id')) { ?>
             <section class="card">
                 <header class="card-header bg-success text-light">
                     Password
@@ -138,8 +133,8 @@ $errors = $model->getErrors();
                     <?= $form->field($model, 'pass')->passwordInput(['maxlength' => true, 'class' => $classInput]) ?>
                 </div>
             </section>
+            <?php } ?>
         </div>
-        <?php } ?>
 
         <div class="col-xl-12">
             <div class="text-center">
