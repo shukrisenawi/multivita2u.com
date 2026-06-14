@@ -97,14 +97,10 @@ class ApiController extends Controller
 
             if (Yii::$app->request->post() && $model->login(0)) {
                 $user = User::find()
+                    ->select(['id', 'username', 'name', 'email', 'hp', 'level_id', 'ewallet', 'pinwallet', 'point', 'avatar', 'bank', 'bank_no', 'bank_name'])
                     ->where(['username' => $model->username])
                     ->asArray()
                     ->one();
-                $userData = User::find()
-                    ->select('id')
-                    ->where(['username' => $model->username])
-                    ->one();
-                $user['avatar'] = '-';
 
                 echo json_encode(['success' => true, 'data' => $user]);
             } else {
@@ -239,6 +235,14 @@ class ApiController extends Controller
                 $imageFile = base64_decode((string) $data['picture'], true);
                 if ($imageFile === false) {
                     throw new BadRequestHttpException('Data gambar tidak sah.');
+                }
+
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mimeType = finfo_buffer($finfo, $imageFile);
+                finfo_close($finfo);
+                $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                if (!in_array($mimeType, $allowedMimes, true)) {
+                    throw new BadRequestHttpException('Format fail tidak dibenarkan.');
                 }
 
                 $filename = $user->id . '_' . time() . '.' . $extension;

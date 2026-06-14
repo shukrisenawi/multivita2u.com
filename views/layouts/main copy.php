@@ -3,6 +3,7 @@
 /* @var $content string */
 
 use app\widgets\Menu;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use dominus77\sweetalert2\Alert;
 use yii\widgets\Breadcrumbs;
@@ -125,7 +126,7 @@ $select = Yii::$app->getRequest()->getQueryParam('select');
         <!--sidebar start-->
         <aside>
             <div id="sidebar" class="nav-collapse ">
-                <?php echo Menu::widget(['idPage' => $this->context->id, 'select' => (null !== (Yii::$app->request->get('select')) ? Yii::$app->request->get('select') : '')]); ?>
+                <?php echo Menu::widget(['idPage' => $this->context->id, 'select' => Html::encode(Yii::$app->request->get('select', ''))]); ?>
             </div>
         </aside>
         <!--sidebar end-->

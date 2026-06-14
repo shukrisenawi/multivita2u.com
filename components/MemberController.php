@@ -265,7 +265,7 @@ class MemberController extends Controller
 
         if ($upline) {
             $downline_stockist = $upline->downline_stockist + 1;
-            User::updateAll(['downline_stockist' => $downline_stockist], 'id=' . $upline->id);
+            User::updateAll(['downline_stockist' => $downline_stockist], ['id' => $upline->id]);
         }
         $data['username'] = $user->username;
         $data['stockist'] = $upline->username;

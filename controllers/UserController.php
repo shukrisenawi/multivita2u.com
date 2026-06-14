@@ -126,13 +126,13 @@ class UserController extends MemberController
 
     public function actionResetPassword($id)
     {
-        $pass = "123456";
         $user = User::findOne($id);
+        $pass = Yii::$app->security->generateRandomString(8);
         $user->setPassword($pass);
         $user->generateAuthKey();
 
         if ($user->save(false)) {
-            Yii::$app->session->setFlash(Alert::TYPE_SUCCESS, 'Your password has been changed!');
+            Yii::$app->session->setFlash(Alert::TYPE_SUCCESS, 'Kata laluan telah ditukar kepada: ' . $pass);
             return $this->goBack();
         } else {
             $this->errorSummary($user);

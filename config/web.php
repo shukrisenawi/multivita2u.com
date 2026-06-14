@@ -42,6 +42,22 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'authTimeout' => 3600,
+            'identityCookie' => [
+                'httpOnly' => true,
+                'secure' => !empty($_SERVER['HTTPS']),
+                'sameSite' => 'Lax',
+            ],
+        ],
+        'session' => [
+            'cookieParams' => [
+                'httpOnly' => true,
+                'secure' => !empty($_SERVER['HTTPS']),
+                'sameSite' => 'Lax',
+            ],
+            'gCProbabilityAfterWrite' => 1,
+            'useCookies' => true,
+            'useOnlyCookies' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -91,15 +107,13 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 

@@ -31,7 +31,7 @@ class Slide extends \yii\db\ActiveRecord
             [['status', 'sort_order'], 'integer'],
             [['title', 'image_path'], 'string', 'max' => 255],
             [['created_at', 'updated_at'], 'safe'],
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, png, webp, gif', 'maxSize' => 10 * 1024 * 1024],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, png, webp, gif', 'mimeTypes' => 'image/jpeg, image/png, image/webp, image/gif', 'maxSize' => 10 * 1024 * 1024],
         ];
     }
 
@@ -103,6 +103,11 @@ class Slide extends \yii\db\ActiveRecord
         $extension = strtolower($file->extension ?: $file->getExtension());
         $filename = 'slide-' . $this->id . '-' . time() . '.' . $extension;
         $targetPath = $uploadDir . DIRECTORY_SEPARATOR . $filename;
+
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!in_array($file->type, $allowedMimes, true) && !in_array(mime_content_type($file->tempName), $allowedMimes, true)) {
+            return false;
+        }
 
         if (!$file->saveAs($targetPath, false)) {
             return false;

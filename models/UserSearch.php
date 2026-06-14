@@ -18,7 +18,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'level_id', 'register_id', 'upline_id', 'status', 'zip_code', 'downline'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'bank', 'bank_no', 'bank_name', 'name', 'address1', 'address2', 'city', 'state', 'activated', 'ip', 'updated_at'], 'safe'],
+            [['username', 'auth_key', 'password_reset_token', 'email', 'bank', 'bank_no', 'bank_name', 'name', 'address1', 'address2', 'city', 'state', 'activated', 'ip', 'updated_at'], 'safe'],
             [['created_at', 'dateFilter', 'uplineFilter'], 'string'],
             [['ewallet', 'pinwallet', 'point'], 'number'],
         ];
@@ -62,7 +62,6 @@ class UserSearch extends User
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])
             ->andFilterWhere(['like', 'upline_id', $this->uplineFilter])
-            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'bank', $this->bank])

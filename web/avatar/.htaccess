@@ -1,0 +1,12 @@
+# Prevent direct PHP execution
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+
+# Deny access to all other sensitive files
+<FilesMatch "\.(inc|sql|conf|ini|log|sh|pl|py)$">
+    Require all denied
+</FilesMatch>
+
+# Disable directory listing
+Options -Indexes

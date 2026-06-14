@@ -314,7 +314,7 @@ JS);
                     <a href="<?= Url::to(['site/index']) ?>" class="logo">Multi<span>Vita2u</span></a>
                     <span class="sidebar-logo__caption"><?= $userLevel ?></span>
                 </div>
-                <?php echo Menu::widget(['idPage' => $this->context->id, 'select' => (null !== (Yii::$app->request->get('select')) ? Yii::$app->request->get('select') : '')]); ?>
+                <?php echo Menu::widget(['idPage' => $this->context->id, 'select' => Html::encode(Yii::$app->request->get('select', ''))]); ?>
             </div>
         </aside>
         <!--sidebar end-->
