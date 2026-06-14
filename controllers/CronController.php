@@ -279,6 +279,7 @@ class CronController extends Controller
         $totalMissing = 0;
         $totalWrong = 0;
         $overpaidUsers = [];
+        $negativeUsers = [];
         foreach ($discrepancies as $d) {
             if ($d['expected'] && !$d['actual']) {
                 $totalMissing++;
@@ -286,13 +287,18 @@ class CronController extends Controller
                 $totalWrong++;
                 $uname = $d['pendaftarStokisUsername'];
                 if (!isset($overpaidUsers[$uname])) {
-                    $overpaidUsers[$uname] = ['username' => $uname, 'count' => 0, 'amount' => 0];
+                    $overpaidUsers[$uname] = ['username' => $uname, 'count' => 0, 'amount' => 0, 'ewallet' => $d['pendaftarStokisEwallet']];
                 }
                 $overpaidUsers[$uname]['count']++;
                 $overpaidUsers[$uname]['amount'] += 5;
             }
         }
         $overpaidUsers = array_values($overpaidUsers);
+        foreach ($overpaidUsers as $ou) {
+            if ($ou['ewallet'] < $ou['amount']) {
+                $negativeUsers[] = $ou;
+            }
+        }
 
         return $this->render('repair-bonus-stokis', [
             'discrepancies' => $discrepancies,
@@ -302,6 +308,7 @@ class CronController extends Controller
             'totalMissing' => $totalMissing,
             'totalWrong' => $totalWrong,
             'overpaidUsers' => $overpaidUsers,
+            'negativeUsers' => $negativeUsers,
         ]);
     }public function actionRunBonusMaintain()
     {
