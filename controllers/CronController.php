@@ -201,7 +201,9 @@ class CronController extends Controller
                 $pendaftarStokis = $users[$stokis['register_id']] ?? null;
                 if (!$pendaftarStokis) continue;
 
-                $expected = isset($eligible[(int)$pendaftarStokis['id']]);
+                $isEligible = isset($eligible[(int)$pendaftarStokis['id']]);
+                $isNewThisMonth = substr($pendaftarStokis['created_at'], 0, 7) === $ymCur;
+                $expected = $isEligible || $isNewThisMonth;
                 $actual   = isset($txByRelated[(int)$newUser['id']]);
 
                 if ($expected !== $actual) {
