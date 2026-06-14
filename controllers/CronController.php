@@ -228,6 +228,7 @@ class CronController extends Controller
                         'stokisCreatedAt'        => $stokis['created_at'],
                         'recipientId'            => $recipient['id'],
                         'recipientUsername'      => $recipient['username'],
+                        'recipientCreatedAt'     => $recipient['created_at'],
                         'recipientEwallet'       => $recipient['ewallet'],
                         'corRecipientId'         => $grandUpline['id'],
                         'corRecipientUsername'   => $grandUpline['username'],

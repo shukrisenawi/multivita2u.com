@@ -199,7 +199,7 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                                 </td>
                                 <td>
                                     <?= Html::encode($d['recipientUsername']) ?>
-                                    <br><small class="text-muted">ID: <?= $d['recipientId'] ?>
+                                    <br><small class="text-muted">ID: <?= $d['recipientId'] ?> (<?= Html::encode(substr($d['recipientCreatedAt'] ?? '', 0, 7)) ?>)</small>
                                     <?php if (!$d['expected'] && $d['actual'] && $d['recipientId'] !== $d['corRecipientId']): ?>
                                         <br>✗ patut: <?= Html::encode($d['corRecipientUsername']) ?> (ID:<?= $d['corRecipientId'] ?>)
                                     <?php endif; ?>
