@@ -16,8 +16,9 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
     <div class="card-body">
         <div class="alert alert-info">
             <strong>Maklumat:</strong> Bonus ini mula berkuatkuasa pada bulan 2 (Februari).
-            Syarat: Pendaftar (Mobile Stockist level 4) layak dapat RM5 jika
-            mempunyai >= 5 downline pada bulan sebelumnya.
+            Apabila stokis (level 4) daftarkan ahli, yg dapat RM5 ialah
+            <strong>pendaftar stokis tersebut</strong> (register_id stokis),
+            dengan syarat beliau ada >= 5 pendaftaran pada bulan sebelumnya.
         </div>
 
         <div class="row mb-3">
@@ -111,7 +112,8 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                             <th>#</th>
                             <th>Bulan</th>
                             <th>Ahli Baru</th>
-                            <th>Pendaftar (Penerima Bonus)</th>
+                            <th>Stokis (Pendaftar Ahli)</th>
+                            <th>Pendaftar Stokis (Penerima Bonus)</th>
                             <th>Ewallet</th>
                             <th>Status Bonus</th>
                             <th>Jenis</th>
@@ -127,10 +129,14 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                                     <br><small class="text-muted">ID: <?= $d['newId'] ?></small>
                                 </td>
                                 <td>
-                                    <?= Html::encode($d['registererUsername']) ?>
-                                    <br><small class="text-muted">ID: <?= $d['registererId'] ?></small>
+                                    <?= Html::encode($d['stokisUsername']) ?>
+                                    <br><small class="text-muted">ID: <?= $d['stokisId'] ?></small>
                                 </td>
-                                <td class="text-right">RM<?= number_format($d['registererEwallet'] ?? 0, 2) ?></td>
+                                <td>
+                                    <?= Html::encode($d['pendaftarStokisUsername']) ?>
+                                    <br><small class="text-muted">ID: <?= $d['pendaftarStokisId'] ?></small>
+                                </td>
+                                <td class="text-right">RM<?= number_format($d['pendaftarStokisEwallet'] ?? 0, 2) ?></td>
                                 <td>
                                     <?php if ($d['expected']): ?>
                                         <span class="badge badge-success">Patut Dapat</span>
