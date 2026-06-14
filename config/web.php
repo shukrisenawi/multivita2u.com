@@ -44,6 +44,7 @@ $config = [
             'enableAutoLogin' => true,
             'authTimeout' => 3600,
             'identityCookie' => [
+                'name' => '_identity',
                 'httpOnly' => true,
                 'secure' => !empty($_SERVER['HTTPS']),
                 'sameSite' => 'Lax',
@@ -55,9 +56,8 @@ $config = [
                 'secure' => !empty($_SERVER['HTTPS']),
                 'sameSite' => 'Lax',
             ],
-            'gCProbabilityAfterWrite' => 1,
+            'gCProbability' => 1,
             'useCookies' => true,
-            'useOnlyCookies' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

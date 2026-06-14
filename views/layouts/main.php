@@ -42,7 +42,7 @@ $navbarUserSearchUrl = Url::to(['user/navbar-search']);
 $navbarUserSearchUrlJson = json_encode($navbarUserSearchUrl);
 $userLevel = $user && $user->level ? $user->level->level : 'Pengguna';
 $pageTitle = $this->title ?: 'Dashboard';
-$displayName = trim((string) ($user->name ?? '')) !== '' ? $user->name : $user->username;
+$displayName = $user ? (trim((string) ($user->name ?? '')) !== '' ? $user->name : $user->username) : '';
 $userBalance = Helper::convertMoney((float) ($user->ewallet ?? 0));
 
 Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
@@ -254,6 +254,7 @@ JS);
                         </a>
                     <?php } ?>
 
+                    <?php if ($user): ?>
                     <!-- User dropdown -->
                     <div class="dropdown ms-sm-3 header-item topbar-user">
                         <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -270,13 +271,13 @@ JS);
                                 <i class="fa fa-user-circle text-muted fs-16 align-middle me-1"></i>
                                 <span class="align-middle">Profile</span>
                             </a>
-                            <?php if (Yii::$app->user->identity->isMember()) { ?>
+                            <?php if ($user->isMember()) { ?>
                                 <a class="dropdown-item" href="<?= Url::to(['network/index']) ?>">
                                     <i class="fa fa-network-wired text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Network</span>
                                 </a>
                             <?php } ?>
-                            <?php if (!Yii::$app->user->identity->isMember() && !Yii::$app->user->identity->isAdmin()) { ?>
+                            <?php if (!$user->isMember() && !$user->isAdmin()) { ?>
                                 <a class="dropdown-item" href="<?= Url::to(['register/create']) ?>">
                                     <i class="fa fa-user text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Register</span>
@@ -290,7 +291,7 @@ JS);
                                 <i class="fas fa-wallet text-muted fs-16 align-middle me-1"></i>
                                 <span class="align-middle">E-Wallet: <b><?= $userBalance ?></b></span>
                             </a>
-                            <?php if (Yii::$app->user->identity->isAdmin()) { ?>
+                            <?php if ($user->isAdmin()) { ?>
                                 <a class="dropdown-item" href="<?= Url::to(['settings/index']) ?>">
                                     <i class="fa fa-cog text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Settings</span>
@@ -303,6 +304,7 @@ JS);
                             </a>
                         </div>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </header>

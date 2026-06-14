@@ -162,7 +162,7 @@ class Menu extends \yii\bootstrap\Widget
             if (!isset($value['hidden']) || !$value['hidden']) {
                 $menuRoute = strtolower(trim($value['url'][0], '/'));
                 $select = ($currentRoute === $menuRoute);
-                $str .= '<li><a class="' . ($select ? 'active' : '') . '" href="' . Url::to($value['url']) . '"><span class="sidebar-menu__icon"><i class="' . $value['icon'] . '"></i></span><span class="sidebar-menu__label">' . $value['label'] . '</span></a>';
+                $str .= '<li><a class="' . ($select ? 'active' : '') . '" href="' . Url::to($value['url']) . '"><span class="sidebar-menu__icon"><i class="' . ($value['icon'] ?? '') . '"></i></span><span class="sidebar-menu__label">' . $value['label'] . '</span></a>';
                 $str .= '</li>';
             }
         }
