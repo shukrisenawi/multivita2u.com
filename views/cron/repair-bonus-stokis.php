@@ -205,7 +205,7 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                                     <?php if ($d['isNewThisMonth']): ?>
                                         <span class="badge badge-info">Baru</span>
                                     <?php else: ?>
-                                        <?= (int)$d['prevDownlines'] ?> org
+                                        <?= (int)$d['prevDownlines'] ?> org (<?= Html::encode($d['prevDownlineMonth'] ?? '') ?>)
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-right">RM<?= number_format($d['pendaftarStokisEwallet'] ?? 0, 2) ?></td>

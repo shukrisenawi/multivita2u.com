@@ -221,6 +221,7 @@ class CronController extends Controller
                         'pendaftarStokisCreatedAt' => $pendaftarStokis['created_at'],
                         'pendaftarStokisEwallet'  => $pendaftarStokis['ewallet'],
                         'isNewThisMonth'         => $isNewThisMonth,
+                        'prevDownlineMonth'      => $ymPrev,
                         'prevDownlines'          => $downMap[$pendaftarStokis['id']] ?? 0,
                         'expected'               => $expected,
                         'actual'                 => $actual,
