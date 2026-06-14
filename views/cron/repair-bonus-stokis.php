@@ -198,8 +198,12 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                                     <br><small class="text-muted">ID: <?= $d['stokisId'] ?> (<?= Html::encode(substr($d['stokisCreatedAt'] ?? '', 0, 7)) ?>)</small>
                                 </td>
                                 <td>
-                                    <?= Html::encode($d['pendaftarStokisUsername']) ?>
-                                    <br><small class="text-muted">ID: <?= $d['pendaftarStokisId'] ?> (<?= Html::encode(substr($d['pendaftarStokisCreatedAt'] ?? '', 0, 7)) ?>)</small>
+                                    <?= Html::encode($d['recipientUsername']) ?>
+                                    <br><small class="text-muted">ID: <?= $d['recipientId'] ?>
+                                    <?php if (!$d['expected'] && $d['actual'] && $d['recipientId'] !== $d['corRecipientId']): ?>
+                                        <br>✗ patut: <?= Html::encode($d['corRecipientUsername']) ?> (ID:<?= $d['corRecipientId'] ?>)
+                                    <?php endif; ?>
+                                    </small>
                                 </td>
                                 <td class="text-center">
                                     <?php if ($d['isNewThisMonth']): ?>
@@ -208,7 +212,7 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                                         <?= (int)$d['prevDownlines'] ?> org (<?= Html::encode($d['prevDownlineMonth'] ?? '') ?>)
                                     <?php endif; ?>
                                 </td>
-                                <td class="text-right">RM<?= number_format($d['pendaftarStokisEwallet'] ?? 0, 2) ?></td>
+                                <td class="text-right">RM<?= number_format($d['recipientEwallet'] ?? 0, 2) ?></td>
                                 <td>
                                     <?php if ($d['expected']): ?>
                                         <span class="badge badge-success">Patut Dapat</span>

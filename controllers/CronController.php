@@ -205,10 +205,19 @@ class CronController extends Controller
                 $isEligible = isset($eligible[(int)$pendaftarStokis['id']]);
                 $isNewThisMonth = substr($pendaftarStokis['created_at'], 0, 7) === $ymCur;
                 $expected = $isEligible || $isNewThisMonth;
+
                 $txn = $txByRelated[(int)$newUser['id']] ?? null;
-                $actual = $txn && (int)$txn['user_id'] === (int)$pendaftarStokis['id'];
+                $actual = $txn !== null;
 
                 if ($expected !== $actual) {
+                    // Siapa yg sebenarnya dapat bonus (untuk kes terlebih bayar)
+                    $actualRecipient = $txn ? ($users[(int)$txn['user_id']] ?? null) : null;
+                    if ($actualRecipient) {
+                        $recipient = $actualRecipient;
+                    } else {
+                        $recipient = $pendaftarStokis;
+                    }
+
                     $discrepancies[] = [
                         'period'                 => $ymCur,
                         'newId'                  => $newUser['id'],
@@ -217,10 +226,11 @@ class CronController extends Controller
                         'stokisId'               => $stokis['id'],
                         'stokisUsername'         => $stokis['username'],
                         'stokisCreatedAt'        => $stokis['created_at'],
-                        'pendaftarStokisId'      => $pendaftarStokis['id'],
-                        'pendaftarStokisUsername' => $pendaftarStokis['username'],
-                        'pendaftarStokisCreatedAt' => $pendaftarStokis['created_at'],
-                        'pendaftarStokisEwallet'  => $pendaftarStokis['ewallet'],
+                        'recipientId'            => $recipient['id'],
+                        'recipientUsername'      => $recipient['username'],
+                        'recipientEwallet'       => $recipient['ewallet'],
+                        'corRecipientId'         => $pendaftarStokis['id'],
+                        'corRecipientUsername'   => $pendaftarStokis['username'],
                         'isNewThisMonth'         => $isNewThisMonth,
                         'prevDownlineMonth'      => $ymPrev,
                         'prevDownlines'          => $downMap[$pendaftarStokis['id']] ?? 0,
@@ -245,24 +255,24 @@ class CronController extends Controller
                             'stockist' => $d['stokisUsername'],
                         ];
                         Transaction::createTransaction(
-                            $d['pendaftarStokisId'],
+                            $d['corRecipientId'],
                             $d['newId'],
                             21,
                             5,
                             $data
                         );
-                        $repairLog[] = "TAMBAH bonus: {$d['pendaftarStokisUsername']} (ID:{$d['pendaftarStokisId']}) dapat RM5 dari pendaftaran {$d['newUsername']} ({$d['period']})";
+                        $repairLog[] = "TAMBAH bonus: {$d['corRecipientUsername']} (ID:{$d['corRecipientId']}) dapat RM5 dari pendaftaran {$d['newUsername']} ({$d['period']})";
                     } elseif (!$d['expected'] && $d['actual']) {
                         $txn = Transaction::findOne($d['transactionId']);
                         if ($txn) {
                             $txnId = $txn->id;
                             $txn->delete();
-                            $u = User::findOne($d['pendaftarStokisId']);
+                            $u = User::findOne($d['recipientId']);
                             if ($u) {
                                 $u->ewallet -= 5;
                                 $u->save(false);
                             }
-                            $repairLog[] = "BUANG bonus: {$d['pendaftarStokisUsername']} (ID:{$d['pendaftarStokisId']}) - RM5 dari pendaftaran {$d['newUsername']} ({$d['period']}) - Transaksi #{$txnId} dipadam";
+                            $repairLog[] = "BUANG bonus: {$d['recipientUsername']} (ID:{$d['recipientId']}) - RM5 dari pendaftaran {$d['newUsername']} ({$d['period']}) - Transaksi #{$txnId} dipadam";
                         }
                     }
                 }
@@ -279,7 +289,8 @@ class CronController extends Controller
             $discrepancies = array_values(array_filter($discrepancies, function ($d) use ($searchLower) {
                 return str_contains(strtolower($d['newUsername']), $searchLower)
                     || str_contains(strtolower($d['stokisUsername']), $searchLower)
-                    || str_contains(strtolower($d['pendaftarStokisUsername']), $searchLower);
+                    || str_contains(strtolower($d['recipientUsername']), $searchLower)
+                    || str_contains(strtolower($d['corRecipientUsername']), $searchLower);
             }));
         }
 
@@ -289,9 +300,9 @@ class CronController extends Controller
         $negativeUsers = [];
         $bonusSummary = [];
         foreach ($discrepancies as $d) {
-            $uname = $d['pendaftarStokisUsername'];
+            $uname = $d['recipientUsername'];
             if (!isset($bonusSummary[$uname])) {
-                $bonusSummary[$uname] = ['username' => $uname, 'ewallet' => $d['pendaftarStokisEwallet'], 'overpaid' => 0, 'missing' => 0];
+                $bonusSummary[$uname] = ['username' => $uname, 'ewallet' => $d['recipientEwallet'], 'overpaid' => 0, 'missing' => 0];
             }
             if ($d['expected'] && !$d['actual']) {
                 $totalMissing++;
@@ -300,7 +311,7 @@ class CronController extends Controller
                 $totalWrong++;
                 $bonusSummary[$uname]['overpaid'] += 5;
                 if (!isset($overpaidUsers[$uname])) {
-                    $overpaidUsers[$uname] = ['username' => $uname, 'count' => 0, 'amount' => 0, 'ewallet' => $d['pendaftarStokisEwallet']];
+                    $overpaidUsers[$uname] = ['username' => $uname, 'count' => 0, 'amount' => 0, 'ewallet' => $d['recipientEwallet']];
                 }
                 $overpaidUsers[$uname]['count']++;
                 $overpaidUsers[$uname]['amount'] += 5;
