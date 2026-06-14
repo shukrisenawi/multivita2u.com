@@ -145,15 +145,15 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                                 <td><?= Html::encode($d['period']) ?></td>
                                 <td>
                                     <?= Html::encode($d['newUsername']) ?>
-                                    <br><small class="text-muted">ID: <?= $d['newId'] ?></small>
+                                    <br><small class="text-muted">ID: <?= $d['newId'] ?> (<?= Html::encode(substr($d['newCreatedAt'] ?? '', 0, 7)) ?>)</small>
                                 </td>
                                 <td>
                                     <?= Html::encode($d['stokisUsername']) ?>
-                                    <br><small class="text-muted">ID: <?= $d['stokisId'] ?></small>
+                                    <br><small class="text-muted">ID: <?= $d['stokisId'] ?> (<?= Html::encode(substr($d['stokisCreatedAt'] ?? '', 0, 7)) ?>)</small>
                                 </td>
                                 <td>
                                     <?= Html::encode($d['pendaftarStokisUsername']) ?>
-                                    <br><small class="text-muted">ID: <?= $d['pendaftarStokisId'] ?></small>
+                                    <br><small class="text-muted">ID: <?= $d['pendaftarStokisId'] ?> (<?= Html::encode(substr($d['pendaftarStokisCreatedAt'] ?? '', 0, 7)) ?>)</small>
                                 </td>
                                 <td class="text-right">RM<?= number_format($d['pendaftarStokisEwallet'] ?? 0, 2) ?></td>
                                 <td>
