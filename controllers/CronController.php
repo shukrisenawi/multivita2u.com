@@ -193,24 +193,11 @@ class CronController extends Controller
                     continue;
                 }
 
-                $trigger = false;
-                if ($newUser['level_id'] === 5) {
-                    $registerer = $users[$newUser['register_id']] ?? null;
-                    if ($registerer && isset($level4Ids[$registerer['upline_id']])) {
-                        $trigger = true;
-                    }
-                } else {
-                    $trigger = true;
-                }
-                if (!$trigger) continue;
+                // Penerima bonus ialah pendaftar (register_id), bukan upline pendaftar
+                $registerer = $users[$newUser['register_id']] ?? null;
+                if (!$registerer || $registerer['level_id'] !== 4) continue;
 
-                $upline = $users[$newUser['register_id']] ?? null;
-                if (!$upline || $upline['level_id'] !== 4) continue;
-
-                $grandUpline = $users[$upline['upline_id']] ?? null;
-                if (!$grandUpline || $grandUpline['level_id'] !== 4) continue;
-
-                $expected = isset($eligible[(int)$grandUpline['id']]);
+                $expected = isset($eligible[(int)$registerer['id']]);
                 $actual   = isset($txByRelated[(int)$newUser['id']]);
 
                 if ($expected !== $actual) {
@@ -218,11 +205,9 @@ class CronController extends Controller
                         'period'             => $ymCur,
                         'newId'              => $newUser['id'],
                         'newUsername'        => $newUser['username'],
-                        'uplineId'           => $upline['id'],
-                        'uplineUsername'     => $upline['username'],
-                        'grandUplineId'      => $grandUpline['id'],
-                        'grandUplineUsername' => $grandUpline['username'],
-                        'grandUplineEwallet' => $grandUpline['ewallet'],
+                        'registererId'       => $registerer['id'],
+                        'registererUsername' => $registerer['username'],
+                        'registererEwallet'  => $registerer['ewallet'],
                         'expected'           => $expected,
                         'actual'             => $actual,
                         'transactionId'      => $actual ? (int)$txByRelated[(int)$newUser['id']]['id'] : null,
@@ -241,27 +226,27 @@ class CronController extends Controller
                     if ($d['expected'] && !$d['actual']) {
                         $data = [
                             'username' => $d['newUsername'],
-                            'stockist' => $d['uplineUsername'],
+                            'stockist' => $d['registererUsername'],
                         ];
                         Transaction::createTransaction(
-                            $d['grandUplineId'],
+                            $d['registererId'],
                             $d['newId'],
                             21,
                             5,
                             $data
                         );
-                        $repairLog[] = "TAMBAH bonus: {$d['grandUplineUsername']} (ID:{$d['grandUplineId']}) dapat RM5 dari pendaftaran {$d['newUsername']} ({$d['period']})";
+                        $repairLog[] = "TAMBAH bonus: {$d['registererUsername']} (ID:{$d['registererId']}) dapat RM5 dari pendaftaran {$d['newUsername']} ({$d['period']})";
                     } elseif (!$d['expected'] && $d['actual']) {
                         $txn = Transaction::findOne($d['transactionId']);
                         if ($txn) {
                             $txnId = $txn->id;
                             $txn->delete();
-                            $u = User::findOne($d['grandUplineId']);
+                            $u = User::findOne($d['registererId']);
                             if ($u) {
                                 $u->ewallet -= 5;
                                 $u->save(false);
                             }
-                            $repairLog[] = "BUANG bonus: {$d['grandUplineUsername']} (ID:{$d['grandUplineId']}) - RM5 dari pendaftaran {$d['newUsername']} ({$d['period']}) - Transaksi #{$txnId} dipadam";
+                            $repairLog[] = "BUANG bonus: {$d['registererUsername']} (ID:{$d['registererId']}) - RM5 dari pendaftaran {$d['newUsername']} ({$d['period']}) - Transaksi #{$txnId} dipadam";
                         }
                     }
                 }
@@ -277,8 +262,7 @@ class CronController extends Controller
             $searchLower = strtolower($search);
             $discrepancies = array_values(array_filter($discrepancies, function ($d) use ($searchLower) {
                 return str_contains(strtolower($d['newUsername']), $searchLower)
-                    || str_contains(strtolower($d['uplineUsername']), $searchLower)
-                    || str_contains(strtolower($d['grandUplineUsername']), $searchLower);
+                    || str_contains(strtolower($d['registererUsername']), $searchLower);
             }));
         }
 
@@ -290,7 +274,7 @@ class CronController extends Controller
                 $totalMissing++;
             } elseif (!$d['expected'] && $d['actual']) {
                 $totalWrong++;
-                $uname = $d['grandUplineUsername'];
+                $uname = $d['registererUsername'];
                 if (!isset($overpaidUsers[$uname])) {
                     $overpaidUsers[$uname] = ['username' => $uname, 'count' => 0, 'amount' => 0];
                 }
