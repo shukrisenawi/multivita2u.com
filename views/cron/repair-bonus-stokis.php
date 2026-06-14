@@ -178,6 +178,7 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                             <th>Ahli Baru</th>
                             <th>Stokis (Pendaftar Ahli)</th>
                             <th>Pendaftar Stokis (Penerima Bonus)</th>
+                            <th>Sebab</th>
                             <th>Ewallet</th>
                             <th>Status Bonus</th>
                             <th>Jenis</th>
@@ -199,6 +200,13 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                                 <td>
                                     <?= Html::encode($d['pendaftarStokisUsername']) ?>
                                     <br><small class="text-muted">ID: <?= $d['pendaftarStokisId'] ?> (<?= Html::encode(substr($d['pendaftarStokisCreatedAt'] ?? '', 0, 7)) ?>)</small>
+                                </td>
+                                <td class="text-center">
+                                    <?php if ($d['isNewThisMonth']): ?>
+                                        <span class="badge badge-info">Baru</span>
+                                    <?php else: ?>
+                                        <?= (int)$d['prevDownlines'] ?> org
+                                    <?php endif; ?>
                                 </td>
                                 <td class="text-right">RM<?= number_format($d['pendaftarStokisEwallet'] ?? 0, 2) ?></td>
                                 <td>
