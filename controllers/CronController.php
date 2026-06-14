@@ -205,7 +205,8 @@ class CronController extends Controller
                 $isEligible = isset($eligible[(int)$pendaftarStokis['id']]);
                 $isNewThisMonth = substr($pendaftarStokis['created_at'], 0, 7) === $ymCur;
                 $expected = $isEligible || $isNewThisMonth;
-                $actual   = isset($txByRelated[(int)$newUser['id']]);
+                $txn = $txByRelated[(int)$newUser['id']] ?? null;
+                $actual = $txn && (int)$txn['user_id'] === (int)$pendaftarStokis['id'];
 
                 if ($expected !== $actual) {
                     $discrepancies[] = [
@@ -225,7 +226,7 @@ class CronController extends Controller
                         'prevDownlines'          => $downMap[$pendaftarStokis['id']] ?? 0,
                         'expected'               => $expected,
                         'actual'                 => $actual,
-                        'transactionId'          => $actual ? (int)$txByRelated[(int)$newUser['id']]['id'] : null,
+                        'transactionId'          => $actual ? (int)$txn['id'] : null,
                     ];
                 }
             }
