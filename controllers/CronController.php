@@ -304,6 +304,7 @@ class CronController extends Controller
         }
         $overpaidUsers = array_values($overpaidUsers);
         $bonusSummary = array_values($bonusSummary);
+        usort($bonusSummary, fn($a, $b) => ($b['ewallet'] - $b['overpaid'] + $b['missing']) <=> ($a['ewallet'] - $a['overpaid'] + $a['missing']));
         foreach ($overpaidUsers as $ou) {
             if ($ou['ewallet'] < $ou['amount']) {
                 $negativeUsers[] = $ou;
