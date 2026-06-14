@@ -197,13 +197,13 @@ class CronController extends Controller
                 $stokis = $users[$newUser['register_id']] ?? null;
                 if (!$stokis || $stokis['level_id'] !== 4) continue;
 
-                // Penerima bonus ialah yg daftarkan stokis (register_id stokis)
-                $pendaftarStokis = $users[$stokis['register_id']] ?? null;
-                if (!$pendaftarStokis) continue;
-                if (strtoupper($pendaftarStokis['username']) === 'HQ') continue;
+                // Penerima bonus ialah upline stokis (level 4)
+                $grandUpline = $users[$stokis['upline_id']] ?? null;
+                if (!$grandUpline || $grandUpline['level_id'] !== 4) continue;
+                if (strtoupper($grandUpline['username']) === 'HQ') continue;
 
-                $isEligible = isset($eligible[(int)$pendaftarStokis['id']]);
-                $isNewThisMonth = substr($pendaftarStokis['created_at'], 0, 7) === $ymCur;
+                $isEligible = isset($eligible[(int)$grandUpline['id']]);
+                $isNewThisMonth = substr($grandUpline['created_at'], 0, 7) === $ymCur;
                 $expected = $isEligible || $isNewThisMonth;
 
                 $txn = $txByRelated[(int)$newUser['id']] ?? null;
@@ -215,7 +215,7 @@ class CronController extends Controller
                     if ($actualRecipient) {
                         $recipient = $actualRecipient;
                     } else {
-                        $recipient = $pendaftarStokis;
+                        $recipient = $grandUpline;
                     }
 
                     $discrepancies[] = [
@@ -229,11 +229,11 @@ class CronController extends Controller
                         'recipientId'            => $recipient['id'],
                         'recipientUsername'      => $recipient['username'],
                         'recipientEwallet'       => $recipient['ewallet'],
-                        'corRecipientId'         => $pendaftarStokis['id'],
-                        'corRecipientUsername'   => $pendaftarStokis['username'],
+                        'corRecipientId'         => $grandUpline['id'],
+                        'corRecipientUsername'   => $grandUpline['username'],
                         'isNewThisMonth'         => $isNewThisMonth,
                         'prevDownlineMonth'      => $ymPrev,
-                        'prevDownlines'          => $downMap[$pendaftarStokis['id']] ?? 0,
+                        'prevDownlines'          => $downMap[$grandUpline['id']] ?? 0,
                         'expected'               => $expected,
                         'actual'                 => $actual,
                         'transactionId'          => $actual ? (int)$txn['id'] : null,
