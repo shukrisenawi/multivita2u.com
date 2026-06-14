@@ -178,10 +178,10 @@ class CronController extends Controller
                 }
             }
 
-            // Eligible level-4 (stockist_on=1)
+            // Eligible: daftar >=5 orang bulan sebelumnya (semua level)
             $eligible = [];
-            foreach ($level4Ids as $uid => $_) {
-                if (($downMap[$uid] ?? 0) >= 5) {
+            foreach ($downMap as $uid => $count) {
+                if ($count >= 5) {
                     $eligible[$uid] = true;
                 }
             }
