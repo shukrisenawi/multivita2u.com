@@ -161,11 +161,18 @@ class CronController extends Controller
             $month = $period['month'];
             $ymCur = sprintf('%d-%02s', $year, $month);
 
-            // Downline count from all previous months (terkumpul)
+            $prevMonth = $month - 1;
+            $prevYear  = $year;
+            if ($prevMonth === 0) {
+                $prevMonth = 12;
+                $prevYear  = $year - 1;
+            }
+            $ymPrev = sprintf('%d-%02s', $prevYear, $prevMonth);
+
+            // Downline count from prev month
             $downMap = [];
-            foreach ($byMonth as $ym => $users) {
-                if ($ym >= $ymCur) continue;
-                foreach ($users as $u) {
+            if (isset($byMonth[$ymPrev])) {
+                foreach ($byMonth[$ymPrev] as $u) {
                     $rid = $u['register_id'];
                     $downMap[$rid] = ($downMap[$rid] ?? 0) + 1;
                 }
