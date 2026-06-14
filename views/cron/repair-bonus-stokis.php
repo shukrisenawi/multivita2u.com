@@ -128,6 +128,47 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                 <?php endif; ?>
             </div>
 
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong><i class="fa fa-list"></i> Ringkasan Bonus Mengikut Penerima</strong>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Penerima</th>
+                                <th class="text-right">Ewallet</th>
+                                <th class="text-right">Terlebih Bayar</th>
+                                <th class="text-right">Perlu Dibayar</th>
+                                <th class="text-right">Baki Selepas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; $sumOver = 0; $sumMiss = 0; foreach ($bonusSummary as $bs): ?>
+                            <tr class="<?= $bs['overpaid'] && $bs['ewallet'] < $bs['overpaid'] ? 'table-danger' : ($bs['overpaid'] ? 'table-warning' : '') ?>">
+                                <td><?= $i++ ?></td>
+                                <td><?= Html::encode($bs['username']) ?></td>
+                                <td class="text-right">RM<?= number_format($bs['ewallet'], 2) ?></td>
+                                <td class="text-right"><?= $bs['overpaid'] ? 'RM' . number_format($bs['overpaid'], 2) : '-' ?></td>
+                                <td class="text-right"><?= $bs['missing'] ? 'RM' . number_format($bs['missing'], 2) : '-' ?></td>
+                                <td class="text-right">RM<?= number_format($bs['ewallet'] - $bs['overpaid'] + $bs['missing'], 2) ?></td>
+                            </tr>
+                            <?php $sumOver += $bs['overpaid']; $sumMiss += $bs['missing']; endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-weight-bold">
+                                <td colspan="2"><strong>JUMLAH KESELURUHAN</strong></td>
+                                <td class="text-right"><strong>RM<?= number_format(array_sum(array_column($bonusSummary, 'ewallet')), 2) ?></strong></td>
+                                <td class="text-right"><strong>RM<?= number_format($sumOver, 2) ?></strong></td>
+                                <td class="text-right"><strong>RM<?= number_format($sumMiss, 2) ?></strong></td>
+                                <td class="text-right"><strong>RM<?= number_format(array_sum(array_column($bonusSummary, 'ewallet')) - $sumOver + $sumMiss, 2) ?></strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>

@@ -283,12 +283,18 @@ class CronController extends Controller
         $totalWrong = 0;
         $overpaidUsers = [];
         $negativeUsers = [];
+        $bonusSummary = [];
         foreach ($discrepancies as $d) {
+            $uname = $d['pendaftarStokisUsername'];
+            if (!isset($bonusSummary[$uname])) {
+                $bonusSummary[$uname] = ['username' => $uname, 'ewallet' => $d['pendaftarStokisEwallet'], 'overpaid' => 0, 'missing' => 0];
+            }
             if ($d['expected'] && !$d['actual']) {
                 $totalMissing++;
+                $bonusSummary[$uname]['missing'] += 5;
             } elseif (!$d['expected'] && $d['actual']) {
                 $totalWrong++;
-                $uname = $d['pendaftarStokisUsername'];
+                $bonusSummary[$uname]['overpaid'] += 5;
                 if (!isset($overpaidUsers[$uname])) {
                     $overpaidUsers[$uname] = ['username' => $uname, 'count' => 0, 'amount' => 0, 'ewallet' => $d['pendaftarStokisEwallet']];
                 }
@@ -297,6 +303,7 @@ class CronController extends Controller
             }
         }
         $overpaidUsers = array_values($overpaidUsers);
+        $bonusSummary = array_values($bonusSummary);
         foreach ($overpaidUsers as $ou) {
             if ($ou['ewallet'] < $ou['amount']) {
                 $negativeUsers[] = $ou;
@@ -312,6 +319,7 @@ class CronController extends Controller
             'totalWrong' => $totalWrong,
             'overpaidUsers' => $overpaidUsers,
             'negativeUsers' => $negativeUsers,
+            'bonusSummary' => $bonusSummary,
         ]);
     }public function actionRunBonusMaintain()
     {
