@@ -46,15 +46,12 @@ $config = [
             'identityCookie' => [
                 'name' => '_identity',
                 'httpOnly' => true,
-                'secure' => !empty($_SERVER['HTTPS']),
-                'sameSite' => 'Lax',
             ],
         ],
         'session' => [
             'cookieParams' => [
                 'httpOnly' => true,
                 'secure' => !empty($_SERVER['HTTPS']),
-                'sameSite' => 'Lax',
             ],
             'gCProbability' => 1,
             'useCookies' => true,
