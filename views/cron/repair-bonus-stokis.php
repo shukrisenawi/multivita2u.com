@@ -110,14 +110,18 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
                             <strong><i class="fa fa-exclamation-triangle"></i> Akaun Jadi Negatif Jika Repair:</strong>
                             <span style="font-size:0.9rem;">
                                 <?php
+                                $totalNegatif = 0;
                                 $negParts = [];
                                 foreach ($negativeUsers as $nu) {
                                     $after = $nu['ewallet'] - $nu['amount'];
+                                    $totalNegatif += abs($after);
                                     $negParts[] = Html::encode($nu['username']) . ' (RM' . number_format($nu['ewallet'], 2) . ' - RM' . number_format($nu['amount'], 2) . ' = RM' . number_format($after, 2) . ')';
                                 }
                                 echo implode(', ', $negParts);
                                 ?>
                             </span>
+                            <hr class="my-1 border-white">
+                            <strong>Jumlah Keseluruhan: RM<?= number_format($totalNegatif, 2) ?></strong>
                         </div>
                     </div>
                 </div>
