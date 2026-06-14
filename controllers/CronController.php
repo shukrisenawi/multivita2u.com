@@ -200,6 +200,7 @@ class CronController extends Controller
                 // Penerima bonus ialah yg daftarkan stokis (register_id stokis)
                 $pendaftarStokis = $users[$stokis['register_id']] ?? null;
                 if (!$pendaftarStokis) continue;
+                if (strtoupper($pendaftarStokis['username']) === 'HQ') continue;
 
                 $isEligible = isset($eligible[(int)$pendaftarStokis['id']]);
                 $isNewThisMonth = substr($pendaftarStokis['created_at'], 0, 7) === $ymCur;
