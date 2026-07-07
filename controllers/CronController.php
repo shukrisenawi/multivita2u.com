@@ -99,7 +99,243 @@ class CronController extends Controller
         }
     }
 
-        public function actionRepairBonusStokis()
+    public function actionRepairBonusStokis2()
+    {
+        $search = trim(Yii::$app->request->get('search', ''));
+        $repair = (int)Yii::$app->request->get('repair', 0);
+        $isRepairing = false;
+        $repairLog = [];
+        $discrepancies = [];
+
+        $currentMonth = (int)date('n');
+        $currentYear = (int)date('Y');
+
+        // ---- BULK LOAD: semua user ---- //
+        $allRows = Yii::$app->db->createCommand(
+            'SELECT id, register_id, upline_id, level_id, username, created_at, ewallet FROM yr_user'
+        )->queryAll();
+
+        $users = [];
+        $byMonth = [];
+        $level4Ids = [];
+        foreach ($allRows as $r) {
+            $id = (int)$r['id'];
+            $r['id'] = $id;
+            $r['register_id'] = (int)$r['register_id'];
+            $r['upline_id'] = (int)$r['upline_id'];
+            $r['level_id'] = (int)$r['level_id'];
+            $r['ewallet'] = (float)$r['ewallet'];
+            $users[$id] = $r;
+            if ($r['level_id'] === 4) {
+                $level4Ids[$id] = true;
+            }
+            $ym = substr($r['created_at'], 0, 7);
+            $byMonth[$ym][] = $r;
+        }
+
+        // ---- BULK LOAD: semua transaksi type 21 ---- //
+        $txRows = Yii::$app->db->createCommand(
+            'SELECT id, user_id, related_id FROM yr_transaction WHERE type_id = 21'
+        )->queryAll();
+        $txByRelated = [];
+        foreach ($txRows as $t) {
+            $txByRelated[(int)$t['related_id']] = $t;
+        }
+
+        // ---- Cari bulan terawal dari data user ---- //
+        $earliest = Yii::$app->db->createCommand(
+            'SELECT MIN(created_at) as earliest FROM yr_user WHERE level_id IN (4,5)'
+        )->queryOne();
+        $startYear = $earliest && $earliest['earliest'] ? (int)substr($earliest['earliest'], 0, 4) : 2023;
+        $startMonth = $earliest && $earliest['earliest'] ? (int)substr($earliest['earliest'], 5, 2) : 2;
+
+        // ---- Build month list ---- //
+        $months = [];
+        for ($y = $startYear; $y <= $currentYear; $y++) {
+            $mStart = ($y === $startYear) ? $startMonth : 1;
+            $mEnd   = ($y === $currentYear) ? $currentMonth : 12;
+            for ($m = $mStart; $m <= $mEnd; $m++) {
+                $months[] = ['year' => $y, 'month' => $m];
+            }
+        }
+
+        // ---- Process month by month ---- //
+        foreach ($months as $period) {
+            $year  = $period['year'];
+            $month = $period['month'];
+            $ymCur = sprintf('%d-%02s', $year, $month);
+
+            $prevMonth = $month - 1;
+            $prevYear  = $year;
+            if ($prevMonth === 0) {
+                $prevMonth = 12;
+                $prevYear  = $year - 1;
+            }
+            $ymPrev = sprintf('%d-%02s', $prevYear, $prevMonth);
+
+            // Downline count dari bulan sebelumnya
+            $downMap = [];
+            if (isset($byMonth[$ymPrev])) {
+                foreach ($byMonth[$ymPrev] as $u) {
+                    $rid = $u['register_id'];
+                    $downMap[$rid] = ($downMap[$rid] ?? 0) + 1;
+                }
+            }
+
+            // Eligible: level 4 yang daftar >=5 orang bulan sebelumnya
+            $eligible = [];
+            foreach ($level4Ids as $uid => $_) {
+                if (($downMap[$uid] ?? 0) >= 5) {
+                    $eligible[$uid] = true;
+                }
+            }
+
+            // Check setiap pendaftaran bulan ini
+            $curUsers = $byMonth[$ymCur] ?? [];
+            foreach ($curUsers as $newUser) {
+                if (!in_array($newUser['level_id'], [4, 5], true)) {
+                    continue;
+                }
+
+                // Stokis yang daftarkan ahli ni
+                $stokis = $users[$newUser['register_id']] ?? null;
+                if (!$stokis || $stokis['level_id'] !== 4) continue;
+
+                // Penerima bonus = upline stokis (level 4)
+                $grandUpline = $users[$stokis['upline_id']] ?? null;
+                if (!$grandUpline || $grandUpline['level_id'] !== 4) continue;
+                if (strtoupper($grandUpline['username']) === 'HQ') continue;
+
+                $isEligible = isset($eligible[(int)$grandUpline['id']]);
+                $isNewThisMonth = substr($grandUpline['created_at'], 0, 7) === $ymCur;
+                $shouldGet = $isEligible || $isNewThisMonth;
+
+                $txn = $txByRelated[(int)$newUser['id']] ?? null;
+                $actualGet = $txn !== null;
+
+                if ($shouldGet !== $actualGet) {
+                    $actualRecipient = $txn ? ($users[(int)$txn['user_id']] ?? null) : null;
+                    $recipient = $actualRecipient ?: $grandUpline;
+
+                    $discrepancies[] = [
+                        'period'             => $ymCur,
+                        'newMemberId'        => $newUser['id'],
+                        'newMemberUsername'  => $newUser['username'],
+                        'newMemberCreated'   => $newUser['created_at'],
+                        'stokisId'           => $stokis['id'],
+                        'stokisUsername'     => $stokis['username'],
+                        'recipientId'        => $recipient['id'],
+                        'recipientUsername'  => $recipient['username'],
+                        'recipientEwallet'   => $recipient['ewallet'],
+                        'corRecipientId'     => $grandUpline['id'],
+                        'corRecipientUsername' => $grandUpline['username'],
+                        'isNewThisMonth'     => $isNewThisMonth,
+                        'prevDownlineMonth'  => $ymPrev,
+                        'prevDownlineCount'  => $downMap[$grandUpline['id']] ?? 0,
+                        'shouldGet'          => $shouldGet,
+                        'actualGet'          => $actualGet,
+                        'transactionId'      => $actualGet ? (int)$txn['id'] : null,
+                    ];
+                }
+            }
+        }
+
+        // ---- Filter search ---- //
+        if ($search) {
+            $searchLower = strtolower($search);
+            $discrepancies = array_values(array_filter($discrepancies, function($d) use ($searchLower) {
+                return str_contains(strtolower($d['newMemberUsername']), $searchLower)
+                    || str_contains(strtolower($d['stokisUsername']), $searchLower)
+                    || str_contains(strtolower($d['recipientUsername']), $searchLower)
+                    || str_contains(strtolower($d['corRecipientUsername']), $searchLower);
+            }));
+        }
+
+        // ---- Repair ---- //
+        if ($repair && !empty($discrepancies)) {
+            $isRepairing = true;
+            $conn = Yii::$app->db;
+            $trans = $conn->beginTransaction();
+            try {
+                foreach ($discrepancies as $d) {
+                    if ($d['shouldGet'] && !$d['actualGet']) {
+                        $data = [
+                            'username' => $d['newMemberUsername'],
+                            'stockist' => $d['stokisUsername'],
+                        ];
+                        Transaction::createTransaction(
+                            $d['corRecipientId'],
+                            $d['newMemberId'],
+                            21,
+                            5,
+                            $data
+                        );
+                        $repairLog[] = "TAMBAH: {$d['corRecipientUsername']} dapat RM5 dari {$d['newMemberUsername']} ({$d['period']})";
+                    } elseif (!$d['shouldGet'] && $d['actualGet']) {
+                        $txn = Transaction::findOne($d['transactionId']);
+                        if ($txn) {
+                            $txn->delete();
+                            $recipient = User::findOne($d['recipientId']);
+                            if ($recipient) {
+                                $recipient->ewallet -= 5;
+                                $recipient->save(false);
+                            }
+                            $repairLog[] = "BUANG: {$d['recipientUsername']} - RM5 dari {$d['newMemberUsername']} ({$d['period']})";
+                        }
+                    }
+                }
+                $trans->commit();
+            } catch (\Exception $e) {
+                $trans->rollback();
+                $repairLog[] = "ERROR: " . $e->getMessage();
+            }
+        }
+
+        // ---- Statistik ---- //
+        $missingList = array_filter($discrepancies, fn($d) => $d['shouldGet'] && !$d['actualGet']);
+        $wrongList = array_filter($discrepancies, fn($d) => !$d['shouldGet'] && $d['actualGet']);
+
+        $totalMissing = count($missingList);
+        $totalWrong = count($wrongList);
+        $totalMissingAmount = $totalMissing * 5;
+        $totalWrongAmount = $totalWrong * 5;
+
+        // Group by recipient
+        $summary = [];
+        foreach ($discrepancies as $d) {
+            $key = $d['recipientUsername'];
+            if (!isset($summary[$key])) {
+                $summary[$key] = [
+                    'username' => $d['recipientUsername'],
+                    'ewallet' => $d['recipientEwallet'],
+                    'missing' => 0,
+                    'wrong' => 0,
+                ];
+            }
+            if ($d['shouldGet'] && !$d['actualGet']) {
+                $summary[$key]['missing'] += 5;
+            } elseif (!$d['shouldGet'] && $d['actualGet']) {
+                $summary[$key]['wrong'] += 5;
+            }
+        }
+        $summary = array_values($summary);
+        usort($summary, fn($a, $b) => ($b['missing'] - $b['wrong']) <=> ($a['missing'] - $a['wrong']));
+
+        return $this->render('repair-bonus-stokis2', [
+            'discrepancies' => $discrepancies,
+            'missingList' => $missingList,
+            'wrongList' => $wrongList,
+            'totalMissing' => $totalMissing,
+            'totalWrong' => $totalWrong,
+            'totalMissingAmount' => $totalMissingAmount,
+            'totalWrongAmount' => $totalWrongAmount,
+            'summary' => $summary,
+            'search' => $search,
+            'isRepairing' => $isRepairing,
+            'repairLog' => $repairLog,
+        ]);
+    }
+    public function actionRepairBonusStokis()
     {
         $startMonth = 2;
         $startYear = 2023;
@@ -338,7 +574,8 @@ class CronController extends Controller
             'negativeUsers' => $negativeUsers,
             'bonusSummary' => $bonusSummary,
         ]);
-    }public function actionRunBonusMaintain()
+    }
+    public function actionRunBonusMaintain()
     {
         date_default_timezone_set(Yii::$app->params['utc']);
         $payId = [];
