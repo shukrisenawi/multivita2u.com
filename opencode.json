@@ -3,21 +3,12 @@
   "mcp": {
     "chrome-devtools": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "chrome-devtools-mcp@latest"
-      ],
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
       "enabled": true
     },
     "shadcn": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "shadcn@latest",
-        "mcp"
-      ],
+      "command": ["npx", "-y", "shadcn@latest", "mcp"],
       "enabled": true
     },
     "context7": {
@@ -38,11 +29,7 @@
     },
     "ui-ux-pro": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "ui-ux-pro-mcp"
-      ],
+      "command": ["npx", "-y", "ui-ux-pro-mcp"],
       "enabled": true
     },
     "filesystem": {
@@ -59,23 +46,11 @@
     },
     "TestSprite": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@testsprite/testsprite-mcp@latest"
-      ],
+      "command": ["npx", "-y", "@testsprite/testsprite-mcp@latest"],
       "env": {
         "API_KEY": "sk-user-hl1N8sod-BJwM7veaGHOVriokWV0fIkXcMQT4HJYvIqM9wePhv6ebGV0PM_YRi37mkz27TMFRgQkZLNqUOdcorMHDTN9VoYr4u2p9bRVw5Hbc69xPpUweOSuKKqKI8sEv_I"
       },
       "enabled": true
-    }
-  },
-  "provider": {},
-  "agent": {
-    "explorer": {
-      "description": "Fast explorer subagent for codebase exploration",
-      "mode": "subagent",
-      "model": ""
     }
   }
 }
