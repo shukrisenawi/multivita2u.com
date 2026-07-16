@@ -58,6 +58,48 @@ $reportUrl = Url::to(['cron/repair-bonus-stokis']);
             </div>
         <?php endif; ?>
 
+        <?php if ($isRepairing && !empty($ewalletChanges)): ?>
+            <div class="card mb-3">
+                <div class="card-header bg-info text-white">
+                    <strong><i class="fa fa-wallet"></i> Senarai Perubahan Ewallet Selepas Repair</strong>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Username</th>
+                                <th class="text-right">Ewallet Sebelum Repair</th>
+                                <th class="text-right">Penambahan (RM)</th>
+                                <th class="text-right">Penolakan (RM)</th>
+                                <th class="text-right">Ewallet Selepas Repair</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; $sumAdded = 0; $sumDeducted = 0; foreach ($ewalletChanges as $ec): ?>
+                            <tr>
+                                <td><?= $i++ ?></td>
+                                <td><?= Html::encode($ec['username']) ?></td>
+                                <td class="text-right">RM<?= number_format($ec['ewallet_before'], 2) ?></td>
+                                <td class="text-right text-success">+RM<?= number_format($ec['added'], 2) ?></td>
+                                <td class="text-right text-danger">-RM<?= number_format($ec['deducted'], 2) ?></td>
+                                <td class="text-right font-weight-bold">RM<?= number_format($ec['ewallet_after'], 2) ?></td>
+                            </tr>
+                            <?php $sumAdded += $ec['added']; $sumDeducted += $ec['deducted']; endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-weight-bold">
+                                <td colspan="3" class="text-right"><strong>JUMLAH KESELURUHAN</strong></td>
+                                <td class="text-right text-success"><strong>+RM<?= number_format($sumAdded, 2) ?></strong></td>
+                                <td class="text-right text-danger"><strong>-RM<?= number_format($sumDeducted, 2) ?></strong></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <?php             if (empty($discrepancies)): ?>
             <div class="alert alert-success">
                 <i class="fa fa-check"></i> Tiada discrepancy dijumpai. Semua data bonus adalah tepat.

@@ -8,6 +8,7 @@ use app\models\Buy;
 use app\models\User;
 use app\models\Settings;
 use app\models\Transaction;
+use app\models\RepairBonusStokisLog;
 use yii\db\Exception;
 use yii\web\ForbiddenHttpException;
 
@@ -480,11 +481,46 @@ class CronController extends Controller
         }
 
         // ---- Repair ---- //
+        $repairLog = [];
+        $ewalletChanges = [];
         if ($repair) {
             $isRepairing = true;
             $conn = Yii::$app->db;
             $trans = $conn->beginTransaction();
             try {
+                // Snapshot ewallet sebelum repair
+                $affectedIds = [];
+                foreach ($discrepancies as $d) {
+                    if ($d['expected'] && !$d['actual']) {
+                        $affectedIds[$d['corRecipientId']] = true;
+                    } elseif (!$d['expected'] && $d['actual']) {
+                        $affectedIds[$d['recipientId']] = true;
+                    }
+                }
+                $beforeEwallets = [];
+                if ($affectedIds) {
+                    $ids = array_keys($affectedIds);
+                    $params = [];
+                    $placeholders = [];
+                    foreach ($ids as $i => $id) {
+                        $key = ':id' . $i;
+                        $placeholders[] = $key;
+                        $params[$key] = $id;
+                    }
+                    $rows = Yii::$app->db->createCommand(
+                        'SELECT id, username, ewallet FROM yr_user WHERE id IN (' . implode(',', $placeholders) . ')',
+                        $params
+                    )->queryAll();
+                    foreach ($rows as $r) {
+                        $beforeEwallets[(int)$r['id']] = [
+                            'username' => $r['username'],
+                            'ewallet' => (float)$r['ewallet'],
+                            'added' => 0,
+                            'deducted' => 0,
+                        ];
+                    }
+                }
+
                 foreach ($discrepancies as $d) {
                     if ($d['expected'] && !$d['actual']) {
                         $data = [
@@ -498,6 +534,7 @@ class CronController extends Controller
                             5,
                             $data
                         );
+                        $beforeEwallets[$d['corRecipientId']]['added'] += 5;
                         $repairLog[] = "TAMBAH bonus: {$d['corRecipientUsername']} (ID:{$d['corRecipientId']}) dapat RM5 dari pendaftaran {$d['newUsername']} ({$d['period']})";
                     } elseif (!$d['expected'] && $d['actual']) {
                         $txn = Transaction::findOne($d['transactionId']);
@@ -508,15 +545,65 @@ class CronController extends Controller
                             if ($u) {
                                 $u->ewallet -= 5;
                                 $u->save(false);
+                                $beforeEwallets[$d['recipientId']]['deducted'] += 5;
                             }
                             $repairLog[] = "BUANG bonus: {$d['recipientUsername']} (ID:{$d['recipientId']}) - RM5 dari pendaftaran {$d['newUsername']} ({$d['period']}) - Transaksi #{$txnId} dipadam";
                         }
                     }
                 }
+
+                // Snapshot ewallet selepas repair
+                $afterRows = [];
+                if ($affectedIds) {
+                    $ids = array_keys($affectedIds);
+                    $params = [];
+                    $placeholders = [];
+                    foreach ($ids as $i => $id) {
+                        $key = ':id' . $i;
+                        $placeholders[] = $key;
+                        $params[$key] = $id;
+                    }
+                    $afterRows = Yii::$app->db->createCommand(
+                        'SELECT id, ewallet FROM yr_user WHERE id IN (' . implode(',', $placeholders) . ')',
+                        $params
+                    )->queryAll();
+                }
+                $afterEwallets = [];
+                foreach ($afterRows as $r) {
+                    $afterEwallets[(int)$r['id']] = (float)$r['ewallet'];
+                }
+
+                // Simpan log perubahan
+                foreach ($beforeEwallets as $uid => $info) {
+                    if ($info['added'] <= 0 && $info['deducted'] <= 0) {
+                        continue;
+                    }
+                    $log = new RepairBonusStokisLog();
+                    $log->username = $info['username'];
+                    $log->ewallet_before = $info['ewallet'];
+                    $log->ewallet_after = $afterEwallets[$uid] ?? $info['ewallet'];
+                    $log->added = $info['added'];
+                    $log->deducted = $info['deducted'];
+                    $log->created_at = date('Y-m-d H:i:s');
+                    $log->save(false);
+
+                    $ewalletChanges[] = [
+                        'username' => $info['username'],
+                        'ewallet_before' => $info['ewallet'],
+                        'added' => $info['added'],
+                        'deducted' => $info['deducted'],
+                        'ewallet_after' => $log->ewallet_after,
+                    ];
+                }
+
                 $trans->commit();
+                $repairLog[] = "Jumlah pengguna terlibat: " . count($ewalletChanges);
+                $repairLog[] = "Jumlah penambahan (RM): " . number_format(array_sum(array_column($ewalletChanges, 'added')), 2);
+                $repairLog[] = "Jumlah penolakan (RM): " . number_format(array_sum(array_column($ewalletChanges, 'deducted')), 2);
             } catch (\Exception $e) {
                 $trans->rollback();
                 $repairLog[] = "ERROR: " . $e->getMessage();
+                $ewalletChanges = [];
             }
         }
 
@@ -567,6 +654,7 @@ class CronController extends Controller
             'discrepancies' => $discrepancies,
             'isRepairing' => $isRepairing,
             'repairLog' => $repairLog,
+            'ewalletChanges' => $ewalletChanges,
             'search' => $search,
             'totalMissing' => $totalMissing,
             'totalWrong' => $totalWrong,
