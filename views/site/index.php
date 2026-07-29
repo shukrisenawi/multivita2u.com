@@ -12,95 +12,81 @@ $frontSlides = !empty($slides) ? $slides : [
 
 <!-- ============ HERO ============ -->
 <section class="mv-hero">
-    <div class="mv-hero__bg" aria-hidden="true">
-        <span class="mv-hero__blob mv-hero__blob--1"></span>
-        <span class="mv-hero__blob mv-hero__blob--2"></span>
-    </div>
+    <div class="mv-hero__glow mv-hero__glow--1" aria-hidden="true"></div>
+    <div class="mv-hero__glow mv-hero__glow--2" aria-hidden="true"></div>
+    <div class="mv-hero__grid-lines" aria-hidden="true"></div>
+
     <div class="mv-container mv-hero__inner">
-        <div class="mv-hero__copy">
-            <span class="mv-pill">
-                <i class="fas fa-leaf"></i> Susu Tambahan Berkhasiat
-            </span>
-            <h1 class="mv-hero__title">
-                Kesihatan Seisi Keluarga,<br>
-                <em>bermula dari sini.</em>
-            </h1>
-            <p class="mv-hero__lead">
-                Multivita Milk — minuman tambahan semula jadi yang menguatkan imun,
-                tulang dan stamina. Direka untuk ibu mengandung, kanak-kanak, dewasa
-                dan warga emas.
-            </p>
-            <div class="mv-hero__btns">
-                <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--solid">
-                    Cari Stokis <i class="fas fa-arrow-right"></i>
-                </a>
-                <a href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>" class="mv-btn mv-btn--ghost">
-                    <i class="fas fa-play"></i> Tonton Testimoni
-                </a>
-            </div>
-            <div class="mv-hero__trust">
-                <div class="mv-hero__trust-item">
-                    <strong>45K+</strong>
-                    <span>Pengedar Aktif</span>
-                </div>
-                <div class="mv-hero__trust-divider"></div>
-                <div class="mv-hero__trust-item">
-                    <strong>3</strong>
-                    <span>Negara</span>
-                </div>
-                <div class="mv-hero__trust-divider"></div>
-                <div class="mv-hero__trust-item">
-                    <strong>100%</strong>
-                    <span>Bumiputera</span>
-                </div>
-            </div>
+        <span class="mv-hero__eyebrow">
+            <span class="mv-hero__eyebrow-dot"></span>
+            Susu Tambahan Berkhasiat &middot; Sejak 2019
+        </span>
+
+        <h1 class="mv-hero__title">
+            Tenaga semula jadi<br>
+            untuk <span class="mv-hero__title-accent">seisi keluarga</span>
+        </h1>
+
+        <p class="mv-hero__lead">
+            Multivita Milk — minuman tambahan yang menguatkan imun, tulang dan stamina.
+            Direka untuk ibu mengandung, kanak-kanak, dewasa dan warga emas.
+        </p>
+
+        <div class="mv-hero__btns">
+            <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--lime">
+                Cari Stokis Berhampiran <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>" class="mv-btn mv-btn--glass">
+                <i class="fas fa-circle-play"></i> Tonton Testimoni
+            </a>
         </div>
 
-        <div class="mv-hero__media">
-            <div class="mv-hero__media-frame">
+        <div class="mv-hero__chips">
+            <div class="mv-hero__chip"><strong>45K+</strong><span>Pengedar Aktif</span></div>
+            <div class="mv-hero__chip"><strong>3</strong><span>Negara</span></div>
+            <div class="mv-hero__chip"><strong>100%</strong><span>Bumiputera</span></div>
+            <div class="mv-hero__chip"><strong>4.9<i class="fas fa-star"></i></strong><span>Penilaian</span></div>
+        </div>
+
+        <div class="mv-hero__panel">
+            <div class="mv-hero__panel-media">
                 <img src="images/produk1.png" alt="Susu Multivita Milk" class="img-fluid">
             </div>
-            <div class="mv-hero__float mv-hero__float--top">
+            <div class="mv-hero__tag mv-hero__tag--a">
                 <i class="fas fa-shield-heart"></i>
-                <div>
-                    <strong>Imun Kuat</strong>
-                    <span>Formulasi semula jadi</span>
-                </div>
+                <div><strong>Imun Kuat</strong><span>Formulasi semula jadi</span></div>
             </div>
-            <div class="mv-hero__float mv-hero__float--bot">
-                <div class="mv-hero__float-ava">
-                    <img src="images/testi1.png" alt="Pelanggan">
-                </div>
-                <div>
-                    <strong>4.9 / 5.0</strong>
-                    <span>Penilaian Pelanggan</span>
-                </div>
+            <div class="mv-hero__tag mv-hero__tag--b">
+                <i class="fas fa-award"></i>
+                <div><strong>Super Health Brand</strong><span>Asia Pacific 2021–2023</span></div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ============ MARQUEE / TRUST BAR ============ -->
-<section class="mv-marquee" aria-hidden="true">
-    <div class="mv-marquee__bar">
-        <div class="mv-marquee__inner">
-            <div class="mv-marquee__track">
-                <span><i class="fas fa-award"></i> Asia Pacific Super Health Brand 2021–2023</span>
-                <span><i class="fas fa-award"></i> Ditubuhkan 2019</span>
-                <span><i class="fas fa-award"></i> 45,000+ Pengedar</span>
-                <span><i class="fas fa-award"></i> Malaysia · Singapura · Brunei</span>
-                <span><i class="fas fa-award"></i> Asia Pacific Super Health Brand 2021–2023</span>
-                <span><i class="fas fa-award"></i> Ditubuhkan 2019</span>
-                <span><i class="fas fa-award"></i> 45,000+ Pengedar</span>
-                <span><i class="fas fa-award"></i> Malaysia · Singapura · Brunei</span>
-            </div>
-        </div>
+<!-- ============ MARQUEE ============ -->
+<div class="mv-strip" aria-hidden="true">
+    <div class="mv-strip__track">
+        <span>Asia Pacific Super Health Brand <i class="fas fa-star"></i></span>
+        <span>Ditubuhkan 2019 <i class="fas fa-star"></i></span>
+        <span>45,000+ Pengedar <i class="fas fa-star"></i></span>
+        <span>Malaysia &middot; Singapura &middot; Brunei <i class="fas fa-star"></i></span>
+        <span>Halal &amp; Berkualiti <i class="fas fa-star"></i></span>
+        <span>Asia Pacific Super Health Brand <i class="fas fa-star"></i></span>
+        <span>Ditubuhkan 2019 <i class="fas fa-star"></i></span>
+        <span>45,000+ Pengedar <i class="fas fa-star"></i></span>
+        <span>Malaysia &middot; Singapura &middot; Brunei <i class="fas fa-star"></i></span>
+        <span>Halal &amp; Berkualiti <i class="fas fa-star"></i></span>
     </div>
-</section>
+</div>
 
 <!-- ============ SLIDES ============ -->
 <section class="mv-slides-sec">
     <div class="mv-container">
+        <div class="mv-sec-head">
+            <span class="mv-sec-head__eyebrow">Sorotan</span>
+            <h2 class="mv-sec-head__title">Terbaru dari Multivita</h2>
+        </div>
         <div class="owl-carousel carousel-center-active-item-3 dots-modern mb-0" data-plugin-options="{'items': 1, 'loop': true, 'margin': 60, 'autoplay': true, 'autoplayTimeout': 4000}">
             <?php foreach ($frontSlides as $slide) { ?>
                 <div class="item">
@@ -111,20 +97,36 @@ $frontSlides = !empty($slides) ? $slides : [
     </div>
 </section>
 
-<!-- ============ BENEFITS ============ -->
+<!-- ============ BENEFITS BENTO ============ -->
 <section class="mv-benefits" id="kelebihan">
     <div class="mv-container">
-        <div class="mv-sec-head">
-            <span class="mv-sec-head__eyebrow">Kelebihan</span>
-            <h2 class="mv-sec-head__title">Untuk setiap peringkat usia</h2>
-            <p class="mv-sec-head__desc">Satu susu, khasiat untuk seluruh keluarga — dari bayi hingga warga emas.</p>
+        <div class="mv-sec-head mv-sec-head--split">
+            <div>
+                <span class="mv-sec-head__eyebrow">Kelebihan</span>
+                <h2 class="mv-sec-head__title">Satu susu,<br>setiap peringkat usia</h2>
+            </div>
+            <p class="mv-sec-head__desc">
+                Dari bayi hingga warga emas — khasiat lengkap dalam setiap sudu
+                untuk kesihatan seisi keluarga anda.
+            </p>
         </div>
 
-        <div class="mv-benefits__grid">
-            <article class="mv-benefit-card">
-                <div class="mv-benefit-card__icon">
-                    <i class="fas fa-heart-pulse"></i>
-                </div>
+        <div class="mv-bento">
+            <article class="mv-bento__card mv-bento__card--main">
+                <div class="mv-bento__icon"><i class="fas fa-child-reaching"></i></div>
+                <span class="mv-bento__badge">Popular</span>
+                <h3>Kanak-kanak &amp; Pelajar</h3>
+                <p>Menguatkan asas pertumbuhan dan minda cergas sepanjang hari persekolahan.</p>
+                <ul>
+                    <li>Menguatkan tulang &amp; gigi</li>
+                    <li>Meningkatkan imunisasi antibodi</li>
+                    <li>Penghadaman &amp; pencernaan baik</li>
+                    <li>Daya ingatan &amp; pertumbuhan otak</li>
+                </ul>
+            </article>
+
+            <article class="mv-bento__card">
+                <div class="mv-bento__icon"><i class="fas fa-heart-pulse"></i></div>
                 <h3>Ibu Hamil &amp; Menyusu</h3>
                 <ul>
                     <li>Membantu penghasilan susu ibu</li>
@@ -134,24 +136,8 @@ $frontSlides = !empty($slides) ? $slides : [
                 </ul>
             </article>
 
-            <article class="mv-benefit-card mv-benefit-card--featured">
-                <div class="mv-benefit-card__tag">Popular</div>
-                <div class="mv-benefit-card__icon">
-                    <i class="fas fa-child-reaching"></i>
-                </div>
-                <h3>Kanak-kanak &amp; Pelajar</h3>
-                <ul>
-                    <li>Menguatkan tulang &amp; gigi</li>
-                    <li>Meningkatkan imunisasi antibodi</li>
-                    <li>Penghadaman &amp; pencernaan baik</li>
-                    <li>Daya ingatan &amp; pertumbuhan otak</li>
-                </ul>
-            </article>
-
-            <article class="mv-benefit-card">
-                <div class="mv-benefit-card__icon">
-                    <i class="fas fa-user-clock"></i>
-                </div>
+            <article class="mv-bento__card">
+                <div class="mv-bento__icon"><i class="fas fa-user-clock"></i></div>
                 <h3>Dewasa &amp; Warga Emas</h3>
                 <ul>
                     <li>Penyerapan usus bertambah baik</li>
@@ -160,81 +146,113 @@ $frontSlides = !empty($slides) ? $slides : [
                     <li>Kulit cantik &amp; awet muda</li>
                 </ul>
             </article>
-        </div>
 
-        <div class="mv-benefits__cta">
-            <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--solid">
-                <i class="fas fa-map-marker-alt"></i> Lihat Senarai Stokis
-            </a>
+            <article class="mv-bento__card mv-bento__card--wide">
+                <div>
+                    <h3>Dapatkan hari ini</h3>
+                    <p>Buat belian dengan stokis bertauliah di seluruh Malaysia, Singapura &amp; Brunei.</p>
+                </div>
+                <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--ink">
+                    <i class="fas fa-map-marker-alt"></i> Lihat Senarai Stokis
+                </a>
+            </article>
         </div>
     </div>
 </section>
 
-<!-- ============ SPOTLIGHT ============ -->
-<section class="mv-spotlight">
-    <div class="mv-container mv-spotlight__inner">
-        <div class="mv-spotlight__visual">
-            <img src="images/produk_testi-01.png" alt="Testimoni Multivita Milk" class="img-fluid">
-        </div>
-        <div class="mv-spotlight__copy">
-            <span class="mv-sec-head__eyebrow">Mengapa Multivita</span>
-            <h2 class="mv-sec-head__title">Formulasi semula jadi, khasiat sebenar</h2>
-            <p class="mv-sec-head__desc">
-                Setiap sudu Multivita Milk mengandungi nutrien penting yang membantu
-                menyokong sistem imun, tulang, pencernaan dan stamina — tanpa bahan tiruan berlebihan.
-            </p>
-            <ul class="mv-spotlight__list">
-                <li><i class="fas fa-check"></i> Bahan semula jadi terpilih</li>
-                <li><i class="fas fa-check"></i> Sesuai semua peringkat usia</li>
-                <li><i class="fas fa-check"></i> Dipercayai 45,000+ pengedar</li>
-                <li><i class="fas fa-check"></i> Halal &amp; berkualiti</li>
-            </ul>
-            <a href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>" class="mv-btn mv-btn--outline2">
-                Lihat Testimoni <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- ============ ABOUT / PROFILE ============ -->
-<section class="mv-about">
+<!-- ============ WHY / STEPS ============ -->
+<section class="mv-why">
     <div class="mv-container">
-        <div class="mv-sec-head mv-sec-head--light">
+        <div class="mv-why__layout">
+            <div class="mv-why__sticky">
+                <span class="mv-sec-head__eyebrow mv-sec-head__eyebrow--dark">Mengapa Multivita</span>
+                <h2 class="mv-sec-head__title">Formulasi semula jadi, khasiat sebenar</h2>
+                <p class="mv-why__desc">
+                    Setiap sudu Multivita Milk mengandungi nutrien penting yang menyokong
+                    sistem imun, tulang, pencernaan dan stamina — tanpa bahan tiruan berlebihan.
+                </p>
+                <a href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>" class="mv-btn mv-btn--lime">
+                    Lihat Testimoni <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="mv-why__steps">
+                <div class="mv-step">
+                    <span class="mv-step__num">01</span>
+                    <div>
+                        <h3>Bahan semula jadi terpilih</h3>
+                        <p>Dirumus khas dengan ramuan berkualiti tinggi untuk penyerapan maksimum.</p>
+                    </div>
+                </div>
+                <div class="mv-step">
+                    <span class="mv-step__num">02</span>
+                    <div>
+                        <h3>Sesuai semua peringkat usia</h3>
+                        <p>Satu produk untuk seluruh keluarga — mudah, jimat dan berkesan.</p>
+                    </div>
+                </div>
+                <div class="mv-step">
+                    <span class="mv-step__num">03</span>
+                    <div>
+                        <h3>Dipercayai 45,000+ pengedar</h3>
+                        <p>Rangkaian stokis bertauliah di Malaysia, Singapura dan Brunei.</p>
+                    </div>
+                </div>
+                <div class="mv-step">
+                    <span class="mv-step__num">04</span>
+                    <div>
+                        <h3>Halal &amp; berkualiti</h3>
+                        <p>Pengeluaran terkawal mengikut piawaian kualiti yang ditetapkan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="mv-about">
+    <div class="mv-container mv-about__grid">
+        <div class="mv-about__media">
+            <img src="images/baru1.png" alt="Pengasas Multivita" class="img-fluid">
+            <div class="mv-about__media-card">
+                <strong>Mohd Harmizuan Hamzah</strong>
+                <span>Pengasas Multivita Resources</span>
+            </div>
+        </div>
+
+        <div class="mv-about__body">
             <span class="mv-sec-head__eyebrow">Tentang Kami</span>
             <h2 class="mv-sec-head__title">Profil Multivita Resources</h2>
-            <p class="mv-sec-head__desc">Menyebarkan gaya hidup sihat &amp; peluang perniagaan sejak 2019.</p>
-        </div>
+            <p>
+                Syarikat Multivita Resources ditubuhkan pada September 2019 oleh pengasas
+                Encik Mohd Harmizuan Bin Hamzah. Perniagaan ini dikenali sebagai
+                <strong>Multivita Milk</strong> — produk minuman tambahan kesihatan untuk seisi keluarga.
+            </p>
+            <p>
+                Penubuhan ini bertujuan membantu masyarakat mengekalkan kesihatan yang baik
+                sambil membuka peluang pendapatan lumayan. Sehingga kini, Multivita Resources
+                telah melahirkan <strong>45,000 pengedar</strong> di seluruh negara termasuk Singapura &amp; Brunei.
+            </p>
 
-        <div class="mv-about__grid">
-            <div class="mv-about__media">
-                <img src="images/baru1.png" alt="Pengasas Multivita" class="img-fluid">
-            </div>
-            <div class="mv-about__body">
-                <h3>Multivita Resources Sdn Bhd</h3>
-                <p>
-                    Syarikat Multivita Resources ditubuhkan pada September 2019 oleh pengasas
-                    Encik Mohd Harmizuan Bin Hamzah. Perniagaan ini dikenali sebagai
-                    <strong>Multivita Milk</strong> — produk minuman tambahan kesihatan untuk seisi keluarga.
-                </p>
-                <p>
-                    Penubuhan ini bertujuan membantu masyarakat mengekalkan kesihatan yang baik
-                    sambil membuka peluang pendapatan lumayan. Sehingga kini, Multivita Resources
-                    telah melahirkan <strong>45,000 pengedar</strong> di seluruh negara termasuk Singapura &amp; Brunei.
-                </p>
-
-                <div class="mv-about__pillars">
-                    <div class="mv-about__pillar">
-                        <i class="fas fa-bullseye"></i>
+            <div class="mv-about__pillars">
+                <div class="mv-about__pillar">
+                    <i class="fas fa-bullseye"></i>
+                    <div>
                         <h4>Misi</h4>
                         <p>Membuka cawangan seluruh Malaysia &amp; melahirkan 100,000 usahawan Multivita.</p>
                     </div>
-                    <div class="mv-about__pillar">
-                        <i class="fas fa-eye"></i>
+                </div>
+                <div class="mv-about__pillar">
+                    <i class="fas fa-eye"></i>
+                    <div>
                         <h4>Visi</h4>
                         <p>Jualan RM100 juta &amp; 100,000 pengedar menjelang 2025.</p>
                     </div>
-                    <div class="mv-about__pillar">
-                        <i class="fas fa-compass"></i>
+                </div>
+                <div class="mv-about__pillar">
+                    <i class="fas fa-compass"></i>
+                    <div>
                         <h4>Halatuju</h4>
                         <p>Meluaskan perniagaan ke persada dunia dengan insentif menarik.</p>
                     </div>
@@ -248,10 +266,12 @@ $frontSlides = !empty($slides) ? $slides : [
 <section class="mv-quote-sec">
     <div class="mv-container">
         <div class="mv-quote-card">
-            <div class="mv-quote-card__mark">&ldquo;</div>
+            <div class="mv-quote-card__stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
             <blockquote class="mv-quote-card__text">
-                Alhamdulillah, rasa yang sedap dan berkhasiat sangat sesuai seisi keluarga.
-                Multivita memberi tenaga dan meningkatkan kesihatan tubuh badan.
+                &ldquo;Alhamdulillah, rasa yang sedap dan berkhasiat sangat sesuai seisi keluarga.
+                Multivita memberi tenaga dan meningkatkan kesihatan tubuh badan.&rdquo;
             </blockquote>
             <div class="mv-quote-card__author">
                 <img src="images/testi1.png" alt="Muhammad Raduan">
@@ -260,9 +280,6 @@ $frontSlides = !empty($slides) ? $slides : [
                     <span>Pelanggan Multivita</span>
                 </div>
             </div>
-            <a href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>" class="mv-btn mv-btn--solid">
-                <i class="fas fa-comments"></i> Lihat Semua Testimoni
-            </a>
         </div>
 
         <div class="mv-quote-visuals">
@@ -270,16 +287,26 @@ $frontSlides = !empty($slides) ? $slides : [
             <img src="images/gambar3.png" alt="Testimoni Multivita">
             <img src="images/gambar1.png" alt="Testimoni Multivita">
         </div>
+
+        <div class="mv-quote-sec__cta">
+            <a href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>" class="mv-btn mv-btn--ink">
+                <i class="fas fa-comments"></i> Lihat Semua Testimoni
+            </a>
+        </div>
     </div>
 </section>
 
 <!-- ============ GALLERY ============ -->
 <section class="mv-gallery" id="galeri">
     <div class="mv-container">
-        <div class="mv-sec-head">
-            <span class="mv-sec-head__eyebrow">Galeri</span>
-            <h2 class="mv-sec-head__title">Warna-warni Multivita</h2>
-            <p class="mv-sec-head__desc">Aktiviti, produk &amp; komuniti Multivita di seluruh negara.</p>
+        <div class="mv-sec-head mv-sec-head--split">
+            <div>
+                <span class="mv-sec-head__eyebrow">Galeri</span>
+                <h2 class="mv-sec-head__title">Warna-warni<br>Multivita</h2>
+            </div>
+            <p class="mv-sec-head__desc">
+                Aktiviti, produk &amp; komuniti Multivita di seluruh negara.
+            </p>
         </div>
 
         <div class="mv-gallery__grid lightbox" data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
@@ -310,23 +337,28 @@ $frontSlides = !empty($slides) ? $slides : [
         </div>
 
         <div class="mv-gallery__cta">
-            <a href="<?= Url::to(['site/galeri']) ?>" class="mv-btn mv-btn--outline2">
+            <a href="<?= Url::to(['site/galeri']) ?>" class="mv-btn mv-btn--ink">
                 <i class="fas fa-images"></i> Lihat Galeri Penuh
             </a>
         </div>
     </div>
 </section>
 
-<!-- ============ ENTREPRENEURS ============ -->
+<!-- ============ ENTREPRENEURS MARQUEE ============ -->
 <section class="mv-entrep">
     <div class="mv-container">
         <div class="mv-sec-head">
             <span class="mv-sec-head__eyebrow">Usahawan</span>
-            <h2 class="mv-sec-head__title">Usahawan Multivita</h2>
+            <h2 class="mv-sec-head__title">Komuniti usahawan kami</h2>
             <p class="mv-sec-head__desc">Sertai komuniti usahawan yang berkembang pesat di Malaysia &amp; luar negara.</p>
         </div>
-
-        <div class="mv-entrep__grid">
+    </div>
+    <div class="mv-entrep__marquee" aria-hidden="true">
+        <div class="mv-entrep__track">
+            <div class="mv-entrep__card"><img src="images/blog1.png" alt="Usahawan Multivita"></div>
+            <div class="mv-entrep__card"><img src="images/blog2.png" alt="Usahawan Multivita"></div>
+            <div class="mv-entrep__card"><img src="images/blog3.png" alt="Usahawan Multivita"></div>
+            <div class="mv-entrep__card"><img src="images/blog4.png" alt="Usahawan Multivita"></div>
             <div class="mv-entrep__card"><img src="images/blog1.png" alt="Usahawan Multivita"></div>
             <div class="mv-entrep__card"><img src="images/blog2.png" alt="Usahawan Multivita"></div>
             <div class="mv-entrep__card"><img src="images/blog3.png" alt="Usahawan Multivita"></div>
@@ -336,19 +368,21 @@ $frontSlides = !empty($slides) ? $slides : [
 </section>
 
 <!-- ============ CTA ============ -->
-<section class="mv-cta2">
-    <div class="mv-container mv-cta2__inner">
-        <div class="mv-cta2__copy">
-            <h2>Berminat dapatkan susu Multivita?</h2>
+<section class="mv-cta">
+    <div class="mv-container">
+        <div class="mv-cta__panel">
+            <div class="mv-cta__glow" aria-hidden="true"></div>
+            <span class="mv-sec-head__eyebrow mv-sec-head__eyebrow--dark">Mula Sekarang</span>
+            <h2>Berminat dapatkan<br>susu Multivita?</h2>
             <p>Buat belian dengan stokis berhampiran atau daftar menjadi pengedar hari ini.</p>
-        </div>
-        <div class="mv-cta2__btns">
-            <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--white2">
-                <i class="fas fa-store"></i> Senarai Stokis
-            </a>
-            <a href="<?= Url::to(['site/signup']) ?>" class="mv-btn mv-btn--line">
-                Daftar Pengedar <i class="fas fa-arrow-right"></i>
-            </a>
+            <div class="mv-cta__btns">
+                <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--lime">
+                    <i class="fas fa-store"></i> Senarai Stokis
+                </a>
+                <a href="<?= Url::to(['site/signup']) ?>" class="mv-btn mv-btn--glass">
+                    Daftar Pengedar <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </div>
     </div>
 </section>
