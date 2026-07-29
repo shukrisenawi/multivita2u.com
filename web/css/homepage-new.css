@@ -354,10 +354,10 @@
   display: flex;
   flex-direction: column;
 }
-.mv-bento__card--main h3 { color: #fff; font-size: 1.75rem; }
-.mv-bento__card--main p { color: rgba(255, 255, 255, 0.72); margin: 0 0 1.4rem; }
-.mv-bento__card--main li { color: rgba(255, 255, 255, 0.88); }
-.mv-bento__card--main li::before { color: var(--mv-lime); }
+.mv-bento__card.mv-bento__card--main h3 { color: #fff; font-size: 1.75rem; }
+.mv-bento__card.mv-bento__card--main p { color: rgba(255, 255, 255, 0.85); font-size: 1rem; margin: 0 0 1.4rem; }
+.mv-bento__card.mv-bento__card--main li { color: rgba(255, 255, 255, 0.92); }
+.mv-bento__card.mv-bento__card--main li::before { color: var(--mv-lime); }
 .mv-bento__badge {
   position: absolute;
   top: 1.4rem; right: 1.4rem;
