@@ -313,7 +313,7 @@ JS);
         <aside>
             <div id="sidebar" class="nav-collapse ">
                 <div class="sidebar-logo">
-                    <a href="<?= Url::to(['site/index']) ?>" class="logo">Multi<span>Vita2u</span></a>
+                    <a href="<?= Url::to(['dashboard/index']) ?>" class="logo">Multi<span>Vita2u</span></a>
                     <span class="sidebar-logo__caption"><?= $userLevel ?></span>
                 </div>
                 <?php echo Menu::widget(['idPage' => $this->context->id, 'select' => Html::encode(Yii::$app->request->get('select', ''))]); ?>
