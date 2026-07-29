@@ -28,7 +28,9 @@ class SiteController extends Controller
 
         $this->layout = 'homepage';
         Yii::$app->language = 'ms-my';
-        if (!Yii::$app->user->isGuest) {
+
+        $guestOnlyActions = ['login', 'login-stockist', 'signup', 'request-password', 'reset-password'];
+        if (!Yii::$app->user->isGuest && in_array($action->id, $guestOnlyActions)) {
             return $this->redirect(['site/login']);
         }
         return parent::beforeAction($action);
