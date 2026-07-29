@@ -169,6 +169,7 @@ JS);
     <link href="<?= $linkAssets ?>/css/style.css" rel="stylesheet">
     <link href="<?= $linkAssets ?>/css/style-responsive.css" rel="stylesheet" />
     <link href="<?= $memberCssUrl ?>" rel="stylesheet">
+    <link href="<?= Url::to('@web/css/site.css?v=' . time()) ?>" rel="stylesheet">
 </head>
 
 <body class="app-authenticated">

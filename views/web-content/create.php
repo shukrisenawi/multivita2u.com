@@ -10,5 +10,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="web-content-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'isBulk' => true,
     ]) ?>
 </div>

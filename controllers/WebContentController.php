@@ -47,17 +47,39 @@ class WebContentController extends MemberController
 
         if ($model->load(Yii::$app->request->post())) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->validate() && $model->save(false)) {
-                if ($model->imageFile && !$model->saveImageUpload($model->imageFile)) {
-                    $model->delete();
-                    Yii::$app->session->setFlash(Alert::TYPE_ERROR, 'Rekod disimpan tetapi fail imej gagal dimuat naik.');
-                } else {
-                    Yii::$app->session->setFlash(Alert::TYPE_SUCCESS, 'Imej telah berjaya ditambah.');
-                }
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
-                return $this->redirect(['index', 'category' => $model->category]);
+            if (!$model->category) {
+                $model->addError('category', 'Sila pilih kategori.');
+                $this->errorSummary($model);
+                return $this->render('create', ['model' => $model]);
             }
 
+            if ($model->imageFiles) {
+                $savedCount = $model->saveBulkUploads($model->imageFiles);
+                if ($savedCount > 0) {
+                    Yii::$app->session->setFlash(Alert::TYPE_SUCCESS, $savedCount . ' imej telah berjaya dimuat naik.');
+                    return $this->redirect(['index', 'category' => $model->category]);
+                }
+                Yii::$app->session->setFlash(Alert::TYPE_ERROR, 'Tiada imej berjaya dimuat naik. Pastikan format fail adalah JPG, PNG, GIF atau WEBP.');
+                return $this->render('create', ['model' => $model]);
+            }
+
+            if ($model->imageFile) {
+                if ($model->validate() && $model->save(false)) {
+                    if (!$model->saveImageUpload($model->imageFile)) {
+                        $model->delete();
+                        Yii::$app->session->setFlash(Alert::TYPE_ERROR, 'Rekod disimpan tetapi fail imej gagal dimuat naik.');
+                    } else {
+                        Yii::$app->session->setFlash(Alert::TYPE_SUCCESS, 'Imej telah berjaya ditambah.');
+                    }
+                    return $this->redirect(['index', 'category' => $model->category]);
+                }
+                $this->errorSummary($model);
+                return $this->render('create', ['model' => $model]);
+            }
+
+            $model->addError('imageFile', 'Sila pilih sekurang-kurangnya satu fail imej.');
             $this->errorSummary($model);
         }
 

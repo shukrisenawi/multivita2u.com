@@ -23,6 +23,11 @@ class WebContent extends \yii\db\ActiveRecord
      */
     public $imageFile;
 
+    /**
+     * @var UploadedFile[]
+     */
+    public $imageFiles = [];
+
     public static function tableName()
     {
         return '{{%yr_web_content}}';
@@ -31,20 +36,21 @@ class WebContent extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category', 'imageFile'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['category'], 'required', 'on' => self::SCENARIO_CREATE],
             [['category'], 'required', 'on' => self::SCENARIO_UPDATE],
             [['category'], 'in', 'range' => array_keys(self::listCategories())],
             [['status', 'sort_order'], 'integer'],
             [['title', 'image_path'], 'string', 'max' => 255],
             [['created_at', 'updated_at'], 'safe'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, png, webp, gif', 'mimeTypes' => 'image/jpeg, image/png, image/webp, image/gif', 'maxSize' => 10 * 1024 * 1024],
+            [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, png, webp, gif', 'mimeTypes' => 'image/jpeg, image/png, image/webp, image/gif', 'maxSize' => 10 * 1024 * 1024, 'maxFiles' => 50],
         ];
     }
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $fields = ['category', 'title', 'status', 'sort_order', 'imageFile'];
+        $fields = ['category', 'title', 'status', 'sort_order', 'imageFile', 'imageFiles'];
         $scenarios[self::SCENARIO_CREATE] = $fields;
         $scenarios[self::SCENARIO_UPDATE] = $fields;
 
@@ -152,6 +158,60 @@ class WebContent extends \yii\db\ActiveRecord
         }
 
         return $saved !== false;
+    }
+
+    public function saveBulkUploads(array $files)
+    {
+        $uploadDir = Yii::getAlias('@webroot/uploads/web-content');
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0775, true);
+        }
+
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        $savedCount = 0;
+        $now = date('Y-m-d H:i:s');
+
+        foreach ($files as $index => $file) {
+            if (!$file instanceof UploadedFile || $file->error !== UPLOAD_ERR_OK) {
+                continue;
+            }
+
+            if (!in_array($file->type, $allowedMimes, true) && !in_array(mime_content_type($file->tempName), $allowedMimes, true)) {
+                continue;
+            }
+
+            $record = new static();
+            $record->scenario = self::SCENARIO_CREATE;
+            $record->category = $this->category;
+            $record->status = $this->status;
+            $record->sort_order = $this->sort_order + $index;
+            $record->title = $this->title ?: $file->name;
+            $record->created_at = $now;
+            $record->updated_at = $now;
+
+            if (!$record->save(false)) {
+                continue;
+            }
+
+            $extension = strtolower($file->extension ?: $file->getExtension());
+            $filename = $record->category . '-' . $record->id . '-' . time() . '-' . $index . '.' . $extension;
+            $targetPath = $uploadDir . DIRECTORY_SEPARATOR . $filename;
+
+            if (!$file->saveAs($targetPath, false)) {
+                $record->delete();
+                continue;
+            }
+
+            $record->image_path = 'uploads/web-content/' . $filename;
+            $record->updateAttributes([
+                'image_path' => $record->image_path,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+
+            $savedCount++;
+        }
+
+        return $savedCount;
     }
 
     public function removeImage()

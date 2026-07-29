@@ -49,7 +49,9 @@ $csrfToken = Yii::$app->request->csrfToken;
                 <div class="web-content-card" data-id="<?= $model->id ?>">
                     <div class="web-content-card__thumb">
                         <?php if ($imgUrl) { ?>
-                            <img src="<?= Html::encode($imgUrl) ?>" alt="<?= Html::encode($model->title ?: $model->getCategoryLabel()) ?>">
+                            <a href="<?= Html::encode($imgUrl) ?>" class="web-content-card__preview" data-lightbox="web-content" data-title="<?= Html::encode($model->title ?: $model->getCategoryLabel()) ?>">
+                                <img src="<?= Html::encode($imgUrl) ?>" alt="<?= Html::encode($model->title ?: $model->getCategoryLabel()) ?>">
+                            </a>
                         <?php } else { ?>
                             <div class="web-content-card__empty">Tiada Imej</div>
                         <?php } ?>
@@ -108,6 +110,12 @@ $csrfToken = Yii::$app->request->csrfToken;
     height: 100%;
     object-fit: cover;
     display: block;
+}
+.web-content-card__preview {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: zoom-in;
 }
 .web-content-card__empty {
     display: flex;
@@ -182,6 +190,7 @@ $csrfToken = Yii::$app->request->csrfToken;
 <script>
 (function() {
     'use strict';
+
     $(document).on('click', '.web-content-card__delete', function(e) {
         e.preventDefault();
         var id = $(this).data('id');
@@ -201,5 +210,85 @@ $csrfToken = Yii::$app->request->csrfToken;
             alert('Ralat semasa memadam imej.');
         });
     });
+
+    // Simple custom lightbox popup
+    var $overlay = null, $lightbox = null;
+    function closeLightbox() {
+        if ($overlay) $overlay.remove();
+        if ($lightbox) $lightbox.remove();
+        $overlay = $lightbox = null;
+        $(document).off('keydown.lightbox');
+    }
+
+    $(document).on('click', '.web-content-card__preview', function(e) {
+        e.preventDefault();
+        var src = $(this).attr('href');
+        var title = $(this).data('title') || '';
+
+        $overlay = $('body').append('<div class="web-content-lightbox-overlay"></div>').find('.web-content-lightbox-overlay');
+        $lightbox = $('body').append('<div class="web-content-lightbox">\n            <button class="web-content-lightbox__close">&times;</button>\n            <img src="' + src + '" alt="' + title + '" class="web-content-lightbox__img">\n            <div class="web-content-lightbox__title">' + (title ? title : '') + '</div>\n        </div>').find('.web-content-lightbox');
+
+        $overlay.on('click', closeLightbox);
+        $lightbox.find('.web-content-lightbox__close').on('click', closeLightbox);
+        $(document).on('keydown.lightbox', function(ev) {
+            if (ev.key === 'Escape') closeLightbox();
+        });
+    });
 })();
 </script>
+
+<style>
+.web-content-lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9998;
+    cursor: zoom-out;
+}
+.web-content-lightbox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.web-content-lightbox__img {
+    max-width: 85vw;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    background: #fff;
+}
+.web-content-lightbox__close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+}
+.web-content-lightbox__title {
+    color: #fff;
+    margin-top: 12px;
+    font-size: 14px;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+@media (max-width: 576px) {
+    .web-content-lightbox__img {
+        max-width: 95vw;
+        max-height: 75vh;
+    }
+}
+</style>
