@@ -51,3 +51,5 @@ phpunit.phar
 /yii3-app/.env.*
 
 web/login.png
+# Screenshot checking
+slide_*.png

@@ -53,7 +53,11 @@ $pageSelect = !Yii::$app->request->get('page') ? Yii::$app->controller->action->
                 <li><a class="<?= $pageSelect == 'testimoni' ? 'active' : '' ?>" href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>">Testimoni</a></li>
                 <li><a class="<?= $pageSelect == 'agen' ? 'active' : '' ?>" href="<?= Url::to(['site/agen']) ?>">Senarai Stokis</a></li>
                 <li><a class="<?= $pageSelect == 'galeri' ? 'active' : '' ?>" href="<?= Url::to(['site/galeri']) ?>">Galeri</a></li>
+                <?php if (Yii::$app->user->isGuest): ?>
                 <li><a class="mv-navbar__cta" href="<?= Url::to(['site/login']) ?>">Log Masuk</a></li>
+                <?php else: ?>
+                <li><a class="mv-navbar__cta" href="<?= Url::to(['dashboard/index']) ?>">Dashboard</a></li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -84,8 +88,12 @@ $pageSelect = !Yii::$app->request->get('page') ? Yii::$app->controller->action->
                 <div class="mv-footer__links">
                     <h4>Akaun</h4>
                     <ul>
+                        <?php if (Yii::$app->user->isGuest): ?>
                         <li><a href="<?= Url::to(['site/login']) ?>">Log Masuk</a></li>
                         <li><a href="<?= Url::to(['site/signup']) ?>">Daftar Akaun</a></li>
+                        <?php else: ?>
+                        <li><a href="<?= Url::to(['dashboard/index']) ?>">Dashboard</a></li>
+                        <?php endif; ?>
                         <li><a href="<?= Url::to(['site/request-password']) ?>">Lupa Kata Laluan</a></li>
                     </ul>
                 </div>
