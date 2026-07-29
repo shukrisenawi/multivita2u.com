@@ -20,9 +20,17 @@
         btn.setAttribute('title', 'Kembali ke atas');
         btn.innerHTML = '<i class="fas fa-arrow-up"></i>';
 
-        btn.addEventListener('click', function() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        btn.onclick = function() {
+            var total = window.scrollY;
+            if (total === 0) return;
+            var steps = 30;
+            var step = Math.ceil(total / steps);
+            var timer = setInterval(function() {
+                var cur = window.scrollY;
+                if (cur <= 0) { clearInterval(timer); return; }
+                window.scrollTo(0, Math.max(0, cur - step));
+            }, 16);
+        };
 
         return btn;
     }
