@@ -84,7 +84,7 @@ $frontSlides = !empty($slides) ? $slides : [
             <span class="mv-sec-head__eyebrow">Sorotan</span>
             <h2 class="mv-sec-head__title">Terbaru dari Multivita</h2>
         </div>
-        <div class="owl-carousel carousel-center-active-item-3 dots-modern mb-0" data-plugin-options="{'items': 1, 'loop': true, 'margin': 60, 'autoplay': true, 'autoplayTimeout': 5000, 'autoplayHoverPause': false, 'autoplaySpeed': 700, 'dots': true, 'nav': false}">
+        <div id="mvFrontSlides" class="owl-carousel carousel-center-active-item-3 dots-modern mb-0" data-plugin-options="{'items': 1, 'loop': true, 'margin': 60, 'autoplay': true, 'autoplayTimeout': 5000, 'autoplayHoverPause': false, 'autoplaySpeed': 700, 'dots': true, 'nav': false}">
             <?php foreach ($frontSlides as $slide) { ?>
                 <div class="item">
                     <img class="img-fluid" src="<?= Html::encode($slide->imageUrl) ?>" alt="<?= Html::encode($slide->title) ?>">
@@ -363,6 +363,53 @@ $frontSlides = !empty($slides) ? $slides : [
         </div>
     </div>
 </section>
+
+<script>
+(function() {
+    'use strict';
+
+    function initFrontSlides() {
+        var $carousel = jQuery('#mvFrontSlides.owl-carousel');
+        if (!$carousel.length) return;
+
+        var opts = {
+            items: 1,
+            loop: true,
+            margin: 60,
+            autoplay: true,
+            autoplayTimeout: 4500,
+            autoplayHoverPause: false,
+            autoplaySpeed: 800,
+            dots: true,
+            nav: false,
+            animateOut: 'fadeOut',
+            animateIn: 'fadeIn'
+        };
+
+        if ($carousel.data('owl.carousel')) {
+            $carousel.trigger('destroy.owl.carousel');
+            $carousel.removeData('owl.carousel');
+            $carousel.find('.owl-stage-outer').children().unwrap();
+        }
+
+        $carousel.owlCarousel(opts);
+
+        // Tambah hint pergerakan setiap kali slide bertukar
+        $carousel.on('translate.owl.carousel', function() {
+            $carousel.addClass('mv-slides--in-motion');
+        });
+        $carousel.on('translated.owl.carousel', function() {
+            $carousel.removeClass('mv-slides--in-motion');
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFrontSlides);
+    } else {
+        initFrontSlides();
+    }
+})();
+</script>
 
 <!-- ============ CTA ============ -->
 <section class="mv-cta">

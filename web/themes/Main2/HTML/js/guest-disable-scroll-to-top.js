@@ -38,15 +38,28 @@
         var btn = buildButton();
         document.body.appendChild(btn);
 
+        var lastScrollY = window.scrollY;
+        var ticking = false;
+
         var toggle = function() {
             if (window.scrollY > 300) {
                 btn.classList.add('visible');
             } else {
                 btn.classList.remove('visible');
             }
+            ticking = false;
         };
 
-        window.addEventListener('scroll', toggle, { passive: true });
+        window.addEventListener('scroll', function() {
+            lastScrollY = window.scrollY;
+            if (!ticking) {
+                window.requestAnimationFrame(function() {
+                    toggle();
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
         window.addEventListener('load', toggle);
         toggle();
     }
