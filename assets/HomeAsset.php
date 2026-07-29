@@ -24,6 +24,7 @@ class HomeAsset extends AssetBundle
         'css/demos/demo-business-consulting-2.css',
         'css/skins/skin-business-consulting-2.css',
         'css/custom.css',
+        '../../../css/homepage-new.css',
         // '../../../css/site.css',
         '../../../css/theme.css'
     ];
