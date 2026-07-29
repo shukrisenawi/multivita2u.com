@@ -227,9 +227,6 @@ $select = Yii::$app->getRequest()->getQueryParam('select');
         <footer class="site-footer">
             <div class="text-center">
                 2019 &copy; MultiVita2u.com
-                <a href="#" class="go-top">
-                    <i class="fa fa-angle-up"></i>
-                </a>
             </div>
         </footer>
         <!--footer end-->

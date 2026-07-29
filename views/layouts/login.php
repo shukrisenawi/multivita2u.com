@@ -111,7 +111,7 @@ $linkAssets = 'themes/Main';
 
 
 
-        <div id="back-to-top"><a class="top arrow" href="#top"><i class="fa fa-angle-up"></i> <span>TOP</span></a></div>
+
 
         <!--=================================
  jquery -->
