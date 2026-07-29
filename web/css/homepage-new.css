@@ -279,10 +279,14 @@
    MARQUEE
    ============================================================ */
 .mv-marquee {
-  background: var(--mv-ink);
-  color: rgba(255, 255, 255, 0.85);
-  padding: 0.9rem 0;
+  padding: 1.25rem 0;
+  background: var(--mv-cream);
   overflow: hidden;
+}
+.mv-marquee__bar {
+  max-width: var(--mv-max);
+  margin: 0 auto;
+  padding: 0 1.25rem;
 }
 .mv-marquee__track {
   display: flex;
@@ -293,6 +297,14 @@
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.85);
+}
+.mv-marquee__inner {
+  background: var(--mv-ink);
+  border-radius: 60px;
+  padding: 0.85rem 2rem;
+  overflow: hidden;
+  box-shadow: var(--mv-shadow-sm);
 }
 .mv-marquee__track span { display: inline-flex; align-items: center; gap: 0.6rem; }
 .mv-marquee__track i { color: var(--mv-accent); }

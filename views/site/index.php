@@ -82,15 +82,19 @@ $frontSlides = !empty($slides) ? $slides : [
 
 <!-- ============ MARQUEE / TRUST BAR ============ -->
 <section class="mv-marquee" aria-hidden="true">
-    <div class="mv-marquee__track">
-        <span><i class="fas fa-award"></i> Asia Pacific Super Health Brand 2021–2023</span>
-        <span><i class="fas fa-award"></i> Ditubuhkan 2019</span>
-        <span><i class="fas fa-award"></i> 45,000+ Pengedar</span>
-        <span><i class="fas fa-award"></i> Malaysia · Singapura · Brunei</span>
-        <span><i class="fas fa-award"></i> Asia Pacific Super Health Brand 2021–2023</span>
-        <span><i class="fas fa-award"></i> Ditubuhkan 2019</span>
-        <span><i class="fas fa-award"></i> 45,000+ Pengedar</span>
-        <span><i class="fas fa-award"></i> Malaysia · Singapura · Brunei</span>
+    <div class="mv-marquee__bar">
+        <div class="mv-marquee__inner">
+            <div class="mv-marquee__track">
+                <span><i class="fas fa-award"></i> Asia Pacific Super Health Brand 2021–2023</span>
+                <span><i class="fas fa-award"></i> Ditubuhkan 2019</span>
+                <span><i class="fas fa-award"></i> 45,000+ Pengedar</span>
+                <span><i class="fas fa-award"></i> Malaysia · Singapura · Brunei</span>
+                <span><i class="fas fa-award"></i> Asia Pacific Super Health Brand 2021–2023</span>
+                <span><i class="fas fa-award"></i> Ditubuhkan 2019</span>
+                <span><i class="fas fa-award"></i> 45,000+ Pengedar</span>
+                <span><i class="fas fa-award"></i> Malaysia · Singapura · Brunei</span>
+            </div>
+        </div>
     </div>
 </section>
 
