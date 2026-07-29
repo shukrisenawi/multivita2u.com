@@ -84,7 +84,7 @@ $frontSlides = !empty($slides) ? $slides : [
             <span class="mv-sec-head__eyebrow">Sorotan</span>
             <h2 class="mv-sec-head__title">Terbaru dari Multivita</h2>
         </div>
-        <div id="mvFrontSlides" class="owl-carousel carousel-center-active-item-3 dots-modern mb-0" data-plugin-options="{'items': 1, 'loop': true, 'margin': 60, 'autoplay': true, 'autoplayTimeout': 5000, 'autoplayHoverPause': false, 'autoplaySpeed': 700, 'dots': true, 'nav': false}">
+        <div id="mvFrontSlides" class="owl-carousel carousel-center-active-item-3 dots-modern mb-0 manual" data-plugin-options="{'items': 1, 'loop': true, 'margin': 60, 'autoplay': true, 'autoplayTimeout': 5000, 'autoplayHoverPause': false, 'autoplaySpeed': 1200, 'dots': true, 'nav': false, 'animateOut': 'slideOutLeft', 'animateIn': 'slideInRight', 'smartSpeed': 1200}">
             <?php foreach ($frontSlides as $slide) { ?>
                 <div class="item">
                     <img class="img-fluid" src="<?= Html::encode($slide->imageUrl) ?>" alt="<?= Html::encode($slide->title) ?>">
@@ -377,24 +377,18 @@ $frontSlides = !empty($slides) ? $slides : [
             loop: true,
             margin: 60,
             autoplay: true,
-            autoplayTimeout: 4500,
+            autoplayTimeout: 5000,
             autoplayHoverPause: false,
-            autoplaySpeed: 800,
+            autoplaySpeed: 1200,
             dots: true,
             nav: false,
-            animateOut: 'fadeOut',
-            animateIn: 'fadeIn'
+            animateOut: 'slideOutLeft',
+            animateIn: 'slideInRight',
+            smartSpeed: 1200
         };
-
-        if ($carousel.data('owl.carousel')) {
-            $carousel.trigger('destroy.owl.carousel');
-            $carousel.removeData('owl.carousel');
-            $carousel.find('.owl-stage-outer').children().unwrap();
-        }
 
         $carousel.owlCarousel(opts);
 
-        // Tambah hint pergerakan setiap kali slide bertukar
         $carousel.on('translate.owl.carousel', function() {
             $carousel.addClass('mv-slides--in-motion');
         });
