@@ -106,16 +106,11 @@ $pageSelect = !Yii::$app->request->get('page') ? Yii::$app->controller->action->
         </div>
     </footer>
 
-    <button class="mv-backtotop" id="mvBackToTop" aria-label="Kembali ke atas">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
     <script>
         (function() {
             const navbar = document.getElementById('mvNavbar');
             const toggle = document.getElementById('mvNavbarToggle');
             const menu = document.getElementById('mvNavbarMenu');
-            const backToTop = document.getElementById('mvBackToTop');
 
             if (toggle && menu) {
                 toggle.addEventListener('click', function() {
@@ -128,16 +123,7 @@ $pageSelect = !Yii::$app->request->get('page') ? Yii::$app->controller->action->
                 if (navbar) {
                     navbar.classList.toggle('scrolled', window.scrollY > 20);
                 }
-                if (backToTop) {
-                    backToTop.classList.toggle('visible', window.scrollY > 300);
-                }
             });
-
-            if (backToTop) {
-                backToTop.addEventListener('click', function() {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-            }
         })();
     </script>
 

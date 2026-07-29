@@ -1465,31 +1465,6 @@
 }
 
 /* ============================================================
-   BACK TO TOP
-   ============================================================ */
-.mv-backtotop {
-  position: fixed;
-  bottom: 22px; right: 22px;
-  width: 46px; height: 46px;
-  border-radius: 50%;
-  background: var(--mv-lime);
-  color: var(--mv-ink);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 24px rgba(10, 31, 20, 0.3);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
-  z-index: 1100;
-}
-.mv-backtotop.visible { opacity: 1; visibility: visible; transform: translateY(0); }
-.mv-backtotop:hover { background: #d7fb74; transform: translateY(-3px); }
-
-/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 991px) {
