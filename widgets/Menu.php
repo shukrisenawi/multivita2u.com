@@ -56,6 +56,7 @@ class Menu extends \yii\bootstrap\Widget
                 ['icon' => 'fa fa-usd', 'label' => 'Point Balance', 'url' => ['/point-balance/index']],
                 ['icon' => 'fa fa-newspaper', 'label' => 'News', 'url' => ['/news/index']],
                 ['icon' => 'fa fa-images', 'label' => 'Slides', 'url' => ['/slide/index']],
+                ['icon' => 'fa fa-photo-video', 'label' => 'Web Content', 'url' => ['/web-content/index']],
                 ['icon' => 'fa fa-chart-area', 'label' => 'Laporan', 'url' => ['/report/index']],
                 ['icon' => 'fa fa-tools', 'label' => 'Repair Bonus Stokis', 'url' => ['/cron/repair-bonus-stokis']],
                 ['icon' => 'fa fa-search', 'label' => 'Semakan Bonus Stokis', 'url' => ['/cron/repair-bonus-stokis2']],
