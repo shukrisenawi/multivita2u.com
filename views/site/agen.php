@@ -91,7 +91,7 @@ $levels = [
                             <div class="mv-agen__grid">
                                 <?php foreach ($agents as $user) { ?>
                                     <div class="mv-agent" data-search="<?= Html::encode(strtolower($user->name . ' ' . $user->city . ' ' . $value->state)) ?>">
-                                        <div class="mv-agent__avatar"><?= Html::encode(mb_strtoupper(mb_substr(trim($user->name), 0, 1))) ?></div>
+                                        <img src="<?= Html::encode($user->getAvatar()) ?>" alt="<?= Html::encode($user->name) ?>" class="mv-agent__avatar" onerror="this.src='avatar/0.png'">
                                         <div class="mv-agent__info">
                                             <strong><?= Html::encode($user->name) ?></strong>
                                             <?php if ($user->city) { ?>
