@@ -4,6 +4,7 @@
 
 use app\assets\HomeAsset;
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 HomeAsset::register($this);
 
