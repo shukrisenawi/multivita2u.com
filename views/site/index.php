@@ -84,7 +84,7 @@ $frontSlides = !empty($slides) ? $slides : [
             <span class="mv-sec-head__eyebrow">Sorotan</span>
             <h2 class="mv-sec-head__title">Terbaru dari Multivita</h2>
         </div>
-        <div class="owl-carousel carousel-center-active-item-3 dots-modern mb-0" data-plugin-options="{'items': 1, 'loop': true, 'margin': 60, 'autoplay': true, 'autoplayTimeout': 4000, 'autoplayHoverPause': false, 'dots': true, 'nav': false}">
+        <div class="owl-carousel carousel-center-active-item-3 dots-modern mb-0" data-plugin-options="{'items': 1, 'loop': true, 'margin': 60, 'autoplay': true, 'autoplayTimeout': 5000, 'autoplayHoverPause': false, 'autoplaySpeed': 700, 'dots': true, 'nav': false}">
             <?php foreach ($frontSlides as $slide) { ?>
                 <div class="item">
                     <img class="img-fluid" src="<?= Html::encode($slide->imageUrl) ?>" alt="<?= Html::encode($slide->title) ?>">

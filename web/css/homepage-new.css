@@ -321,11 +321,31 @@
   border-radius: var(--mv-radius);
   box-shadow: var(--mv-shadow);
 }
-.mv-slides-sec .owl-dots .owl-dot span {
-  background: rgba(10, 31, 20, 0.15) !important;
-  width: 9px; height: 9px;
+.mv-slides-sec .owl-stage-outer {
+  overflow: visible;
 }
-.mv-slides-sec .owl-dots .owl-dot.active span { background: var(--mv-ink) !important; }
+.mv-slides-sec .owl-item {
+  opacity: 0.45;
+  transform: scale(0.92);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.mv-slides-sec .owl-item.active {
+  opacity: 1;
+  transform: scale(1);
+}
+.mv-slides-sec .owl-dots {
+  margin-top: 1.6rem !important;
+}
+.mv-slides-sec .owl-dots .owl-dot span {
+  background: rgba(10, 31, 20, 0.2) !important;
+  width: 10px; height: 10px;
+  margin: 5px 7px;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.mv-slides-sec .owl-dots .owl-dot.active span {
+  background: var(--mv-ink) !important;
+  transform: scale(1.25);
+}
 
 /* ============================================================
    BENEFITS — bento
