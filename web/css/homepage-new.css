@@ -46,7 +46,7 @@
 .mv-container { max-width: var(--mv-max); margin: 0 auto; padding: 0 1.25rem; }
 
 /* ruang untuk navbar fixed pada halaman tanpa hero (agen, galeri, login, dsb.) */
-.mv-frontpage > *:first-child:not(.mv-hero) { margin-top: 92px; }
+.mv-frontpage > *:first-child:not(.mv-hero):not(.mv-page-hero) { margin-top: 92px; }
 
 /* ---------- Buttons ---------- */
 .mv-btn {
@@ -833,6 +833,128 @@
   text-align: center;
   font-size: 0.88rem;
   color: rgba(255, 255, 255, 0.55);
+}
+
+/* ============================================================
+   PAGE HERO (halaman dalaman: testimoni, dsb.)
+   ============================================================ */
+.mv-page-hero {
+  position: relative;
+  background:
+    radial-gradient(90% 60% at 70% 0%, rgba(31, 174, 111, 0.22) 0%, transparent 55%),
+    linear-gradient(180deg, var(--mv-ink) 0%, var(--mv-ink-2) 100%);
+  padding: 9rem 0 4.5rem;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+}
+.mv-page-hero__grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(75% 70% at 50% 30%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(75% 70% at 50% 30%, #000 30%, transparent 100%);
+  pointer-events: none;
+}
+.mv-page-hero__glow {
+  position: absolute;
+  top: -18%; left: 50%; transform: translateX(-50%);
+  width: 560px; height: 380px;
+  border-radius: 50%;
+  background: rgba(201, 241, 88, 0.13);
+  filter: blur(90px);
+  pointer-events: none;
+}
+.mv-page-hero__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mv-page-hero__title {
+  font-family: var(--mv-display);
+  font-weight: 800;
+  font-size: clamp(2.1rem, 5.5vw, 3.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin: 0 0 1.2rem;
+}
+.mv-page-hero__title span {
+  background: linear-gradient(95deg, var(--mv-lime) 10%, #7fe3a8 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.mv-page-hero__lead {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 520px;
+  margin: 0 0 2.2rem;
+}
+.mv-page-hero__chips {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ============================================================
+   TESTIMONI PAGE — masonry grid
+   ============================================================ */
+.mv-testi { padding: 5rem 0; background: var(--mv-cream); }
+.mv-testi__grid {
+  columns: 4;
+  column-gap: 1rem;
+}
+.mv-testi__item {
+  position: relative;
+  display: block;
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  border-radius: var(--mv-radius-sm);
+  overflow: hidden;
+  box-shadow: var(--mv-shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.mv-testi__item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--mv-shadow);
+}
+.mv-testi__item img {
+  width: 100%;
+  display: block;
+  transition: transform 0.45s ease;
+}
+.mv-testi__item:hover img { transform: scale(1.05); }
+.mv-testi__item-zoom {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to top, rgba(10, 31, 20, 0.55), rgba(10, 31, 20, 0.1));
+  color: var(--mv-lime);
+  font-size: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.mv-testi__item:hover .mv-testi__item-zoom { opacity: 1; }
+.mv-cta--testi { padding-top: 0; }
+
+@media (max-width: 991px) {
+  .mv-page-hero { padding: 7.5rem 0 3.5rem; }
+  .mv-testi__grid { columns: 3; }
+}
+@media (max-width: 575px) {
+  .mv-page-hero { padding: 6.5rem 0 3rem; }
+  .mv-testi__grid { columns: 2; column-gap: 0.7rem; }
+  .mv-testi__item { margin-bottom: 0.7rem; }
 }
 
 /* ============================================================
