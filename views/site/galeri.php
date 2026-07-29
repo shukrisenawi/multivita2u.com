@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = 'Galeri';
@@ -28,11 +29,18 @@ $this->title = 'Galeri';
 <section class="mv-testi">
     <div class="mv-container">
         <div class="mv-testi__grid lightbox" data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
-            <?php for ($i = 1; $i <= 25; $i++) { ?>
-                <a href="images/galeri/<?= $i ?>.jpg" class="mv-testi__item lightbox-portfolio">
-                    <img src="images/galeri/thumbs/<?= $i ?>.jpg" alt="Galeri Multivita <?= $i ?>" loading="lazy">
-                    <span class="mv-testi__item-zoom"><i class="fas fa-search-plus"></i></span>
-                </a>
+            <?php if (!empty($gallery)) { ?>
+                <?php foreach ($gallery as $item) { ?>
+                    <?php $imgUrl = $item->imageUrl; ?>
+                    <?php if ($imgUrl) { ?>
+                        <a href="<?= Html::encode($imgUrl) ?>" class="mv-testi__item lightbox-portfolio">
+                            <img src="<?= Html::encode($imgUrl) ?>" alt="<?= Html::encode($item->title ?: 'Galeri Multivita') ?>" loading="lazy">
+                            <span class="mv-testi__item-zoom"><i class="fas fa-search-plus"></i></span>
+                        </a>
+                    <?php } ?>
+                <?php } ?>
+            <?php } else { ?>
+                <p class="text-muted">Tiada gambar galeri untuk dipaparkan buat masa ini.</p>
             <?php } ?>
         </div>
     </div>

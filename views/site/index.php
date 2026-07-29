@@ -8,6 +8,10 @@ $frontSlides = !empty($slides) ? $slides : [
     (object) ['title' => 'Slide 2', 'imageUrl' => 'images/slides/slide-02.png'],
     (object) ['title' => 'Slide 3', 'imageUrl' => 'images/slides/slide-03.png'],
 ];
+
+$homeGallery = !empty($homeGallery) ? $homeGallery : [];
+$entrepreneurs = !empty($entrepreneurs) ? $entrepreneurs : [];
+$testimonials = !empty($testimonials) ? $testimonials : [];
 ?>
 
 <!-- ============ HERO ============ -->
@@ -100,7 +104,7 @@ $frontSlides = !empty($slides) ? $slides : [
         <div class="mv-sec-head mv-sec-head--split">
             <div>
                 <span class="mv-sec-head__eyebrow">Kelebihan</span>
-                <h2 class="mv-sec-head__title">Satu susu,<br>setiap peringkat usia</h2>
+                <h2 class="mv-sec-head__title">Satu susu,<br>Setiap peringkat usia</h2>
             </div>
             <p class="mv-sec-head__desc">
                 Dari bayi hingga warga emas — khasiat lengkap dalam setiap sudu
@@ -168,7 +172,7 @@ $frontSlides = !empty($slides) ? $slides : [
                     Setiap sudu Multivita Milk mengandungi nutrien penting yang menyokong
                     sistem imun, tulang, pencernaan dan stamina — tanpa bahan tiruan berlebihan.
                 </p>
-                <a href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>" class="mv-btn mv-btn--lime">
+                <a href="<?= Url::to(['site/testimoni']) ?>" class="mv-btn mv-btn--lime">
                     Lihat Testimoni <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
@@ -280,13 +284,25 @@ $frontSlides = !empty($slides) ? $slides : [
         </div>
 
         <div class="mv-quote-visuals">
-            <img src="images/gambar2.png" alt="Testimoni Multivita">
-            <img src="images/gambar3.png" alt="Testimoni Multivita">
-            <img src="images/gambar1.png" alt="Testimoni Multivita">
+            <?php if (!empty($testimonials)) { ?>
+                <?php $shown = 0; ?>
+                <?php foreach ($testimonials as $t) { ?>
+                    <?php if ($shown >= 3) break; ?>
+                    <?php $imgUrl = $t->imageUrl; ?>
+                    <?php if ($imgUrl) { ?>
+                        <img src="<?= Html::encode($imgUrl) ?>" alt="<?= Html::encode($t->title ?: 'Testimoni Multivita') ?>">
+                        <?php $shown++; ?>
+                    <?php } ?>
+                <?php } ?>
+            <?php } else { ?>
+                <img src="images/gambar2.png" alt="Testimoni Multivita">
+                <img src="images/gambar3.png" alt="Testimoni Multivita">
+                <img src="images/gambar1.png" alt="Testimoni Multivita">
+            <?php } ?>
         </div>
 
         <div class="mv-quote-sec__cta">
-            <a href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>" class="mv-btn mv-btn--ink">
+            <a href="<?= Url::to(['site/testimoni']) ?>" class="mv-btn mv-btn--ink">
                 <i class="fas fa-comments"></i> Lihat Semua Testimoni
             </a>
         </div>
@@ -307,30 +323,52 @@ $frontSlides = !empty($slides) ? $slides : [
         </div>
 
         <div class="mv-gallery__grid lightbox" data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
-            <a href="images/baru2.jpg" class="mv-gallery__item lightbox-portfolio mv-gallery__item--big">
-                <img src="images/baru2.jpg" alt="Aktiviti Multivita">
-            </a>
-            <a href="images/baru3.jpg" class="mv-gallery__item lightbox-portfolio">
-                <img src="images/baru3.jpg" alt="Aktiviti Multivita">
-            </a>
-            <a href="images/baru4.jpg" class="mv-gallery__item lightbox-portfolio">
-                <img src="images/baru4.jpg" alt="Aktiviti Multivita">
-            </a>
-            <a href="images/baru5.jpg" class="mv-gallery__item lightbox-portfolio">
-                <img src="images/baru5.jpg" alt="Aktiviti Multivita">
-            </a>
-            <a href="images/baru6.jpg" class="mv-gallery__item lightbox-portfolio mv-gallery__item--tall">
-                <img src="images/baru6.jpg" alt="Aktiviti Multivita">
-            </a>
-            <a href="images/baru8.jpg" class="mv-gallery__item lightbox-portfolio">
-                <img src="images/baru8.jpg" alt="Aktiviti Multivita">
-            </a>
-            <a href="images/baru9.jpg" class="mv-gallery__item lightbox-portfolio">
-                <img src="images/baru9.jpg" alt="Aktiviti Multivita">
-            </a>
-            <a href="images/header.png" class="mv-gallery__item lightbox-portfolio">
-                <img src="images/header.png" alt="Banner Multivita">
-            </a>
+            <?php if (!empty($homeGallery)) { ?>
+                <?php $idx = 0; ?>
+                <?php foreach ($homeGallery as $item) { ?>
+                    <?php if ($idx >= 8) break; ?>
+                    <?php $imgUrl = $item->imageUrl; ?>
+                    <?php if ($imgUrl) { ?>
+                        <?php
+                        $extraClass = '';
+                        if ($idx === 0) {
+                            $extraClass = 'mv-gallery__item--big';
+                        } elseif ($idx === 4) {
+                            $extraClass = 'mv-gallery__item--tall';
+                        }
+                        ?>
+                        <a href="<?= Html::encode($imgUrl) ?>" class="mv-gallery__item lightbox-portfolio <?= $extraClass ?>">
+                            <img src="<?= Html::encode($imgUrl) ?>" alt="<?= Html::encode($item->title ?: 'Aktiviti Multivita') ?>">
+                        </a>
+                        <?php $idx++; ?>
+                    <?php } ?>
+                <?php } ?>
+            <?php } else { ?>
+                <a href="images/baru2.jpg" class="mv-gallery__item lightbox-portfolio mv-gallery__item--big">
+                    <img src="images/baru2.jpg" alt="Aktiviti Multivita">
+                </a>
+                <a href="images/baru3.jpg" class="mv-gallery__item lightbox-portfolio">
+                    <img src="images/baru3.jpg" alt="Aktiviti Multivita">
+                </a>
+                <a href="images/baru4.jpg" class="mv-gallery__item lightbox-portfolio">
+                    <img src="images/baru4.jpg" alt="Aktiviti Multivita">
+                </a>
+                <a href="images/baru5.jpg" class="mv-gallery__item lightbox-portfolio">
+                    <img src="images/baru5.jpg" alt="Aktiviti Multivita">
+                </a>
+                <a href="images/baru6.jpg" class="mv-gallery__item lightbox-portfolio mv-gallery__item--tall">
+                    <img src="images/baru6.jpg" alt="Aktiviti Multivita">
+                </a>
+                <a href="images/baru8.jpg" class="mv-gallery__item lightbox-portfolio">
+                    <img src="images/baru8.jpg" alt="Aktiviti Multivita">
+                </a>
+                <a href="images/baru9.jpg" class="mv-gallery__item lightbox-portfolio">
+                    <img src="images/baru9.jpg" alt="Aktivisi Multivita">
+                </a>
+                <a href="images/header.png" class="mv-gallery__item lightbox-portfolio">
+                    <img src="images/header.png" alt="Banner Multivita">
+                </a>
+            <?php } ?>
         </div>
 
         <div class="mv-gallery__cta">
@@ -352,14 +390,29 @@ $frontSlides = !empty($slides) ? $slides : [
     </div>
     <div class="mv-entrep__marquee" aria-hidden="true">
         <div class="mv-entrep__track">
-            <div class="mv-entrep__card"><img src="images/blog1.png" alt="Usahawan Multivita"></div>
-            <div class="mv-entrep__card"><img src="images/blog2.png" alt="Usahawan Multivita"></div>
-            <div class="mv-entrep__card"><img src="images/blog3.png" alt="Usahawan Multivita"></div>
-            <div class="mv-entrep__card"><img src="images/blog4.png" alt="Usahawan Multivita"></div>
-            <div class="mv-entrep__card"><img src="images/blog1.png" alt="Usahawan Multivita"></div>
-            <div class="mv-entrep__card"><img src="images/blog2.png" alt="Usahawan Multivita"></div>
-            <div class="mv-entrep__card"><img src="images/blog3.png" alt="Usahawan Multivita"></div>
-            <div class="mv-entrep__card"><img src="images/blog4.png" alt="Usahawan Multivita"></div>
+            <?php if (!empty($entrepreneurs)) { ?>
+                <?php foreach ($entrepreneurs as $e) { ?>
+                    <?php $imgUrl = $e->imageUrl; ?>
+                    <?php if ($imgUrl) { ?>
+                        <div class="mv-entrep__card"><img src="<?= Html::encode($imgUrl) ?>" alt="<?= Html::encode($e->title ?: 'Usahawan Multivita') ?>"></div>
+                    <?php } ?>
+                <?php } ?>
+                <?php foreach ($entrepreneurs as $e) { ?>
+                    <?php $imgUrl = $e->imageUrl; ?>
+                    <?php if ($imgUrl) { ?>
+                        <div class="mv-entrep__card"><img src="<?= Html::encode($imgUrl) ?>" alt="<?= Html::encode($e->title ?: 'Usahawan Multivita') ?>"></div>
+                    <?php } ?>
+                <?php } ?>
+            <?php } else { ?>
+                <div class="mv-entrep__card"><img src="images/blog1.png" alt="Usahawan Multivita"></div>
+                <div class="mv-entrep__card"><img src="images/blog2.png" alt="Usahawan Multivita"></div>
+                <div class="mv-entrep__card"><img src="images/blog3.png" alt="Usahawan Multivita"></div>
+                <div class="mv-entrep__card"><img src="images/blog4.png" alt="Usahawan Multivita"></div>
+                <div class="mv-entrep__card"><img src="images/blog1.png" alt="Usahawan Multivita"></div>
+                <div class="mv-entrep__card"><img src="images/blog2.png" alt="Usahawan Multivita"></div>
+                <div class="mv-entrep__card"><img src="images/blog3.png" alt="Usahawan Multivita"></div>
+                <div class="mv-entrep__card"><img src="images/blog4.png" alt="Usahawan Multivita"></div>
+            <?php } ?>
         </div>
     </div>
 </section>

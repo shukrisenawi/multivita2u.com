@@ -13,6 +13,7 @@ use app\models\ContactForm;
 use app\models\News;
 use app\models\SignupForm;
 use app\models\PasswordResetRequestForm;
+use app\models\WebContent;
 use dominus77\sweetalert2\Alert;
 use yii\web\BadRequestHttpException;
 use yii\base\InvalidArgumentException;
@@ -82,7 +83,18 @@ class SiteController extends Controller
     {
         $news = News::find()->where(['status' => 5])->orderBy('id desc')->all();
         $slides = Slide::findActive()->all();
-        return $this->render($page, ['news' => $news, 'slides' => $slides]);
+
+        $homeGallery = WebContent::findByCategory(WebContent::CATEGORY_GALERI, 8);
+        $entrepreneurs = WebContent::findByCategory(WebContent::CATEGORY_USAHAWAN, 8);
+        $testimonials = WebContent::findByCategory(WebContent::CATEGORY_TESTIMONI, 6);
+
+        return $this->render($page, [
+            'news' => $news,
+            'slides' => $slides,
+            'homeGallery' => $homeGallery,
+            'entrepreneurs' => $entrepreneurs,
+            'testimonials' => $testimonials,
+        ]);
     }
 
     public function actionHubungi()
@@ -98,28 +110,22 @@ class SiteController extends Controller
 
     public function actionAgen()
     {
-        // $agen = [
-        //     ['name' => 'Ahmad Nizam Bin Ibrahim', 'city' => 'Sungai Petani, Kedah', 'hp' => '019-4004627'],
-        //     ['name' => 'Kayati Bin Mahmood', 'city' => 'Kota Bharu, Kelantan', 'hp' => '011-37537635'],
-        //     ['name' => 'Mohd Noor Bin Md Razali', 'city' => 'Rantau Panjang, Kelantan', 'hp' => '013-9705676'],
-        //     ['name' => 'Nik Suriani', 'city' => 'Gua Musang, Kelantan', 'hp' => '017-9583474'],
-        //     ['name' => 'Muhamad Rusli Bin Nor', 'city' => 'Pengkalan Chepa, Kelantan', 'hp' => '019-2655826'],
-        //     ['name' => 'Rozimah Bt Mukhtar', 'city' => 'Pasir Mas, Kelantan', 'hp' => '012-7050493'],
-        //     ['name' => 'Che Amat Bin Zainol Abidin', 'city' => 'Kuala Nerus, Terengganu', 'hp' => '013-9725336'],
-        //     ['name' => 'Nik Nur Hafizi Bin Nik Zulkernain', 'city' => 'Kemaman, Terengganu', 'hp' => '018-2934043'],
-        //     ['name' => 'Nazima', 'city' => 'Kuala Terengganu, Terengganu', 'hp' => '019-9641045'],
-        //     ['name' => 'Salim Bin Sidek', 'city' => 'Besut, Terengganu', 'hp' => '019-9894641'],
-        //     ['name' => 'Ruslan Bin Shamsudin', 'city' => 'Paka, Terengganu', 'hp' => '019-6659656'],
-        //     ['name' => 'Nazief', 'city' => 'Shah Alam, Selangor', 'hp' => '019-7287911'],
-        // ];
         $state = User::find()->where('(level_id=2 OR level_id=3 OR level_id=4) AND UPPER(name)<>"HEADQUATERS" AND id<>1032')->groupBy('state')->all();
         return $this->render("agen", ['state' => $state]);
     }
 
     public function actionGaleri()
     {
-        return $this->render('galeri');
+        $gallery = WebContent::findByCategory(WebContent::CATEGORY_GALERI, 100);
+        return $this->render('galeri', ['gallery' => $gallery]);
     }
+
+    public function actionTestimoni()
+    {
+        $testimonials = WebContent::findByCategory(WebContent::CATEGORY_TESTIMONI, 100);
+        return $this->render('testimoni', ['testimonials' => $testimonials]);
+    }
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {

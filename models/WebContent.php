@@ -105,6 +105,21 @@ class WebContent extends \yii\db\ActiveRecord
         return Yii::getAlias('@web/' . ltrim($this->image_path, '/'));
     }
 
+    public static function findByCategory($category, $limit = null)
+    {
+        $query = static::find()
+            ->where(['category' => $category, 'status' => self::STATUS_ACTIVE])
+            ->andWhere(['is not', 'image_path', null])
+            ->andWhere(['<>', 'image_path', ''])
+            ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_DESC]);
+
+        if ($limit !== null) {
+            $query->limit($limit);
+        }
+
+        return $query->all();
+    }
+
     public function saveImageUpload(UploadedFile $file)
     {
         $uploadDir = Yii::getAlias('@webroot/uploads/web-content');

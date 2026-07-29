@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = 'Testimoni';
@@ -40,11 +41,18 @@ $this->title = 'Testimoni';
         </div>
 
         <div class="mv-testi__grid lightbox" data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
-            <?php for ($i = 1; $i <= 50; $i++) { ?>
-                <a href="images/testimoni/<?= $i ?>.jpg" class="mv-testi__item lightbox-portfolio">
-                    <img src="images/testimoni/<?= $i ?>.jpg" alt="Testimoni Multivita <?= $i ?>" loading="lazy">
-                    <span class="mv-testi__item-zoom"><i class="fas fa-search-plus"></i></span>
-                </a>
+            <?php if (!empty($testimonials)) { ?>
+                <?php foreach ($testimonials as $item) { ?>
+                    <?php $imgUrl = $item->imageUrl; ?>
+                    <?php if ($imgUrl) { ?>
+                        <a href="<?= Html::encode($imgUrl) ?>" class="mv-testi__item lightbox-portfolio">
+                            <img src="<?= Html::encode($imgUrl) ?>" alt="<?= Html::encode($item->title ?: 'Testimoni Multivita') ?>" loading="lazy">
+                            <span class="mv-testi__item-zoom"><i class="fas fa-search-plus"></i></span>
+                        </a>
+                    <?php } ?>
+                <?php } ?>
+            <?php } else { ?>
+                <p class="text-muted">Tiada testimoni untuk dipaparkan buat masa ini.</p>
             <?php } ?>
         </div>
     </div>
