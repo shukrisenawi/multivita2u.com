@@ -1,53 +1,59 @@
-<section class="section section-text-light section-background section-center" style="background-image: url(images/header_text.png);">
-    <div class="container-fluid">
-        <div class="row align-items-center">
+<?php
 
-            <div class="col">
-                <div class="row">
-                    <div class="col-md-12 align-self-center p-static order-2 text-center">
-                        <div class="overflow-hidden pb-2">
-                            <h1 class="text-dark font-weight-bold text-9 appear-animation" data-appear-animation="maskUp" data-appear-animation-delay="100">Galeri</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-12 align-self-center order-1">
-                        <ul class="breadcrumb d-block text-center appear-animation" data-appear-animation="fadeIn" data-appear-animation-delay="300">
-                            <li><a href="index.php">Laman Utama</a></li>
-                            <li class="active">Galeri</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+use yii\helpers\Url;
 
+$this->title = 'Galeri';
+?>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="mv-page-hero">
+    <div class="mv-page-hero__grid-lines" aria-hidden="true"></div>
+    <div class="mv-page-hero__glow" aria-hidden="true"></div>
+
+    <div class="mv-container mv-page-hero__inner">
+        <span class="mv-hero__eyebrow">
+            <span class="mv-hero__eyebrow-dot"></span>
+            Galeri Aktiviti
+        </span>
+        <h1 class="mv-page-hero__title">
+            Warna-warni<br><span>Multivita</span>
+        </h1>
+        <p class="mv-page-hero__lead">
+            Aktiviti, produk dan komuniti Multivita di seluruh negara. Klik mana-mana gambar untuk besarkan paparan.
+        </p>
+    </div>
+</section>
+
+<!-- ============ GALERI ============ -->
+<section class="mv-testi">
+    <div class="mv-container">
+        <div class="mv-testi__grid lightbox" data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
+            <?php for ($i = 1; $i <= 25; $i++) { ?>
+                <a href="images/galeri/<?= $i ?>.jpg" class="mv-testi__item lightbox-portfolio">
+                    <img src="images/galeri/thumbs/<?= $i ?>.jpg" alt="Galeri Multivita <?= $i ?>" loading="lazy">
+                    <span class="mv-testi__item-zoom"><i class="fas fa-search-plus"></i></span>
+                </a>
+            <?php } ?>
         </div>
     </div>
 </section>
 
-<div class="container py-2">
-
-    <ul class="nav nav-pills sort-source sort-source-style-3 justify-content-center" data-sort-id="portfolio" data-option-key="filter" data-plugin-options="{'layoutMode': 'masonry', 'filter': '*'}">
-
-    </ul>
-
-    <div class="sort-destination-loader sort-destination-loader-showing mt-4 pt-2">
-        <div class="row portfolio-list sort-destination lightbox" data-sort-id="portfolio" data-plugin-options="{'delegate': 'a.lightbox-portfolio', 'type': 'image', 'gallery': {'enabled': true}}">
-
-            <?php for ($i = 1; $i <= 25; $i++) { ?>
-                <div class="col-md-6 col-lg-2 isotope-item logos">
-                    <a href="images/galeri/<?= $i ?>.jpg" class="lightbox-portfolio">
-                        <div class="portfolio-item">
-                            <span class="thumb-info thumb-info-lighten thumb-info-no-borders thumb-info-bottom-info thumb-info-centered-icons border-radius-0">
-                                <span class="thumb-info-wrapper border-radius-0">
-                                    <img src="images/galeri/thumbs/<?= $i ?>.jpg" class="img-fluid border-radius-0" alt="">
-                                </span>
-                            </span>
-                        </div>
-                    </a>
-                </div>
-            <?php } ?>
-
-
-
+<!-- ============ CTA ============ -->
+<section class="mv-cta mv-cta--testi">
+    <div class="mv-container">
+        <div class="mv-cta__panel">
+            <div class="mv-cta__glow" aria-hidden="true"></div>
+            <span class="mv-sec-head__eyebrow mv-sec-head__eyebrow--dark">Sertai Kami</span>
+            <h2>Jadilah sebahagian<br>komuniti Multivita</h2>
+            <p>Dapatkan susu Multivita atau sertai sebagai pengedar hari ini.</p>
+            <div class="mv-cta__btns">
+                <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--lime">
+                    <i class="fas fa-store"></i> Senarai Stokis
+                </a>
+                <a href="<?= Url::to(['site/signup']) ?>" class="mv-btn mv-btn--glass">
+                    Daftar Pengedar <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </div>
     </div>
-
-</div>
+</section>
