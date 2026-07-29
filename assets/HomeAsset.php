@@ -34,6 +34,7 @@ class HomeAsset extends AssetBundle
         'js/views/view.contact.js',
         'js/custom.js',
         'js/theme.init.js',
+        'js/guest-disable-scroll-to-top.js',
     ];
     public $depends = [];
     public $jsOptions = ['position' => \yii\web\View::POS_END];
