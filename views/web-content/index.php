@@ -8,27 +8,27 @@ use yii\widgets\Pjax;
 
 $this->title = 'Web Content';
 $this->params['breadcrumbs'][] = $this->title;
-?&gt;
+?>
 
-<div class="web-content-index"&gt;
-    <ul class="nav nav-tabs web-content-tabs" role="tablist" style="margin-bottom: 20px;"&gt;
+<div class="web-content-index">
+    <ul class="nav nav-tabs web-content-tabs" role="tablist" style="margin-bottom: 20px;">
         <?php
         $first = true;
         foreach ($categories as $key => $label) {
             $isActive = ($activeCategory === $key) || (!$activeCategory && $first);
-            ?&gt;
-            <li class="nav-item"&gt;
-                <a class="nav-link <?= $isActive ? 'active' : '' ?&gt;" href="<?= Url::to(['web-content/index', 'category' => $key]) ?&gt;" role="tab"&gt;
-                    <?= Html::encode($label) ?&gt;
-                </a&gt;
-            </li&gt;
+            ?>
+            <li class="nav-item">
+                <a class="nav-link <?= $isActive ? 'active' : '' ?>" href="<?= Url::to(['web-content/index', 'category' => $key]) ?>" role="tab">
+                    <?= Html::encode($label) ?>
+                </a>
+            </li>
         <?php
             $first = false;
         }
-        ?&gt;
-    </ul&gt;
+        ?>
+    </ul>
 
-    <?php Pjax::begin(['id' => 'web-content-grid']); ?&gt;
+    <?php Pjax::begin(['id' => 'web-content-grid']); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' => function ($model) {
                     if (!$model->imageUrl) {
-                        return '<span class="text-muted">Tiada imej</span&gt;';
+                        return '<span class="text-muted">Tiada imej</span>';
                     }
 
                     return Html::img($model->imageUrl, [
@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
         ],
-    ]); ?&gt;
+    ]); ?>
 
-    <?php Pjax::end(); ?&gt;
-</div&gt;
+    <?php Pjax::end(); ?>
+</div>
