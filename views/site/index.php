@@ -36,9 +36,6 @@ $frontSlides = !empty($slides) ? $slides : [
             <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--lime">
                 Cari Stokis Berhampiran <i class="fas fa-arrow-right"></i>
             </a>
-            <a href="<?= Url::to(['site/index', 'page' => 'testimoni']) ?>" class="mv-btn mv-btn--glass">
-                <i class="fas fa-circle-play"></i> Tonton Testimoni
-            </a>
         </div>
 
         <div class="mv-hero__chips">
