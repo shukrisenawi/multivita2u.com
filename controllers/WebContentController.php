@@ -16,7 +16,14 @@ class WebContentController extends MemberController
     {
         $session = Yii::$app->session;
         $session['subMenu'] = null;
-        $session['subBtn'] = [['label' => '<i class="fa fa-plus"></i>   Tambah Imej', 'url' => ['/web-content/create']]];
+
+        $category = Yii::$app->request->get('category');
+        $createUrl = ['/web-content/create'];
+        if ($category !== null && array_key_exists($category, WebContent::listCategories())) {
+            $createUrl['category'] = $category;
+        }
+
+        $session['subBtn'] = [['label' => '<i class="fa fa-plus"></i>   Tambah Imej', 'url' => $createUrl]];
     }
 
     public function actionIndex($category = null)

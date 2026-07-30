@@ -36,8 +36,14 @@ $csrfToken = Yii::$app->request->csrfToken;
     $models = $dataProvider->getModels();
     if (empty($models)) {
     ?>
+        <?php
+        $createUrl = ['web-content/create'];
+        if ($activeCategory) {
+            $createUrl['category'] = $activeCategory;
+        }
+        ?>
         <div class="alert alert-info">
-            <i class="fa fa-info-circle"></i> Tiada imej dalam kategori ini. Klik <strong>Tambah Imej</strong> untuk memuat naik.
+            <i class="fa fa-info-circle"></i> Tiada imej dalam kategori ini. Klik <?= Html::a('<strong>Tambah Imej</strong>', Url::to($createUrl), ['class' => 'alert-link']) ?> untuk memuat naik.
         </div>
     <?php } else { ?>
         <div class="web-content-grid">
