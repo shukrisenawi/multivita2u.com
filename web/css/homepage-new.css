@@ -308,8 +308,8 @@
 .mv-strip__track span { display: inline-flex; align-items: center; gap: 2.8rem; }
 .mv-strip__track i { font-size: 0.7em; opacity: 0.55; }
 @keyframes mvMarquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
 /* ============================================================
