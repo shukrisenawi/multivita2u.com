@@ -12,10 +12,24 @@ $frontSlides = !empty($slides) ? $slides : [
 $homeGallery = !empty($homeGallery) ? $homeGallery : [];
 $entrepreneurs = !empty($entrepreneurs) ? $entrepreneurs : [];
 $testimonials = !empty($testimonials) ? $testimonials : [];
+$heroBackground = !empty($heroBackground) ? $heroBackground : [];
+$benefitIcons = !empty($benefitIcons) ? $benefitIcons : [];
+$whyImage = !empty($whyImage) ? $whyImage : [];
+$siteLogo = !empty($siteLogo) ? $siteLogo : [];
+
+$heroBgUrl = $heroBackground[0]->imageUrl ?? null;
+$benefitIconMap = [];
+foreach ($benefitIcons as $item) {
+    $key = strtolower(str_replace([' ', '&', '  '], ['_', '', '_'], $item->title));
+    $benefitIconMap[$key] = $item;
+}
+$whyImgUrl = $whyImage[0]->imageUrl ?? null;
+$logoUrl = $siteLogo[0]->imageUrl ?? 'images/logo.png';
+$this->params['siteLogo'] = $logoUrl;
 ?>
 
 <!-- ============ HERO ============ -->
-<section class="mv-hero">
+<section class="mv-hero" <?= $heroBgUrl ? 'style="background-image: url(' . Html::encode($heroBgUrl) . '); background-size: cover; background-position: center;"' : '' ?>
     <div class="mv-hero__glow mv-hero__glow--1" aria-hidden="true"></div>
     <div class="mv-hero__glow mv-hero__glow--2" aria-hidden="true"></div>
     <div class="mv-hero__grid-lines" aria-hidden="true"></div>
@@ -124,7 +138,13 @@ $testimonials = !empty($testimonials) ? $testimonials : [];
 
         <div class="mv-bento">
             <article class="mv-bento__card mv-bento__card--main">
-                <div class="mv-bento__icon"><i class="fas fa-child-reaching"></i></div>
+                <div class="mv-bento__icon">
+                    <?php if (isset($benefitIconMap['kanak_kanak_pelajar'])) { ?>
+                        <img src="<?= Html::encode($benefitIconMap['kanak_kanak_pelajar']->imageUrl) ?>" alt="Kanak-kanak & Pelajar">
+                    <?php } else { ?>
+                        <i class="fas fa-child-reaching"></i>
+                    <?php } ?>
+                </div>
                 <span class="mv-bento__badge">Popular</span>
                 <h3>Kanak-kanak &amp; Pelajar</h3>
                 <p>Menguatkan asas pertumbuhan dan minda cergas sepanjang hari persekolahan.</p>
@@ -137,7 +157,13 @@ $testimonials = !empty($testimonials) ? $testimonials : [];
             </article>
 
             <article class="mv-bento__card">
-                <div class="mv-bento__icon"><i class="fas fa-heart-pulse"></i></div>
+                <div class="mv-bento__icon">
+                    <?php if (isset($benefitIconMap['ibu_hamil_menyusu'])) { ?>
+                        <img src="<?= Html::encode($benefitIconMap['ibu_hamil_menyusu']->imageUrl) ?>" alt="Ibu Hamil & Menyusu">
+                    <?php } else { ?>
+                        <i class="fas fa-heart-pulse"></i>
+                    <?php } ?>
+                </div>
                 <h3>Ibu Hamil &amp; Menyusu</h3>
                 <ul>
                     <li>Membantu penghasilan susu ibu</li>
@@ -148,7 +174,13 @@ $testimonials = !empty($testimonials) ? $testimonials : [];
             </article>
 
             <article class="mv-bento__card">
-                <div class="mv-bento__icon"><i class="fas fa-user-clock"></i></div>
+                <div class="mv-bento__icon">
+                    <?php if (isset($benefitIconMap['dewasa_warga_emas'])) { ?>
+                        <img src="<?= Html::encode($benefitIconMap['dewasa_warga_emas']->imageUrl) ?>" alt="Dewasa & Warga Emas">
+                    <?php } else { ?>
+                        <i class="fas fa-user-clock"></i>
+                    <?php } ?>
+                </div>
                 <h3>Dewasa &amp; Warga Emas</h3>
                 <ul>
                     <li>Penyerapan usus bertambah baik</li>
@@ -172,7 +204,8 @@ $testimonials = !empty($testimonials) ? $testimonials : [];
 </section>
 
 <!-- ============ WHY / STEPS ============ -->
-<section class="mv-why">
+<section class="mv-why" <?= $whyImgUrl ? 'style="background-image: url(' . Html::encode($whyImgUrl) . '); background-size: cover; background-position: center;"' : '' ?>
+    <div class="mv-why__overlay"></div>
     <div class="mv-container">
         <div class="mv-why__layout">
             <div class="mv-why__sticky">

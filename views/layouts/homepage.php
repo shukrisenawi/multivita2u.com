@@ -42,8 +42,8 @@ $pageSelect = !Yii::$app->request->get('page') ? Yii::$app->controller->action->
 
     <nav class="mv-navbar" id="mvNavbar">
         <div class="mv-navbar__inner">
-            <a href="<?= Url::to(['site/index']) ?>" class="mv-navbar__logo">
-                <img src="images/logo.png" alt="Multivita2u.com">
+            <a href="<?= Url::to(['site/index']) ?>" class="mv-navbar__logo" id="mvNavbarLogo">
+                <img src="<?= Html::encode((isset($this->params['siteLogo']) && $this->params['siteLogo']) ? $this->params['siteLogo'] : 'images/logo.png') ?>" alt="Multivita2u.com">
             </a>
             <button class="mv-navbar__toggle" id="mvNavbarToggle" aria-label="Togol menu" aria-expanded="false">
                 <i class="fas fa-bars"></i>
@@ -70,7 +70,7 @@ $pageSelect = !Yii::$app->request->get('page') ? Yii::$app->controller->action->
         <div class="container">
             <div class="mv-footer__grid">
                 <div class="mv-footer__brand">
-                    <img src="images/logo.png" alt="Multivita2u.com">
+                    <img src="<?= Html::encode((isset($this->params['siteLogo']) && $this->params['siteLogo']) ? $this->params['siteLogo'] : 'images/logo.png') ?>" alt="Multivita2u.com">
                     <p>Multivita Resources — membantu masyarakat mengekalkan kesihatan sambil menjana pendapatan yang lumayan bersama Multivita Milk.</p>
                     <div class="mv-footer__social">
                         <a href="https://www.facebook.com/profile.php?id=100063632735532" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>

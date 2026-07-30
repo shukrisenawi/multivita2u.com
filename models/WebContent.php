@@ -18,6 +18,12 @@ class WebContent extends \yii\db\ActiveRecord
     const CATEGORY_GALERI = 'galeri';
     const CATEGORY_LAIN_LAIN = 'lain_lain';
 
+    // Kategori khas untuk halaman utama
+    const CATEGORY_HERO_BG = 'hero_bg';
+    const CATEGORY_BENEFIT_ICON = 'benefit_icon';
+    const CATEGORY_WHY_IMAGE = 'why_image';
+    const CATEGORY_SITE_LOGO = 'site_logo';
+
     /**
      * @var UploadedFile|null
      */
@@ -87,6 +93,10 @@ class WebContent extends \yii\db\ActiveRecord
             self::CATEGORY_USAHAWAN => 'Usahawan',
             self::CATEGORY_GALERI => 'Galeri',
             self::CATEGORY_LAIN_LAIN => 'Lain-lain',
+            self::CATEGORY_HERO_BG => 'Hero Background',
+            self::CATEGORY_BENEFIT_ICON => 'Benefit Icons',
+            self::CATEGORY_WHY_IMAGE => 'Why Section',
+            self::CATEGORY_SITE_LOGO => 'Site Logo',
         ];
     }
 
