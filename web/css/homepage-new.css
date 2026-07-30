@@ -298,7 +298,7 @@
   gap: 2.8rem;
   width: max-content;
   white-space: nowrap;
-  animation: mvMarquee 26s linear infinite;
+  animation: mvMarquee 32s linear infinite;
   font-family: var(--mv-display);
   font-weight: 600;
   font-size: 0.95rem;

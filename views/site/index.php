@@ -78,6 +78,16 @@ $testimonials = !empty($testimonials) ? $testimonials : [];
         <span>45,000+ Pengedar <i class="fas fa-star"></i></span>
         <span>Malaysia &middot; Singapura &middot; Brunei <i class="fas fa-star"></i></span>
         <span>Halal &amp; Berkualiti <i class="fas fa-star"></i></span>
+        <span>Asia Pacific Super Health Brand <i class="fas fa-star"></i></span>
+        <span>Ditubuhkan 2019 <i class="fas fa-star"></i></span>
+        <span>45,000+ Pengedar <i class="fas fa-star"></i></span>
+        <span>Malaysia &middot; Singapura &middot; Brunei <i class="fas fa-star"></i></span>
+        <span>Halal &amp; Berkualiti <i class="fas fa-star"></i></span>
+        <span>Asia Pacific Super Health Brand <i class="fas fa-star"></i></span>
+        <span>Ditubuhkan 2019 <i class="fas fa-star"></i></span>
+        <span>45,000+ Pengedar <i class="fas fa-star"></i></span>
+        <span>Malaysia &middot; Singapura &middot; Brunei <i class="fas fa-star"></i></span>
+        <span>Halal &amp; Berkualiti <i class="fas fa-star"></i></span>
     </div>
 </div>
 
