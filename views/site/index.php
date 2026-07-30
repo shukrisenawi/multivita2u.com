@@ -204,13 +204,17 @@ $this->params['siteLogo'] = $logoUrl;
 </section>
 
 <!-- ============ WHY / STEPS ============ -->
-<section class="mv-why" <?= $whyImgUrl ? 'style="background-image: url(' . Html::encode($whyImgUrl) . '); background-size: cover; background-position: center;"' : '' ?>
-    <div class="mv-why__overlay"></div>
+<section class="mv-why">
     <div class="mv-container">
         <div class="mv-why__layout">
             <div class="mv-why__sticky">
                 <span class="mv-sec-head__eyebrow mv-sec-head__eyebrow--dark">Mengapa Multivita</span>
                 <h2 class="mv-sec-head__title">Formulasi semula jadi, khasiat sebenar</h2>
+                <?php if ($whyImgUrl) { ?>
+                    <div class="mv-why__image">
+                        <img src="<?= Html::encode($whyImgUrl) ?>" alt="Mengapa Multivita">
+                    </div>
+                <?php } ?>
                 <p class="mv-why__desc">
                     Setiap sudu Multivita Milk mengandungi nutrien penting yang menyokong
                     sistem imun, tulang, pencernaan dan stamina — tanpa bahan tiruan berlebihan.

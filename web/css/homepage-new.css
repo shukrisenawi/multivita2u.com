@@ -473,18 +473,18 @@
     radial-gradient(70% 50% at 90% 10%, rgba(201, 241, 88, 0.07) 0%, transparent 55%),
     linear-gradient(180deg, var(--mv-ink) 0%, var(--mv-ink-2) 100%);
   color: #fff;
-  position: relative;
+}
+.mv-why__image {
+  margin: 1.5rem 0 1.8rem;
+  border-radius: var(--mv-radius-sm);
   overflow: hidden;
+  box-shadow: var(--mv-shadow);
 }
-.mv-why__overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 31, 20, 0.82);
-  z-index: 0;
-}
-.mv-why > .mv-container {
-  position: relative;
-  z-index: 1;
+.mv-why__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--mv-radius-sm);
 }
 .mv-why__layout {
   display: grid;
