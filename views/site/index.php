@@ -470,7 +470,7 @@ $testimonials = !empty($testimonials) ? $testimonials : [];
                 <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--lime">
                     <i class="fas fa-store"></i> Senarai Stokis
                 </a>
-                <a href="<?= Url::to(['site/signup']) ?>" class="mv-btn mv-btn--glass">
+                <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--glass">
                     Daftar Pengedar <i class="fas fa-arrow-right"></i>
                 </a>
             </div>

@@ -90,7 +90,7 @@ $pageSelect = !Yii::$app->request->get('page') ? Yii::$app->controller->action->
                     <ul>
                         <?php if (Yii::$app->user->isGuest): ?>
                         <li><a href="<?= Url::to(['site/login']) ?>">Log Masuk</a></li>
-                        <li><a href="<?= Url::to(['site/signup']) ?>">Daftar Akaun</a></li>
+                        <li><a href="<?= Url::to(['site/agen']) ?>">Daftar Akaun</a></li>
                         <?php else: ?>
                         <li><a href="<?= Url::to(['dashboard/index']) ?>">Dashboard</a></li>
                         <?php endif; ?>

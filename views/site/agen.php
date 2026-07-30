@@ -140,7 +140,7 @@ foreach ($state ?? [] as $value) {
                 <h2>Berminat menjadi pengedar?</h2>
                 <p>Sertai rangkaian 45,000+ pengedar Multivita di seluruh negara.</p>
             </div>
-            <a href="<?= Url::to(['site/signup']) ?>" class="mv-btn mv-btn--lime">
+            <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--lime">
                 Daftar Pengedar <i class="fas fa-arrow-right"></i>
             </a>
         </div>

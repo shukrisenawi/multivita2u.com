@@ -104,7 +104,7 @@ $this->title = $stockist ? 'Log Masuk Peniaga' : 'Log Masuk Ahli';
             <div class="mv-auth__divider"><span>atau</span></div>
 
             <a href="<?= Url::to(['site/agen']) ?>" class="mv-btn mv-btn--ink mv-auth__submit">
-                <i class="fas fa-store"></i> Daftar ahli melalui Stokis
+                <i class="fas fa-store"></i> Senarai Stokis
             </a>
 
             <p class="mv-auth__note">
