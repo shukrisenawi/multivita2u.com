@@ -1725,9 +1725,4 @@
   .mv-footer__grid { grid-template-columns: 1fr; }
 }
 
-/* respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .mv-strip__track,
-  .mv-entrep__track { animation: none; }
-  * { transition: none !important; }
-}
+
