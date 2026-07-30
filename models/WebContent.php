@@ -184,17 +184,19 @@ class WebContent extends \yii\db\ActiveRecord
             $record->scenario = self::SCENARIO_CREATE;
             $record->category = $this->category;
             $record->status = $this->status;
-            $record->sort_order = $this->sort_order + $index;
+            $record->sort_order = (int) $this->sort_order + $index;
             $record->title = $this->title ?: $file->name;
             $record->created_at = $now;
             $record->updated_at = $now;
+            $record->image_path = '';
 
             if (!$record->save(false)) {
                 continue;
             }
 
             $extension = strtolower($file->extension ?: $file->getExtension());
-            $filename = $record->category . '-' . $record->id . '-' . time() . '-' . $index . '.' . $extension;
+            $filename = $record->category . '-' . $record->id . '-' . microtime(true) . '-' . $index . '.' . $extension;
+            $filename = str_replace([' ', '.'], ['_', '_'], $filename);
             $targetPath = $uploadDir . DIRECTORY_SEPARATOR . $filename;
 
             if (!$file->saveAs($targetPath, false)) {
