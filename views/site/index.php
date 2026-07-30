@@ -12,12 +12,12 @@ $frontSlides = !empty($slides) ? $slides : [
 $homeGallery = !empty($homeGallery) ? $homeGallery : [];
 $entrepreneurs = !empty($entrepreneurs) ? $entrepreneurs : [];
 $testimonials = !empty($testimonials) ? $testimonials : [];
-$heroBackground = !empty($heroBackground) ? $heroBackground : [];
+$heroProduct = !empty($heroProduct) ? $heroProduct : [];
 $benefitIcons = !empty($benefitIcons) ? $benefitIcons : [];
 $whyImage = !empty($whyImage) ? $whyImage : [];
 $siteLogo = !empty($siteLogo) ? $siteLogo : [];
 
-$heroBgUrl = $heroBackground[0]->imageUrl ?? null;
+$heroProductUrl = $heroProduct[0]->imageUrl ?? 'images/produk1.png';
 $benefitIconMap = [];
 foreach ($benefitIcons as $item) {
     $key = strtolower(str_replace([' ', '&', '  '], ['_', '', '_'], $item->title));
@@ -29,7 +29,7 @@ $this->params['siteLogo'] = $logoUrl;
 ?>
 
 <!-- ============ HERO ============ -->
-<section class="mv-hero" <?= $heroBgUrl ? 'style="background-image: url(' . Html::encode($heroBgUrl) . '); background-size: cover; background-position: center;"' : '' ?>
+<section class="mv-hero">
     <div class="mv-hero__glow mv-hero__glow--1" aria-hidden="true"></div>
     <div class="mv-hero__glow mv-hero__glow--2" aria-hidden="true"></div>
     <div class="mv-hero__grid-lines" aria-hidden="true"></div>
@@ -65,7 +65,7 @@ $this->params['siteLogo'] = $logoUrl;
 
         <div class="mv-hero__panel">
             <div class="mv-hero__panel-media">
-                <img src="images/produk1.png" alt="Susu Multivita Milk" class="img-fluid">
+                <img src="<?= Html::encode($heroProductUrl) ?>" alt="Susu Multivita Milk" class="img-fluid">
             </div>
             <div class="mv-hero__tag mv-hero__tag--a">
                 <i class="fas fa-shield-heart"></i>

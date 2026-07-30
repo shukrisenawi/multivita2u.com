@@ -87,7 +87,7 @@ class SiteController extends Controller
         $homeGallery = WebContent::findByCategory(WebContent::CATEGORY_GALERI, 8);
         $entrepreneurs = WebContent::findByCategory(WebContent::CATEGORY_USAHAWAN, 8);
         $testimonials = WebContent::findByCategory(WebContent::CATEGORY_TESTIMONI, 6);
-        $heroBackground = WebContent::findByCategory(WebContent::CATEGORY_HERO_BG, 1);
+        $heroProduct = WebContent::findByCategory(WebContent::CATEGORY_HERO_PRODUCT, 1);
         $benefitIcons = WebContent::findByCategory(WebContent::CATEGORY_BENEFIT_ICON, 10);
         $whyImage = WebContent::findByCategory(WebContent::CATEGORY_WHY_IMAGE, 1);
         $siteLogo = WebContent::findByCategory(WebContent::CATEGORY_SITE_LOGO, 1);
@@ -98,7 +98,7 @@ class SiteController extends Controller
             'homeGallery' => $homeGallery,
             'entrepreneurs' => $entrepreneurs,
             'testimonials' => $testimonials,
-            'heroBackground' => $heroBackground,
+            'heroProduct' => $heroProduct,
             'benefitIcons' => $benefitIcons,
             'whyImage' => $whyImage,
             'siteLogo' => $siteLogo,
