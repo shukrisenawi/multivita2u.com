@@ -61,7 +61,7 @@ class WebContentController extends MemberController
                     Yii::$app->session->setFlash(Alert::TYPE_SUCCESS, $savedCount . ' imej telah berjaya dimuat naik.');
                     return $this->redirect(['index', 'category' => $model->category]);
                 }
-                Yii::$app->session->setFlash(Alert::TYPE_ERROR, 'Tiada imej berjaya dimuat naik. Pastikan format fail adalah JPG, PNG, GIF atau WEBP.');
+                Yii::$app->session->setFlash(Alert::TYPE_ERROR, 'Tiada imej berjaya dimuat naik. Pastikan format fail adalah JPG, PNG, GIF atau WEBP dan saiz setiap fail tidak melebihi 10MB.');
                 return $this->render('create', ['model' => $model]);
             }
 

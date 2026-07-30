@@ -48,12 +48,20 @@ $csrfToken = Yii::$app->request->csrfToken;
             ?>
                 <div class="web-content-card" data-id="<?= $model->id ?>">
                     <div class="web-content-card__thumb">
-                        <?php if ($imgUrl) { ?>
-                            <a href="<?= Html::encode($imgUrl) ?>" class="web-content-card__preview" data-lightbox="web-content" data-title="<?= Html::encode($model->title ?: $model->getCategoryLabel()) ?>">
-                                <img src="<?= Html::encode($imgUrl) ?>" alt="<?= Html::encode($model->title ?: $model->getCategoryLabel()) ?>">
+                        <?php
+                            $imageFullPath = Yii::getAlias('@webroot/' . ltrim($model->image_path, '/'));
+                            $imageExists = $model->image_path && is_file($imageFullPath);
+                            $displayUrl = $imageExists ? $imgUrl : null;
+                        ?>
+                        <?php if ($displayUrl) { ?>
+                            <a href="<?= Html::encode($displayUrl) ?>" class="web-content-card__preview" data-lightbox="web-content" data-title="<?= Html::encode($model->title ?: $model->getCategoryLabel()) ?>">
+                                <img src="<?= Html::encode($displayUrl) ?>" alt="<?= Html::encode($model->title ?: $model->getCategoryLabel()) ?>">
                             </a>
                         <?php } else { ?>
-                            <div class="web-content-card__empty">Tiada Imej</div>
+                            <div class="web-content-card__empty">
+                                <i class="fa fa-image"></i>
+                                <span>Tiada Imej</span>
+                            </div>
                         <?php } ?>
                         <span class="web-content-card__badge <?= $statusClass ?>"><?= Html::encode($statusText) ?></span>
                     </div>
@@ -119,11 +127,18 @@ $csrfToken = Yii::$app->request->csrfToken;
 }
 .web-content-card__empty {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
     color: #9ca3af;
     font-size: 13px;
+    gap: 6px;
+}
+.web-content-card__empty i {
+    font-size: 28px;
+    margin: 0;
+    color: #d1d5db;
 }
 .web-content-card__badge {
     position: absolute;
